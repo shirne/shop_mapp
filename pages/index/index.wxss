@@ -1,0 +1,12 @@
+/**index.wxss**/
+.block{
+  margin:20rpx 0;
+  background:#fff;
+  width: 100%;
+}
+.block-content{
+  padding:20rpx;
+}
+
+.cates .block-content{display:flex;flex-direction: row;flex-wrap: wrap;}
+.cates .item{padding:10rpx 30rpx;margin:10rpx;background:#eee;}

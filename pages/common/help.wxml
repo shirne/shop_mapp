@@ -1,0 +1,11 @@
+<!--pages/common/help.wxml-->
+<view class='main-container'>
+<view class='help-head'><text>{{title}}</text></view>
+<view class="help-content">
+<rich-text nodes="{{content}}"></rich-text>
+</view>
+<view class='buttons' wx:if="{{buttons && buttons.length}}">
+<button wx:for="{{buttons}}" wx:key="key" wx:for-index="index" type="{{item.type?item.type:'gray'}}" data-index="{{index}}" bindtap='bindReturns'>{{item.text}}</button>
+</view>
+<button wx:else type="gray" bindtap='bindReturn'>{{btnText}}</button>
+</view>

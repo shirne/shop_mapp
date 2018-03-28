@@ -1,0 +1,27 @@
+<!--pages/common/input.wxml-->
+<view class="container">
+  <view class="step">
+    <view class="title">{{title}}</view>
+  </view>
+  <view class="formbox">
+    <view class="forminfo">
+      <view class="inputbox">
+        <text class="placeholder" bindtap='setFocus'>{{value?'':placeholder}}</text>
+        <block wx:if="{{unit}}">
+          <view class="inputwrap">
+            <input type='{{inputtype}}' focus="{{focus}}" bindinput='bindSetValue' bindblur='bindSetValue' value="{{value}}" />
+            <text class="unit" bindtap='setFocus'>{{value?unit:''}}</text>
+          </view>
+        </block>
+        <block wx:else>
+          <input type='{{inputtype}}' focus="{{focus}}" class="singleText" bindinput='bindSetValue' bindblur='bindSetValue' value="{{value}}" confirm-type='done' bindconfirm="buttonComplete"/>
+        </block>
+        <view wx:if="{{tips}}" class="tips">Tips:
+          <text>{{tips}}</text>
+        </view>
+      </view>
+      <view class='button-box'><button type="primary" class='btn-large' bindtap="buttonComplete">完成</button></view>
+      <view wx:if="{{link}}" class="links" bindtap='helpLink'><img src="/icons/help.png" class="icon" />{{linkText}}</view>
+    </view>
+  </view>
+</view>

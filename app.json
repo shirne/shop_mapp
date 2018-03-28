@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/common/input",
+    "pages/common/help",
+    "pages/common/h5",
+    "pages/member/index",
+    "pages/member/profile",
+    "pages/about/index",
+    "pages/cart/index",
+    "pages/category/index",
+    "pages/category/list"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "微信商城",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "icons/home.png",
+        "selectedIconPath": "icons/home-hover.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/category/index",
+        "iconPath": "icons/category.png",
+        "selectedIconPath": "icons/category-hover.png",
+        "text": "分类"
+      },
+      {
+        "pagePath": "pages/cart/index",
+        "iconPath": "icons/cart.png",
+        "selectedIconPath": "icons/cart-hover.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/member/index",
+        "iconPath": "icons/member.png",
+        "selectedIconPath": "icons/member-hover.png",
+        "text": "我的"
+      }
+    ],
+    "color": "#464545",
+    "selectedColor": "#0084ff",
+    "backgroundColor": "#ffffff"
+  }
+}

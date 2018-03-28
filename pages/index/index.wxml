@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<view class="container">
+  <swiper wx:if="{{banners && banners.length}}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{banners}}">
+      <swiper-item>
+        <image src="{{item}}" class="slide-image"/>
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class='block cates' wx:if="{{goods_cates}}">
+  <view class='block-content'>
+    <block wx:for="{{goods_cates}}" wx:key="ckey">
+      <view wx:if="{{item.id}}" class='item' data-id="{{item.id}}" bindtap='gotoProduct'>
+        <text>{{item.title}}</text>
+      </view>
+      <view wx:else class='item'></view>
+    </block>
+    </view>
+  </view>
+</view>
