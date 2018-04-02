@@ -1,7 +1,4 @@
-// pages/category/list.js
-var util = require("../../utils/util.js");
-const app = getApp()
-
+// pages/order/confirm.js
 Page({
 
   /**

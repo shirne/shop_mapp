@@ -1,2 +1,19 @@
 <!--pages/about/index.wxml-->
-<text>pages/about/index.wxml</text>
+<view class='container'>
+    <view class='logobox' wx:if="{{siteinfo}}">
+        <image class='nobg' src="{{siteinfo.weblogo}}" mode="aspectFill"></image>
+        <text>{{siteinfo.webname}}</text>
+    </view>
+    <view class='arrow-list'>
+        <view class='rowitem' wx:for="{{lists}}" data-id="{{item.id}}" wx:key="key" bindtap="gotoDetail">
+            <text class='title'>{{item.title}}</text>
+            <text class='desc'>{{item.zhaiyao}}</text>
+            <image class='icon arrow' src="/icons/arrow.png"></image>
+        </view>
+        <view wx:if="{{siteinfo.webtel}}" class='rowitem' data-telephone="{{siteinfo.webtel}}" bindtap="callPhone">
+            <text class='title'>联系电话</text>
+            <text class='desc'>{{siteinfo.webtel}}</text>
+            <image class='icon arrow' src="/icons/arrow.png"></image>
+        </view>
+    </view>
+</view>

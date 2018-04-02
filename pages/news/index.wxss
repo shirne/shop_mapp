@@ -1,0 +1,4 @@
+/* pages/news/index.wxss */
+.container{
+    padding-top:110rpx;
+}

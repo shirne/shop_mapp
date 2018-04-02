@@ -1,0 +1,27 @@
+/* pages/news/detail.wxss */
+page{
+    background:#fff;
+}
+.title{font-size:32rpx;font-weight:bold;margin-top:30rpx;}
+.model-info{
+    font-size:24rpx;
+    color:#999;
+    margin:20rpx 0;
+}
+.model-info text{margin:0 20rpx;}
+.description{
+    background:#f0f0f2;
+    margin:20rpx 40rpx;
+    padding:30rpx;
+    font-size:24rpx;
+    word-break: break-all;
+}
+.description text{font-weight:bold;}
+.buttons{
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    margin-bottom:30rpx;
+}
+.buttons button{margin-right:20rpx;}
+.buttons .flex{flex:1;}

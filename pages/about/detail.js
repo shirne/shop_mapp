@@ -1,5 +1,6 @@
-// pages/category/index.js
+// pages/about/detail.js
 var util = require("../../utils/util.js");
+var trail = require("../../utils/trail.js");
 const app = getApp()
 
 Page({
@@ -8,21 +9,37 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    id:0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+      if (options.id) {
+          this.setData({
+              id: parseInt(options.id)
+          })
+      }
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+      app.httpPost('page/Info' + this.data.id, json => {
+          if (json.status == 1) {
+              json.data.img_url = trail.fixImageUrl(json.data.img_url)
+              json.data.content = trail.fixContent(json.data.content)
+              this.setData({
+                  model: json.data
+              })
+              wx.setNavigationBarTitle({
+                title: json.data.title,
+              })
+              app.initShare(this, json.data.title, json.data.img_url)
+          }
+      })
   },
 
   /**

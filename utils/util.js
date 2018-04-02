@@ -175,6 +175,82 @@ const checkMobile = (mobile) => {
   return mobileReg.test(mobile)
 }
 
+
+const tip= (msg)=> {
+    wx.showToast({
+        icon: 'none',
+        title: msg,
+    })
+}
+const success = (msg) =>{
+    wx.showToast({
+        title: msg,
+        icon: 'success'
+    });
+}
+const error = (msg) => {
+    if (!msg) msg = '系统错误'
+    if (msg.length > 7) {
+        wx.showToast({
+            icon: 'none',
+            title: msg,
+        })
+    } else {
+        wx.showToast({
+            image: '/icons/error.png',
+            title: msg,
+        })
+    }
+}
+const alert= (msg, callback = null)=> {
+    var config = {
+        title: "系统提示",
+        content: msg,
+        showCancel: false,
+        success: function (res) {
+            if (typeof callback == 'function') {
+                callback(res)
+            }
+        }
+    }
+    if (typeof msg == 'object') {
+        config = { ...config, ...msg }
+    }
+    wx.showModal(config)
+}
+const confirm= (msg, callback = null, cancel = null)=> {
+    var config = {
+        title: "系统提示",
+        content: msg,
+        showCancel: true,
+        success: function (res) {
+            if (res.confirm) {
+                if (typeof callback == 'function') {
+                    callback()
+                }
+            } else {
+                if (typeof cancel == 'function') {
+                    cancel()
+                }
+            }
+        }
+    }
+    if (typeof msg == 'object') {
+        config = { ...config, ...msg }
+    }
+    wx.showModal(config);
+}
+const actionSheet= (actions, callback)=> {
+    wx.showActionSheet({
+        itemList: actions,
+        success: res => {
+            if (resons[res.tapIndex]) {
+                callback(actions[res.tapIndex], res.tapIndex)
+            }
+        }
+    })
+}
+
 module.exports = {
   formatTime: formatTime,
   getAge: getAge,
@@ -184,5 +260,11 @@ module.exports = {
   compareVersion: compareVersion,
   strgblen: strgblen,
   algorithm: algorithm,
-  checkMobile: checkMobile
+  checkMobile: checkMobile,
+  tip: tip,
+  success: success,
+  error: error,
+  alert: alert,
+  confirm: confirm,
+  actionSheet: actionSheet
 }

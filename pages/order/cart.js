@@ -1,4 +1,4 @@
-// pages/cart/index.js
+// pages/order/cart.js
 var util = require("../../utils/util.js");
 const app = getApp()
 

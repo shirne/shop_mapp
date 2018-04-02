@@ -1,51 +1,63 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/common/input",
-    "pages/common/help",
-    "pages/common/h5",
-    "pages/member/index",
-    "pages/member/profile",
-    "pages/about/index",
-    "pages/cart/index",
-    "pages/category/index",
-    "pages/category/list"
-  ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "微信商城",
-    "navigationBarTextStyle": "black"
-  },
-  "tabBar": {
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "iconPath": "icons/home.png",
-        "selectedIconPath": "icons/home-hover.png",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/category/index",
-        "iconPath": "icons/category.png",
-        "selectedIconPath": "icons/category-hover.png",
-        "text": "分类"
-      },
-      {
-        "pagePath": "pages/cart/index",
-        "iconPath": "icons/cart.png",
-        "selectedIconPath": "icons/cart-hover.png",
-        "text": "购物车"
-      },
-      {
-        "pagePath": "pages/member/index",
-        "iconPath": "icons/member.png",
-        "selectedIconPath": "icons/member-hover.png",
-        "text": "我的"
-      }
+    "pages": [
+        "pages/index/index",
+        "pages/common/input",
+        "pages/common/help",
+        "pages/common/h5",
+        "pages/member/index",
+        "pages/member/profile",
+        "pages/about/index",
+        "pages/about/detail",
+        "pages/news/index",
+        "pages/news/list",
+        "pages/news/detail",
+        "pages/product/index",
+        "pages/product/list",
+        "pages/product/detail",
+        "pages/order/cart",
+        "pages/order/confirm"
     ],
-    "color": "#464545",
-    "selectedColor": "#0084ff",
-    "backgroundColor": "#ffffff"
-  }
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#3498db",
+        "navigationBarTitleText": "微信商城",
+        "navigationBarTextStyle": "white"
+    },
+    "tabBar": {
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "iconPath": "icons/home.png",
+                "selectedIconPath": "icons/home-hover.png",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/product/index",
+                "iconPath": "icons/product.png",
+                "selectedIconPath": "icons/product-hover.png",
+                "text": "产品"
+            },
+            {
+                "pagePath": "pages/news/index",
+                "iconPath": "icons/news.png",
+                "selectedIconPath": "icons/news-hover.png",
+                "text": "新闻"
+            },
+            {
+                "pagePath": "pages/order/cart",
+                "iconPath": "icons/cart.png",
+                "selectedIconPath": "icons/cart-hover.png",
+                "text": "购物车"
+            },
+            {
+                "pagePath": "pages/member/index",
+                "iconPath": "icons/member.png",
+                "selectedIconPath": "icons/member-hover.png",
+                "text": "我的"
+            }
+        ],
+        "color": "#464545",
+        "selectedColor": "#3498db",
+        "backgroundColor": "#ffffff"
+    }
 }

@@ -1,0 +1,27 @@
+/* pages/product/detail.wxss */
+page{
+    background:#fff;
+}
+.imageDirector{
+    position: relative;
+    height:0;
+    width:100%;
+}
+.imageDirector view{
+    position: absolute;
+    right:10rpx;
+    top:-90rpx;
+    width:80rpx;
+    height:80rpx;
+    border-radius:200rpx;
+    color:#fff;
+    text-align: center;
+    font-size: 30rpx;
+    line-height:80rpx;
+    background-color:rgba(0,0,0,.4);
+}
+.title{
+    font-size:32rpx;
+    font-weight:bold;
+    margin:20rpx;
+}

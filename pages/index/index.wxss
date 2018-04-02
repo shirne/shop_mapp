@@ -1,12 +1,9 @@
 /**index.wxss**/
-.block{
-  margin:20rpx 0;
-  background:#fff;
-  width: 100%;
-}
-.block-content{
-  padding:20rpx;
-}
+
 
 .cates .block-content{display:flex;flex-direction: row;flex-wrap: wrap;}
-.cates .item{padding:10rpx 30rpx;margin:10rpx;background:#eee;}
+.cates .item{padding:10rpx 30rpx;margin:10rpx;background:#eee;flex:1;white-space: nowrap;text-align: center;}
+
+.newsblock .block-ttl{text-align: center;color:#3498db;border-bottom:0;position: relative;font-weight: 500;}
+.newsblock .block-ttl::after{content: "";display: block;position:absolute;left:0;top:50%;width:100%;height:1rpx;border-top:1rpx #eee solid;z-index:1;}
+.newsblock .block-ttl text{position: relative;margin:0 auto;background:#fff;z-index:2;width:180rpx;display:block;letter-spacing: 4rpx;}

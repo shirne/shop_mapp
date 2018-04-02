@@ -1,5 +1,6 @@
 // pages/member/index.js
 var util = require("../../utils/util.js");
+var trail = require("../../utils/trail.js");
 const app = getApp()
 
 Page({

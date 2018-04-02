@@ -1,1 +1,23 @@
 /* pages/about/index.wxss */
+page{
+    background:#f0f0f2;
+}
+.logobox{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    background:#3498db;
+    padding-bottom:40rpx;
+}
+.logobox image{
+    margin:40rpx auto 20rpx auto;
+    width:120rpx;
+    height:120rpx;
+    border-radius:200rpx;
+    border:1rpx #eee solid;
+}
+.logobox text{text-align: center;color:#fff;}
+
+.arrow-list{
+    margin-top:20rpx;
+}
