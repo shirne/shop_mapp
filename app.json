@@ -33,8 +33,8 @@
             },
             {
                 "pagePath": "pages/product/index",
-                "iconPath": "icons/product.png",
-                "selectedIconPath": "icons/product-hover.png",
+                "iconPath": "icons/shop.png",
+                "selectedIconPath": "icons/shop-hover.png",
                 "text": "产品"
             },
             {
