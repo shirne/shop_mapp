@@ -1,6 +1,6 @@
 <!--Components/loading/loading.wxml-->
 <view class="loadingbox" wx:if="{{_isloading}}">
-    <image src="/icons/loading.gif" />
+    <image src="/icons/loading{{loadstyle?('-'+loadstyle):''}}.gif" />
 </view>
 <block wx:elif="{{!hasmore}}">
     <view class='nocontents' wx:if="{{dataCount<1}}">

@@ -9,7 +9,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    cate_id:0
+    cate_id:0,
+    isloading:true,
+    page:1,
+    has_mre:true
   },
 
   /**
@@ -26,25 +29,37 @@ Page({
    */
   onReady: function () {
       app.httpPost('mall/Class', json => {
-          if (json.status == 1) {
-              json.data = trail.fixListImage(json.data,'img_url')
-              if(json.data.length % 2==1)json.data.push({})
+          if (json.code == 200) {
+              if (json.result.length % 2 == 1) json.result.push({})
               this.setData({
-                  cates: json.data
+                  cates: json.result,
+                  cate_id: this.data.cate_id ? this.data.cate_id : json.result[0].category_id
               })
+              this.loadData()
           }
       })
   },
   loadData:function(){
       var cid = this.data.cate_id
-      app.httpPost('mall/List', json => {
-          if (json.status == 1 && cid == this.data.cate_id) {
-              json.data.forEach(item => {
-                  item.img_url = app.globalData.imgDir + item.img_url
-              })
+      app.httpPost('mall/List', { id:cid},json => {
+          if (cid == this.data.cate_id){
+          if (json.code == 200 ) {
+              if (json.result.data.length % 2 == 1) json.result.data.push({})
+              var pageData = json.result.pageData
               this.setData({
-                  lists: json.data
+                  lists: json.result.data,
+                  page:pageData.page+1,
+                  has_more: pageData.page < pageData.totalPage,
+                  isloading:false
               })
+          }else{
+              this.setData({
+                  lists: [],
+                  page: 1,
+                  has_more: false,
+                  isloading: false
+              })
+          }
           }
       })
   },
@@ -99,7 +114,11 @@ Page({
   changeCategory:function(e){
     var id=e.currentTarget.dataset.id
     this.setData({
-        cate_id:id
+        cate_id:id,
+        lists:[],
+        isloading: true,
+        page:1,
+        has_more:true
     })
     this.loadData()
   },

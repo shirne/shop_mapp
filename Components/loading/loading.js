@@ -17,6 +17,10 @@ Component({
         type: Boolean,
         value: true
     },
+    loadstyle: {
+        type: String,
+        value: ""
+    },
     nomoreLabel:{
         type: String,
         value: '没有更多内容了'

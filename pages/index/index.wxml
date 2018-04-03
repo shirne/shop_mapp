@@ -1,37 +1,38 @@
 <!--index.wxml-->
 <view class="container">
-  <swiper wx:if="{{banners && banners.length}}" indicator-dots="{{indicatorDots}}" indicator-active-color="#fff" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-    <block wx:for="{{banners}}" wx:key="bkey">
-      <swiper-item>
-        <image src="{{item.mPicture_url}}" class="slide-image"/>
-      </swiper-item>
-    </block>
-  </swiper>
-  <view class='block cates' wx:if="{{goods_cates}}">
-  <view class='block-content'>
-    <block wx:for="{{goods_cates}}" wx:key="ckey">
-      <view wx:if="{{item.id}}" class='item' data-id="{{item.id}}" bindtap='gotoProductList'>
-        <text>{{item.title}}</text>
-      </view>
-      <view wx:else class='item'></view>
-    </block>
-    </view>
-  </view>
-  <view class='block newsblock'>
-    <view class='block-ttl'><text>最新资讯</text></view>
-    <view class='block-content'>
-        <view wx:for="{{news}}" wx:key="key" class='newsitem' data-id="{{item.id}}" bindtap="gotoNews">
-        <view wx:if="{{item.img_url}}" class='imgbox'>
-            <image class='sm-picture' src="{{item.img_url}}" mode='aspectFill'></image>
-        </view>
-        <view class='infobox'>
-            <text class='infotitle'>{{item.title}}</text>
-            <text class='infodesc' decode="true">{{item.zhaiyao}}</text>
-            <view class='infomation'>
-                <text>{{item.add_time}}</text>
-            </view>
-        </view>
+    <swiper wx:if="{{banners && banners.length}}" indicator-dots="{{indicatorDots}}" indicator-active-color="#fff" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <block wx:for="{{banners}}" wx:key="bkey">
+            <swiper-item>
+                <image src="{{item.image}}" class="slide-image" />
+            </swiper-item>
+        </block>
+    </swiper>
+    <view class='block cates' wx:if="{{goods_cates}}">
+        <view class='block-content'>
+            <block wx:for="{{goods_cates}}" wx:key="ckey">
+                <view wx:if="{{item.category_id}}" class='item' data-id="{{item.category_id}}" bindtap='gotoProductList'>
+                    <text>{{item.name}}</text>
+                </view>
+                <view wx:else class='item'></view>
+            </block>
         </view>
     </view>
-  </view>
+    <view class='block newsblock'>
+        <view class='block-ttl'>
+            <text>推荐产品</text>
+        </view>
+        <view class='block-content imglist'>
+            <block wx:for="{{goods}}" wx:key="key">
+                <view wx:if="{{item.content_id}}" class='imgitem' data-id="{{item.content_id}}" bindtap="gotoProduct">
+                    <view wx:if="{{item.image}}" class='imgbox'>
+                        <image class='sm-picture' src="{{item.image}}" mode='aspectFill'></image>
+                    </view>
+                    <view class='ttlbox'>
+                        <text class='infotitle'>{{item.title}}</text>
+                    </view>
+                </view>
+                <view wx:else class='imgitem emptyitem'></view>
+            </block>
+        </view>
+    </view>
 </view>

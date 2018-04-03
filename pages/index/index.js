@@ -27,31 +27,27 @@ Page({
             app.initShare(this, siteinfo.webname, siteinfo.weblogo)
         })
         app.httpPost('mall/List/index', json => {
-            if (json.status == 1) {
-                var channels = {}
-                json.data.channel.forEach(cnl => {
-                    channels[cnl.name] = cnl
-                })
+            if (json.code == 200) {
+                if(json.result.data.length%2==1){
+                    json.result.data.push({})
+                }
                 this.setData({
-                    goods_cates: json.data.category
+                    goods: json.result.data
                 })
             }
         })
         app.httpPost('site/Adv/index',{pos:'index'}, (json) => {
             //console.log(json)
-            if(json && json.data){
-                var banner = JSON.parse(json.data)
-                banner.MultiPicture = trail.fixListImage(banner.MultiPicture, 'mPicture_url')
+            if(json.code==200){
                 this.setData({
-                    banners: banner.MultiPicture
+                    banners: json.result
                 })
             }
         })
         app.httpPost('mall/Class/index', json => {
-            if (json.status == 1) {
-                json.data = trail.fixListImage(json.data, 'img_url')
+            if (json.code == 200) {
                 this.setData({
-                    news: json.data
+                    goods_cates: json.result
                 })
             }
         })
