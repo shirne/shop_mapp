@@ -29,16 +29,15 @@ Page({
      */
     onReady: function () {
         app.httpPost('article/Info' ,{id:this.data.id}, json => {
-            if (json.status == 1) {
-                json.data.img_url = trail.fixImageUrl(json.data.img_url)
+            if (json.code == 200) {
                 json.data.content = trail.fixContent(json.data.content)
                 this.setData({
-                    model: json.data
+                    model: json.result
                 })
                 wx.setNavigationBarTitle({
-                    title: json.data.title,
+                    title: json.result.title,
                 })
-                app.initShare(this, json.data.title, json.data.img_url)
+                app.initShare(this, json.result.title, json.result.image)
             }
         })
     },

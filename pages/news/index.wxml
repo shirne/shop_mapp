@@ -3,8 +3,8 @@
     <view class='headfix'>
         <view class='head-tab' wx:if="{{cates}}">
             <block wx:for="{{cates}}" wx:key="ckey">
-                <view class='tab-item{{cate_id==item.id?" active":""}}' data-id="{{item.id}}" bindtap='changeCategory'>
-                    <text>{{item.title}}</text>
+                <view class='tab-item{{cate_id==item.class_id?" active":""}}' data-id="{{item.class_id}}" bindtap='changeCategory'>
+                    <text>{{item.name}}</text>
                 </view>
             </block>
         </view>

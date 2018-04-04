@@ -10,6 +10,7 @@ Page({
      */
     data: {
         lists:[],
+        cate_id:0,
         page:1,
         has_more:true,
         isloading:true
@@ -28,31 +29,36 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-        app.httpPost('article/List/index', json => {
-            if (json.status == 1) {
-                json.data.article_list = trail.fixListImage(json.data.article_list,'img_url')
+        app.httpPost('article/Class/index', json => {
+            if (json.code == 200) {
+                
                 this.setData({
-                    cates: json.data.category,
-                    lists: json.data.article_list,
-                    page:2,
-                    has_more: json.data.totalpage >1 ? true : false,
-                    isloading: false
+                    cates: json.result,
+                    cate_id: json.result[0].class_id
                 })
+                this.loadData()
             }
         })
     },
     loadData: function () {
         var cid = this.data.cate_id
         var page=this.data.page
-        app.httpPost('article/List/index',{}, json => {
-            if (json.status == 1 && cid == this.data.cate_id) {
-                json.data = trail.fixListImage(json.data, 'img_url')
-                this.setData({
-                    lists: this.data.lists.concat(json.data),
-                    page: page+1,
-                    has_more: json.data.totalpage >= page?true:false,
-                    isloading: false
-                })
+        app.httpPost('article/List/index',{id:cid}, json => {
+            if (cid == this.data.cate_id) {
+                if (json.code == 200) {
+                    var pageData=json.result.pageData
+                    this.setData({
+                        lists: this.data.lists.concat(json.result.data),
+                        page: page+1,
+                        has_more: pageData.page >= pageData.totalPage?true:false,
+                        isloading: false
+                    })
+                }else{
+                    this.setData({
+                        has_more: false,
+                        isloading: false
+                    })
+                }
             }
             wx.stopPullDownRefresh()
         })

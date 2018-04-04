@@ -10,7 +10,7 @@
     <view class='block cates' wx:if="{{goods_cates}}">
         <view class='block-content'>
             <block wx:for="{{goods_cates}}" wx:key="ckey">
-                <view wx:if="{{item.category_id}}" class='item' data-id="{{item.category_id}}" bindtap='gotoProductList'>
+                <view wx:if="{{item.class_id}}" class='item' data-id="{{item.class_id}}" bindtap='gotoProductList'>
                     <text>{{item.name}}</text>
                 </view>
                 <view wx:else class='item'></view>
@@ -23,7 +23,7 @@
         </view>
         <view class='block-content imglist'>
             <block wx:for="{{goods}}" wx:key="key">
-                <view wx:if="{{item.content_id}}" class='imgitem' data-id="{{item.content_id}}" bindtap="gotoProduct">
+                <view wx:if="{{item.mall_id}}" class='imgitem' data-id="{{item.mall_id}}" bindtap="gotoProduct">
                     <view wx:if="{{item.image}}" class='imgbox'>
                         <image class='sm-picture' src="{{item.image}}" mode='aspectFill'></image>
                     </view>

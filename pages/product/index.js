@@ -33,7 +33,7 @@ Page({
               if (json.result.length % 2 == 1) json.result.push({})
               this.setData({
                   cates: json.result,
-                  cate_id: this.data.cate_id ? this.data.cate_id : json.result[0].category_id
+                  cate_id: this.data.cate_id ? this.data.cate_id : json.result[0].class_id
               })
               this.loadData()
           }
