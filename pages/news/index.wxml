@@ -3,8 +3,8 @@
     <view class='headfix'>
         <view class='head-tab' wx:if="{{cates}}">
             <block wx:for="{{cates}}" wx:key="ckey">
-                <view class='tab-item{{cate_id==item.class_id?" active":""}}' data-id="{{item.class_id}}" bindtap='changeCategory'>
-                    <text>{{item.name}}</text>
+                <view class='tab-item{{cate_id==item.id?" active":""}}' data-id="{{item.id}}" bindtap='changeCategory'>
+                    <text>{{item.title}}</text>
                 </view>
             </block>
         </view>
@@ -12,14 +12,14 @@
     <view class='block lists' wx:if="{{lists && lists.length}}">
         <view class='block-content'>
             <view wx:for="{{lists}}" wx:key="key" class='newsitem' data-id="{{item.id}}" bindtap='gotoDetail'>
-                <view wx:if="{{item.img_url}}" class='imgbox'>
-                    <image class='sm-picture' src="{{item.img_url}}" mode='aspectFill'></image>
+                <view wx:if="{{item.cover}}" class='imgbox'>
+                    <image class='sm-picture' src="{{item.cover}}" mode='aspectFill'></image>
                 </view>
                 <view class='infobox'>
                     <text class='infotitle'>{{item.title}}</text>
-                    <text class='infodesc' decode="true">{{item.zhaiyao}}</text>
+                    <text class='infodesc' decode="true">{{item.description?item.description:''}}</text>
                     <view class='infomation'>
-                        <text>{{item.add_time}}</text>
+                        <text>{{item.create_time}}</text>
                     </view>
                 </view>
             </view>

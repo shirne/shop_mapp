@@ -30,8 +30,8 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-      app.httpPost('article/List/index' , {}, json => {
-          if (json.status == 1) {
+      app.httpPost('article/get_cates?pid=' + this.data.top_id, json => {
+          if (json.code == 1) {
               json.data = trail.fixListImage(json.data, 'img_url')
               this.setData({
                   cates: json.data
@@ -44,8 +44,8 @@ Page({
   },
   loadData: function () {
       var cid = this.getCateId()
-      app.httpPost('common_ajax.ashx?action=article_list&channel=news&ps=10&cid=' + cid+'&p='+this.data.page, json => {
-          if (json.status == 1 && cid == this.getCateId()) {
+      app.httpPost('article/get_list?cate=' + cid+'&page='+this.data.page, json => {
+          if (json.code == 1 && cid == this.getCateId()) {
               json.data=trail.fixListImage(json.data,'img_url')
               this.setData({
                   lists: this.data.lists.concat(json.data),

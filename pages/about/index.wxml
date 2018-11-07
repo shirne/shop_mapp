@@ -15,5 +15,10 @@
             <text class='desc'>{{siteinfo.webtel}}</text>
             <image class='icon arrow' src="/icons/arrow.png"></image>
         </view>
+        <view wx:if="{{map && map.id}}" class='rowitem' data-coordinate="{{map.coordinate}}" bindtap="openMap">
+            <text class='title'>{{map.title}}</text>
+            <text class='desc'>{{map.content}}</text>
+            <image class='icon arrow' src="/icons/arrow.png"></image>
+        </view>
     </view>
 </view>

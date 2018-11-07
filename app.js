@@ -149,7 +149,7 @@ App({
     getProfile: function (callback = null) {
         if (!this.globalData.profile) {
             var self = this;
-            this.httpPost('member/Member/info', (json) => {
+            this.httpPost('member/profile', (json) => {
                 if (json.status == 1) {
                     self.globalData.profile = json.data.profile
                     if (typeof callback == 'function') callback(self.globalData.profile)
@@ -164,8 +164,8 @@ App({
     getSiteInfo: function (callback = null) {
         if (!this.globalData.siteinfo) {
             var self = this;
-            this.httpPost('system/Site/info', (json) => {
-                if (json.code == 200) {
+            this.httpPost('common/siteinfo', (json) => {
+                if (json.code == 1) {
                     if (json.data.weblogo) {
                         json.data.weblogo = this.globalData.imgDir + json.data.weblogo
                     } else {
@@ -207,17 +207,14 @@ App({
             data: data,
             method: method,
             dataType: 'json',
-            header:{
-                token:'e75fYDdAl9V66mTXSzHTuwDxRC0ZXWYe'
-            },
             success: function (res) {
-                if (res.data.status == 101) {
+                if (res.data.code == 101) {
                     console.log('登录信息失效 AT ' + new Date().toLocaleString())
                     self.globalData.token = "";
                     self.checkLogin(() => {
                         self.request(url, data, method, success, error)
                     });
-                } else if (res.data.status == 103) {
+                } else if (res.data.code == 103) {
                     console.log('Token过期 AT ' + new Date().toLocaleString())
                     self.refreshToken(() => {
                         self.request(url, data, method, success, error)
@@ -288,8 +285,8 @@ App({
         refresh_token: "",
 
         cart_count:0,
-        imgDir: 'http://s.test.com',
+        imgDir: 'http://scms.test.com',
         limit: 10,//分页条数
-        server: "http://s.test.com/a/"
+        server: "http://scms.test.com/api/"
     }
 })

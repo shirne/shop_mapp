@@ -10,7 +10,8 @@ Page({
    */
   data: {
       siteinfo:null,
-      lists:[]
+      lists:[],
+      map:null
   },
 
   /**
@@ -21,6 +22,16 @@ Page({
           this.setData({
               siteinfo: siteinfo
           })
+          if (siteinfo.location) {
+              this.setData({
+                  map: {
+                      id: 1,
+                      title: '公司位置',
+                      content:siteinfo.address,
+                      coordinate: siteinfo.location
+                  }
+              })
+          }
             app.initShare(this, siteinfo.webname + '-公司介绍', siteinfo.weblogo)
       })
   },
@@ -29,8 +40,8 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-      app.httpPost('page/Info',(json)=>{
-          if(json.status==1){
+      app.httpPost('page/pages?group=about',(json)=>{
+          if(json.code==1){
               this.setData({
                   lists:json.data
               })
@@ -87,6 +98,15 @@ Page({
   callPhone:function(e){
       wx.makePhoneCall({
           phoneNumber: e.currentTarget.dataset.telephone,
+      })
+  },
+  openMap:function(e){
+      var coordinate = e.currentTarget.dataset.coordinate.split(',')
+      wx.openLocation({
+          latitude: parseFloat(coordinate[1]),
+          longitude: parseFloat(coordinate[0]),
+          name: this.data.siteinfo.webname,
+          address: this.data.map.content
       })
   }
 })

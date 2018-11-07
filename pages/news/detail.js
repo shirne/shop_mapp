@@ -1,6 +1,7 @@
 // pages/news/detail.js
 var util = require("../../utils/util.js");
 var trail = require("../../utils/trail.js");
+var html = require("../../utils/HtmlToNodes.js");
 const app = getApp()
 
 Page({
@@ -28,17 +29,28 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-        app.httpPost('article/Info' ,{id:this.data.id}, json => {
-            if (json.code == 200) {
-                json.data.content = trail.fixContent(json.data.content)
+        wx.showLoading({
+            title: '',
+        })
+        app.httpPost('article/view?id=' + this.data.id, json => {
+            if (json.code == 1) {
+                let data=json.data.article
+                data.create_time = util.getLocalTime(data.create_time)
+                data.cover = trail.fixImageUrl(data.cover)
+                //json.data.content = html.HtmlToNodes(trail.fixContent(json.data.content))
+                data.content = html.HtmlToNodes(data.content, trail.fixTag)
+                //console.log(JSON.stringify(json.data.content))
+                json.data.images = trail.fixListImage(json.data.images,'image')
                 this.setData({
-                    model: json.result
+                    model: data,
+                    images: json.data.images
                 })
                 wx.setNavigationBarTitle({
-                    title: json.result.title,
+                    title: data.title,
                 })
-                app.initShare(this, json.result.title, json.result.image)
+                app.initShare(this, data.title, data.img_url)
             }
+            wx.hideLoading()
         })
     },
 
@@ -96,7 +108,7 @@ Page({
             }
         }
         app.httpPost('common_ajax.ashx?action=diggup&channel=news&id=' + id,json=>{
-            if(json.status==1){
+            if (json.code==1){
                 var model=this.data.model
                 model.diggup=json.data.diggup
                 this.setData({

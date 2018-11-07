@@ -28,12 +28,13 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-      app.httpPost('mall/Class', json => {
-          if (json.code == 200) {
-              if (json.result.length % 2 == 1) json.result.push({})
+      app.httpPost('product/get_cates', json => {
+          if (json.code == 1) {
+              json.data = trail.fixListImage(json.data,'icon')
+              if (json.data.length % 2 == 1) json.data.push({})
               this.setData({
-                  cates: json.result,
-                  cate_id: this.data.cate_id ? this.data.cate_id : json.result[0].class_id
+                  cates: json.data,
+                  cate_id: this.data.cate_id ? this.data.cate_id : json.data[0].id
               })
               this.loadData()
           }
@@ -41,15 +42,17 @@ Page({
   },
   loadData:function(){
       var cid = this.data.cate_id
-      app.httpPost('mall/List', { id:cid},json => {
+      app.httpPost('product/get_list', { cate:cid},json => {
           if (cid == this.data.cate_id){
-          if (json.code == 200 ) {
-              if (json.result.data.length % 2 == 1) json.result.data.push({})
-              var pageData = json.result.pageData
+          if (json.code == 1 ) {
+              let lists=json.data.lists
+              lists = trail.fixListImage(lists,'image')
+              if (lists.length % 2 == 1) lists.push({})
+              
               this.setData({
-                  lists: json.result.data,
-                  page:pageData.page+1,
-                  has_more: pageData.page < pageData.totalPage,
+                  lists: lists,
+                  page:json.data.page+1,
+                  has_more: json.data.page < json.data.total_page,
                   isloading:false
               })
           }else{

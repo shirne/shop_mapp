@@ -10,7 +10,6 @@ Page({
      */
     data: {
         lists:[],
-        cate_id:0,
         page:1,
         has_more:true,
         isloading:true
@@ -29,13 +28,14 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-        app.httpPost('article/Class/index', json => {
-            if (json.code == 200) {
-                
-                this.setData({
-                    cates: json.result,
-                    cate_id: json.result[0].class_id
-                })
+        app.httpPost('article/get_cates?pid=news', json => {
+            if (json.code == 1) {
+                if (json.data && json.data.length>0){
+                    this.setData({
+                        cates: json.data,
+                        cate_id: json.data[0].id
+                    })
+                }
                 this.loadData()
             }
         })
@@ -43,22 +43,16 @@ Page({
     loadData: function () {
         var cid = this.data.cate_id
         var page=this.data.page
-        app.httpPost('article/List/index',{id:cid}, json => {
-            if (cid == this.data.cate_id) {
-                if (json.code == 200) {
-                    var pageData=json.result.pageData
-                    this.setData({
-                        lists: this.data.lists.concat(json.result.data),
-                        page: page+1,
-                        has_more: pageData.page >= pageData.totalPage?true:false,
-                        isloading: false
-                    })
-                }else{
-                    this.setData({
-                        has_more: false,
-                        isloading: false
-                    })
-                }
+        app.httpPost('article/get_list?cate=' + cid, json => {
+            if (json.code == 1 && cid == this.data.cate_id) {
+                json.data.lists = trail.fixListImage(json.data.lists, 'cover')
+                json.data.lists = trail.fixListDate(json.data.lists,'Y-m-d', 'create_time')
+                this.setData({
+                    lists: this.data.lists.concat(json.data.lists),
+                    page: page+1,
+                    has_more: json.data.total_page >= page?true:false,
+                    isloading: false
+                })
             }
             wx.stopPullDownRefresh()
         })

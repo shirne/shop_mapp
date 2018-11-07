@@ -3,9 +3,9 @@
     <view class='category'>
         <view class='textlist'>
             <block wx:for="{{cates}}" wx:key="key">
-                <view wx:if="{{item.class_id}}" class='textitem{{item.class_id==cate_id?" itemhover":""}}' data-id="{{item.class_id}}" bindtap='changeCategory'>
+                <view wx:if="{{item.id}}" class='textitem{{item.id==cate_id?" itemhover":""}}' data-id="{{item.id}}" bindtap='changeCategory'>
                     <view class='ttlbox'>
-                        <text class='infotitle'>{{item.name}}</text>
+                        <text class='infotitle'>{{item.title}}</text>
                     </view>
                 </view>
             </block>
@@ -14,7 +14,7 @@
     <view class='lists'>
         <view class='block-content imglist' wx:if="{{lists && lists.length>0}}">
             <block wx:for="{{lists}}" wx:key="key">
-                <view wx:if="{{item.content_id}}" class='imgitem' data-id="{{item.content_id}}" bindtap='gotoDetail'>
+                <view wx:if="{{item.id}}" class='imgitem' data-id="{{item.id}}" bindtap='gotoDetail'>
                     <view wx:if="{{item.image}}" class='imgbox'>
                         <image class='sm-picture' src="{{item.image}}" mode='aspectFill'></image>
                     </view>

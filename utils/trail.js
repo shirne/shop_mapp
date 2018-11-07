@@ -1,6 +1,8 @@
 var util = require("util.js");
 const app = getApp()
 
+const default_image = '/icons/image.png'
+
 const makeOrder = (api, data, success, error) => {
     wx.showLoading({
         title: '正在提交',
@@ -88,7 +90,7 @@ const uploadHandle= (data, tempFilePaths, success, error = null)=> {
         title: '文件上传中',
     })
     
-    var url = app.globalData.server + 'member/Member/upload'
+    var url = app.globalData.server + 'member/uploadImage'
     if (!app.globalData.debug) {
         url += "?api_version=1.0"
         if (app.globalData.token)
@@ -139,6 +141,29 @@ const uploadHandle= (data, tempFilePaths, success, error = null)=> {
         })
     })
 }
+const fixListDate = (lists, format="Y-m-d",key = "create_time") => {
+    if (!lists || !lists.length) return lists
+    for (var i = 0; i < lists.length; i++) {
+        lists[i] = fixDate(lists[i], format, key)
+    }
+    return lists
+}
+const fixDate = (obj, format = "Y-m-d", key = "create_time") => {
+    if (!obj) return obj
+    if (key.indexOf(',') > 0) {
+        key.split(',').forEach((k) => {
+            k = k.trim()
+            if (k) {
+                obj = fixDate(obj, format, k)
+            }
+        })
+        return obj
+    }
+
+    obj[key] = util.dateFormat(format, obj[key])
+
+    return obj
+}
 const fixListImage = (lists, key = "avatar") => {
     if (!lists || !lists.length) return lists
     for (var i = 0; i < lists.length; i++) {
@@ -157,7 +182,7 @@ const fixImage=(obj, key)=>{
         })
         return obj
     }
-    if (!obj[key]) return obj
+    
     if (obj[key] instanceof Array){
         obj[key] = obj[key].map(img=>{
             return fixImageUrl(img)
@@ -168,7 +193,8 @@ const fixImage=(obj, key)=>{
     return obj
 }
 const fixImageUrl = (url) => {
-    if (typeof url !== 'string' || url=='') return url
+    if (!url) return url
+    if (typeof url !== 'string' ) return url
     if (url.indexOf('http://') == 0 || url.indexOf('https://') == 0) return url
     var prefix = app.globalData.imgDir
     if (url.indexOf('/') !== 0) {
@@ -197,11 +223,37 @@ const fixContent = (content)=>{
     })
     return content
 }
+
+const fixTag = (node, pnode) => {
+    if (!node.attrs) {
+        node.attrs = {}
+    }
+    if (node.attrs.class) {
+        node.attrs.class += ' tag_' + node.name
+    } else {
+        node.attrs.class = 'tag_' + node.name
+    }
+    if (node.name == 'img') {
+        if (node.attrs.src) {
+            node.attrs.src = fixImageUrl(node.attrs.src)
+        }
+        if (pnode.name == 'p' && pnode.children.length < 1) {
+            if (pnode.attrs.class) {
+                pnode.attrs.class += ' tag_noindent'
+            } else {
+                pnode.attrs.class = 'tag_noindent'
+            }
+        }
+    }
+}
 module.exports = {
     makeOrder: makeOrder,
     uploadFile: uploadFile,
+    fixListDate: fixListDate,
+    fixDate: fixDate,
     fixListImage: fixListImage,
     fixImage: fixImage,
     fixImageUrl: fixImageUrl,
-    fixContent: fixContent
+    fixContent: fixContent,
+    fixTag: fixTag
 }

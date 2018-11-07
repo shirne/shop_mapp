@@ -1,6 +1,7 @@
 // pages/about/detail.js
 var util = require("../../utils/util.js");
 var trail = require("../../utils/trail.js");
+var html = require("../../utils/HtmlToNodes.js");
 const app = getApp()
 
 Page({
@@ -9,7 +10,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    id:0
+    id:0,
+      model:null,
+      images:null
   },
 
   /**
@@ -27,17 +30,19 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-      app.httpPost('page/Info' + this.data.id, json => {
-          if (json.status == 1) {
-              json.data.img_url = trail.fixImageUrl(json.data.img_url)
-              json.data.content = trail.fixContent(json.data.content)
+      app.httpPost('page/page?name=' + this.data.id, json => {
+          if (json.code == 1) {
+              let data=json.data.page
+              data.icon = trail.fixImageUrl(data.icon)
+              data.content = html.HtmlToNodes(data.content, trail.fixTag)
               this.setData({
-                  model: json.data
+                  model: data,
+                  images:json.data.images
               })
               wx.setNavigationBarTitle({
-                title: json.data.title,
+                  title: data.title,
               })
-              app.initShare(this, json.data.title, json.data.img_url)
+              app.initShare(this, data.title, data.icon)
           }
       })
   },

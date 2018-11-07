@@ -22,35 +22,53 @@ Page({
         app.getSiteInfo(siteinfo => {
             //console.log(siteinfo)
             wx.setNavigationBarTitle({
-                title: siteinfo.webname,
+                title: siteinfo.name,
             })
-            app.initShare(this, siteinfo.webname, siteinfo.weblogo)
+            app.initShare(this, siteinfo.name, siteinfo.weblogo)
         })
-        app.httpPost('mall/List/index', json => {
-            if (json.code == 200) {
-                if(json.result.data.length%2==1){
-                    json.result.data.push({})
+        app.httpPost(
+            'common/batch',
+            {
+                'product.get_list':{},
+                'product.get_cates':{},
+                'article.get_list':{},
+                'advs':{
+                    flag:'banner'
                 }
-                this.setData({
-                    goods: json.result.data
-                })
+            },
+            json=>{
+                if(json.code==1){
+                    let goods = json.data['product.get_list']
+                    if(goods){
+                        goods = goods['lists']
+                        if(goods.length % 2 == 1 ){
+                            goods.push({})
+                        }
+                        goods = trail.fixListImage(goods, 'image')
+                    }
+                    let cates = json.data['product.get_cates']
+                    if (cates) {
+                        if (cates.length % 2 == 1) {
+                            cates.push({})
+                        }
+                        cates = trail.fixListImage(cates, 'image')
+                    }
+                    let articles = json.data['article.get_list']['lists']
+                    if(articles){
+                        articles = articles['lists']
+                        articles = trail.fixListImage(articles, 'cover')
+                    }
+                    let advs = json.data['advs']
+                    advs = trail.fixListImage(advs,'image')
+
+                    this.setData({
+                        banners: advs,
+                        goods: goods,
+                        goods_cates: cates
+                    })
+                }
             }
-        })
-        app.httpPost('site/Adv/index',{pos:'index'}, (json) => {
-            //console.log(json)
-            if(json.code==200){
-                this.setData({
-                    banners: json.result
-                })
-            }
-        })
-        app.httpPost('mall/Class/index', json => {
-            if (json.code == 200) {
-                this.setData({
-                    goods_cates: json.result
-                })
-            }
-        })
+        )
     },
     gotoProductList: function (e) {
         wx.navigateTo({

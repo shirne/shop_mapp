@@ -38,15 +38,19 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-      app.httpPost('mall/Info' ,{pro_id:this.data.id}, json => {
-          if (json.status == 1) {
-              json.data.img_url = trail.fixImageUrl(json.data.img_url)
-              json.data.albums = trail.fixListImage(json.data.albums,'thumb_path,original_path')
-              json.data.content = trail.fixContent(json.data.content)
+      app.httpPost('product/view' ,{id:this.data.id}, json => {
+          if (json.code == 1) {
+              let product=json.data.product
+              product.image = trail.fixImageUrl(product.image)
+              product.content = trail.fixContent(product.content)
+              let albums = trail.fixListImage(json.data.images, 'image')
+              let skus = trail.fixListImage(json.data.skus, 'image')
               this.setData({
-                  model: json.data
+                  model: product,
+                  albums:albums,
+                  skus:skus
               })
-              app.initShare(this, json.data.title, json.data.img_url)
+              app.initShare(this, product.title, product.image)
           }
       })
   },
