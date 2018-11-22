@@ -1,20 +1,114 @@
 <!--pages/product/detail.wxml-->
 <view class='container'>
-    <block  wx:if="{{albums && albums.length}}">
-    <swiper bindchange="{{bannerChange}}" indicator-dots="{{indicatorDots}}" indicator-active-color="#fff" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:{{screenWidth}}px">
-        <block wx:for="{{albums}}" wx:key="bkey">
-        <swiper-item>
-            <image src="{{item.image}}" class="slide-image"/>
-        </swiper-item>
-        </block>
-    </swiper>
-    <view class='imageDirector'>
-        <view>{{currentIndex}}/{{albums.length}}</view>
-    </view>
+    <block wx:if="{{albums && albums.length}}">
+        <swiper bindchange="{{bannerChange}}" indicator-dots="{{indicatorDots}}" indicator-active-color="#fff" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:{{screenWidth}}px">
+            <block wx:for="{{albums}}" wx:key="bkey">
+                <swiper-item>
+                    <image src="{{item.image}}" class="slide-image" />
+                </swiper-item>
+            </block>
+        </swiper>
+        <view class='imageDirector'>
+            <view>{{currentIndex}}/{{albums.length}}</view>
+        </view>
     </block>
-    <view class='title'>{{model.title}}</view>
+    <view class="prod-info">
+        <view class="favbtn">
+            <image class="icon" src="/icons/favourite.png" />
+            <text>加入收藏</text>
+        </view>
+        <view class='prod-title'>{{model.title}}</view>
+        <view class="price-box">
+            <text class='price'>￥{{price}}</text>
+        </view>
+        <view class="expinfos">
+            <view class="market-price">市场价：
+                <text>￥{{market_price}}</text>
+            </view>
+            <view class='express'>快递：免费</view>
+            <view class='sales'>销量 {{model.sale}} 笔</view>
+        </view>
+    </view>
+    <view class="arrow-list">
+        <view class='rowitem specs' bindtap="openMask" data-for="spec">
+            <text class='title'>规格</text>
+            <text class='desc'>{{specstext}}</text>
+            <image class="icon arrow" src="/icons/arrow.png" />
+        </view>
+    </view>
     <view class='content'>
         <rich-text nodes="{{model.content}}"></rich-text>
     </view>
-</view>
+    <view class='fixed-bottom'>
+        <view class='btnboxes'>
 
+        </view>
+        <view class='button button_cart' bindtap='addtocart' data-for="spec">加入购物车</view>
+        <view class='button button_buy' bindtap='buynow' data-for="spec">立即购买</view>
+    </view>
+    <view class='maskbox{{ismask?" maskopen":(isclosing?" maskclose":"")}}' bind:tap="hideMask">
+        <view class='panel{{maskfor=="spec"?" panelopen":""}}' catchtap='emptyEvent'>
+            <view class='prod-view-info'>
+                <view class='imgbox'>
+                    <image src="{{sku.image?sku.image:model.image}}" class='picture'></image>
+                </view>
+                <view class='infobox' wx:if="{{sku}}">
+                    <text class='price'>￥{{sku.price}}</text>
+                    <text class='storage'>{{sku.storage>0?("库存"+sku.storage+"件"):"暂时缺货"}}</text>
+                    <text class='specinfo'>{{selected}}</text>
+                </view>
+                <view class='infobox' wx:else>
+                    <text class='price'>￥{{price}}</text>
+                    <text class='storage'>库存{{allstorage}}件</text>
+                    <text class='specinfo'>{{selected}}</text>
+                </view>
+            </view>
+            <view class='pcontent'>
+                <view class='plist'>
+                    <view class='specrow' wx:for="{{model.spec_data}}" wx:key="pskey">
+                        <view class='specname'>{{item.spec_name}}</view>
+                        <view class='optionlist'>
+                            <view class='option{{optsku[item.spec_id] && optsku[item.spec_id][opt.spec_value_id]?"":" disabled"}}{{options[item.spec_id]==opt.spec_value_id?" checked":""}} {{opt.storage.length<1?"noStorage":""}}' wx:for="{{item.lists}}" wx:key="optkey" bindtap="selectOption"
+                                data-spec_id="{{item.spec_id}}" data-value_id="{{opt.spec_value_id}}" wx:for-item="opt">{{opt.label}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class='plist'>
+                    <view class='input-group' bindtap='countGrow' >
+                        <image class="input-group-addon" src="/icons/{{good_count>1?'minus':'minus-grey'}}.png" data-grow="-1" />
+                        <input value='{{good_count}}' bindinput='setCount' bindblur='setCount'></input>
+                        <image class="input-group-addon" src="/icons/{{good_count<cart.storage?'plus':'plus-grey'}}.png" data-grow="1" />
+                    </view>
+                </view>
+            </view>
+            <view class='buttons'>
+                <button wx:if="{{product.max_buy==0}}" type='gray' class='btn-large buynow_nostorage' bindtap='sellouthandle'>限量销售</button>
+                <button wx:elif="{{sku && sku.storage<1}}" type='gray' class='btn-large'>暂时缺货</button>
+                <block wx:else>
+                    <button wx:if="{{opt_from=='buy'}}" type='primary' class='btn-large' catch:tap="sureBuy">确定</button>
+                    <button wx:elif="{{opt_from=='cart'}}" type='primary' class='btn-large' catch:tap="sureAddCart">确定</button>
+                    <view wx:else class="btngroup">
+                        <button class='btn-large cartbtn' catch:tap="sureAddCart" wx:if='{{product.max_buy == null}}'>加入购物车</button>
+                        <button class='btn-large orderbtn' catch:tap="sureBuy" wx:if='{{product.max_buy>0}}'>立即购买</button>
+                        <button class='btn-large orderbtn' style='background-color:#e8e8e8;color:#9b9b9b;' wx:else>立即购买</button>
+
+                    </view>
+                </block>
+            </view>
+        </view>
+        <view class='panel{{maskfor=="attr"?" panelopen":""}}' catchtap='emptyEvent'>
+            <view class='phead'>产品参数</view>
+            <view class='pcontent'>
+                <view class='plist attrlist'>
+                    <view class='pitem attritem' wx:for="{{product.properties}}" wx:key="key">
+                        <text class='title'>{{item.name}}</text>
+                        <text class='desc'>{{item.value}}</text>
+                    </view>
+                </view>
+            </view>
+            <view class='buttons'>
+                <button type='primary' class='btn-large' catch:tap="hideMask">完成</button>
+            </view>
+        </view>
+    </view>
+</view>

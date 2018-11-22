@@ -1,6 +1,6 @@
 /* pages/product/detail.wxss */
 page{
-    background:#fff;
+    background:#f0f0f5;
 }
 .imageDirector{
     position: relative;
@@ -20,8 +20,84 @@ page{
     line-height:80rpx;
     background-color:rgba(0,0,0,.4);
 }
-.title{
+.prod-info{
+    background:#fff;
+    width:100%;
+    margin-bottom:20rpx;
+}
+.favbtn{
+    float:right;
+    width:100rpx;
+}
+.favbtn image{
+    display:block;
+    margin:10rpx auto;
+    width:40rpx;
+    height:40rpx;
+}
+.favbtn text{
+    color:#999;
+    font-size:20rpx;
+    display:block;
+    text-align:center;
+}
+.prod-title{
     font-size:32rpx;
     font-weight:bold;
     margin:20rpx;
+}
+.price-box{
+    padding-left:20rpx;
+}
+.price-box .price{
+    color:#b00;
+    font-weight:bold;
+    font-size:32rpx;
+}
+.expinfos{
+    display:flex;
+    flex-direction: row;
+    clear:both;
+    width:100%;
+}
+.expinfos>view{
+    flex:1;
+    text-align:center;
+    line-height:2em;
+    color:#999;
+}
+.expinfos .market-price text{
+    text-decoration: line-through;
+}
+.arrow-list{
+    margin-bottom:20rpx;
+}
+.content{
+    width:100%;
+    background:#fff;
+    min-height:300rpx;
+    padding-bottom:100rpx;
+}
+
+.prod-view-info{display:flex;flex-direction: row;}
+.prod-view-info .imgbox{width:200rpx;height:120rpx;position:relative;margin:0 20rpx;}
+.prod-view-info .imgbox image{position:absolute;bottom:0;left:0;width:200rpx;height:200rpx;}
+.prod-view-info .infobox{flex:1;display:flex;flex-direction: column;padding-top:20rpx;}
+.specrow{padding:20rpx;}
+.specrow .specname{margin-bottom:10rpx;font-size:28rpx;}
+.specrow .optionlist{display:flex;flex-direction: row;flex-wrap: wrap;}
+.specrow .optionlist .option{margin:0 10rpx 10rpx 0;border-radius:5rpx;padding:10rpx 20rpx;background:#eee;color:#101010;}
+.specrow .optionlist .noStorage{color: #9b9b9b;}
+.specrow .optionlist .checked{background:#ffa200;color:#fff}
+.specrow .optionlist .disabled{color:#aaa;}
+
+.panel .pcontent{flex:1;height:50%;margin-bottom:20rpx;overflow: scroll;}
+.panel .buttons{width:90%;margin:0 auto;}
+.panel .buttons button{width:100%;}
+
+.fixed-bottom .button_cart{
+    background:#f90;
+}
+.fixed-bottom .button_buy{
+    background:#f30;
 }
