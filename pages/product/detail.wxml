@@ -1,15 +1,15 @@
 <!--pages/product/detail.wxml-->
 <view class='container'>
-    <block  wx:if="{{model.albums && model.albums.length}}">
+    <block  wx:if="{{albums && albums.length}}">
     <swiper bindchange="{{bannerChange}}" indicator-dots="{{indicatorDots}}" indicator-active-color="#fff" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:{{screenWidth}}px">
-        <block wx:for="{{model.albums}}" wx:key="bkey">
+        <block wx:for="{{albums}}" wx:key="bkey">
         <swiper-item>
-            <image src="{{item.original_path}}" class="slide-image"/>
+            <image src="{{item.image}}" class="slide-image"/>
         </swiper-item>
         </block>
     </swiper>
     <view class='imageDirector'>
-        <view>{{currentIndex}}/{{model.albums.length}}</view>
+        <view>{{currentIndex}}/{{albums.length}}</view>
     </view>
     </block>
     <view class='title'>{{model.title}}</view>

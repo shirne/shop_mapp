@@ -11,6 +11,9 @@
         <view class='block-content'>
             <block wx:for="{{goods_cates}}" wx:key="ckey">
                 <view wx:if="{{item.id}}" class='item' data-id="{{item.id}}" bindtap='gotoProductList'>
+                    <view class="squareimg">
+                        <image class="iconview" src="{{item.icon}}" mode='aspectFit'></image>
+                    </view>
                     <text>{{item.title}}</text>
                 </view>
                 <view wx:else class='item'></view>

@@ -32,11 +32,12 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-        app.httpPost('mall/List'+this.data.top_id, json => {
-            if (json.status == 1) {
-                json.data = trail.fixListImage(json.data, 'img_url')
+        app.httpPost('product/get_list'+this.data.top_id, json => {
+            if (json.code == 1) {
+                let data=json.data.lists
+                data = trail.fixListImage(data, 'image')
                 this.setData({
-                    cates: json.data
+                    cates: data
                 })
             }
         })
@@ -48,14 +49,15 @@ Page({
     loadData: function () {
         var cid = this.getCateId()
         var page = this.data.page
-        app.httpPost('common_ajax.ashx?action=article_list&channel=goods&ps=10&cid=' + cid+'&p='+page, json => {
-            if (json.status == 1 && cid == this.getCateId()) {
-                json.data = trail.fixListImage(json.data,'img_url')
-                if (json.data.length % 2 == 1) json.data.push({})
+        app.httpPost('product/get_list?cate=' + cid+'&page='+page, json => {
+            if (json.code == 1 && cid == this.getCateId()) {
+                let products=json.data.lists
+                products = trail.fixListImage(products,'image')
+                if (products.length % 2 == 1) products.push({})
                 this.setData({
-                    lists: this.data.lists.concat(json.data),
+                    lists: this.data.lists.concat(products),
                     page: this.data.page+1,
-                    has_more: json.data.totalpage>=page,
+                    has_more: json.data.total_page>=page,
                     isloading:false
                 })
             }

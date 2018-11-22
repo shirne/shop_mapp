@@ -48,10 +48,7 @@ Page({
                     }
                     let cates = json.data['product.get_cates']
                     if (cates) {
-                        if (cates.length % 2 == 1) {
-                            cates.push({})
-                        }
-                        cates = trail.fixListImage(cates, 'image')
+                        cates = trail.fixListImage(cates, 'icon')
                     }
                     let articles = json.data['article.get_list']['lists']
                     if(articles){

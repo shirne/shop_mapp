@@ -18,7 +18,7 @@ const makeOrder = (api, data, success, error) => {
                     var payment = json.data != null ? json.data.payment : {}
                     //todo 转到支付
                     wx.requestPayment({
-                        ...json.data.payment,
+                        ...payment,
                         'success': function (res) {
                             if (res.errMsg == 'requestPayment:ok') {
                                 success(json.data)

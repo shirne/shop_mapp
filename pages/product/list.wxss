@@ -5,3 +5,9 @@
 .nopadtop{
     padding-top:0;
 }
+.block-content{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    padding-right:0;
+}
