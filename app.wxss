@@ -340,7 +340,7 @@ rich-text .tag_img{
     width:100%;
     height:100rpx;
     background:#fff;
-    box-shadow: 0 0 8rpx rgba(0,0,0,.3);
+    box-shadow: 0 0 10rpx rgba(0,0,0,.1);
     display:flex;
     flex-direction: row;
 }

@@ -83,17 +83,84 @@ page{
 .prod-view-info .imgbox{width:200rpx;height:120rpx;position:relative;margin:0 20rpx;}
 .prod-view-info .imgbox image{position:absolute;bottom:0;left:0;width:200rpx;height:200rpx;}
 .prod-view-info .infobox{flex:1;display:flex;flex-direction: column;padding-top:20rpx;}
-.specrow{padding:20rpx;}
+
+.comments{
+	margin-top: 0;
+    width: 100%;
+    background:#fff;
+    margin-bottom:20rpx;
+}
+
+.comments .cmt-head{
+  padding-left:20rpx;
+  padding-top:22rpx;
+  font-size:28rpx;
+  line-height:32rpx;
+}
+.cmt-head .cmt-ttl{
+  padding-left:10rpx;
+}
+.comments .cmt-list{
+  padding:0 40rpx;
+}
+.comments .cmt-item{
+  display:flex;
+  flex-direction: column;
+  padding:20rpx 0;
+}
+.cmt-user{
+  display:flex;
+  flex-direction: row;
+}
+.cmt-user .avatar{
+  width:50rpx;
+  height:50rpx;
+  border-radius:100rpx;
+  margin-right:10rpx;
+}
+.cmt-user text{
+  font-size:24rpx;
+  margin-top:10rpx;
+}
+.cmt-cont{
+  padding:10rpx;
+  font-size:24rpx;
+}
+.cmt-info{
+  color:#bbb;
+  padding:10rpx 0;
+  font-size:24rpx;
+}
+.cmt-button{
+  padding-bottom:40rpx;
+  display:flex;
+  align-items: center;
+}
+
+.pcontent .speclist{flex:1;}
+.specrow{padding:0 20rpx;margin:20rpx 0;}
 .specrow .specname{margin-bottom:10rpx;font-size:28rpx;}
 .specrow .optionlist{display:flex;flex-direction: row;flex-wrap: wrap;}
 .specrow .optionlist .option{margin:0 10rpx 10rpx 0;border-radius:5rpx;padding:10rpx 20rpx;background:#eee;color:#101010;}
 .specrow .optionlist .noStorage{color: #9b9b9b;}
 .specrow .optionlist .checked{background:#ffa200;color:#fff}
 .specrow .optionlist .disabled{color:#aaa;}
+.countbox{display:flex;flex-direction: row;padding:10rpx 20rpx;border-top:1rpx #ddd solid;border-bottom:1rpx #ddd solid;}
+.countbox>text{flex:1;line-height:2em;}
 
-.panel .pcontent{flex:1;height:50%;margin-bottom:20rpx;overflow: scroll;}
-.panel .buttons{width:90%;margin:0 auto;}
-.panel .buttons button{width:100%;}
+.attrlist{border-top:1rpx #eee solid;}
+.attritem{border-bottom:1rpx #eee solid;display:flex;flex-direction: row;line-height:36rpx;padding:20rpx 0;}
+.attritem .title{width:30%;padding-left:20rpx;}
+.attritem .desc{flex:1;color:#9b9b9b;}
+
+.panel .phead{text-align: center;font-size:32rpx;font-weight:bold;padding:20rpx;}
+.panel .pcontent{flex:1;height:50%;margin-bottom:20rpx;overflow: scroll;padding:20rpx;}
+.panel .buttons{width:100%;margin:0 auto;padding-top:10rpx;border-top:1rpx #eee solid;text-align:center;}
+.panel .buttons button{width:90%;margin:0 auto;border-radius:60rpx;}
+.panel .buttons .btngroup{width:90%;margin:0 auto;}
+.panel .buttons .btngroup button{width:100%;}
+.panel .buttons .btngroup button:first-child{border-radius:60rpx 0 0 60rpx;}
+.panel .buttons .btngroup button:last-child{border-radius:0 60rpx 60rpx 0;}
 
 .fixed-bottom .button_cart{
     background:#f90;

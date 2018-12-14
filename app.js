@@ -54,7 +54,7 @@ App({
 
                                         self.processQueue()
                                     } else {
-                                        self.error("获取登录信息失败")
+                                        self.error(json.msg || "获取登录信息失败")
                                     }
                                 })
 
@@ -91,7 +91,7 @@ App({
 
                 this.httpPost('common/refresh_token', { refresh_token: this.globalData.refresh_token }, (json) => {
                     self.globalData.isloging = false;
-                    if (json.status == 1) {
+                    if (json.code == 1) {
                         self.setLogin(json.data)
                         self.processQueue()
                     } else {
@@ -208,7 +208,7 @@ App({
             method: method,
             dataType: 'json',
             success: function (res) {
-                if (res.data.code == 101) {
+                if (res.data.code == 102) {
                     console.log('登录信息失效 AT ' + new Date().toLocaleString())
                     self.globalData.token = "";
                     self.checkLogin(() => {
@@ -219,10 +219,17 @@ App({
                     self.refreshToken(() => {
                         self.request(url, data, method, success, error)
                     }, true)
-                } else
+                }else if(res.data.code==99){
+                    console.log('需要登录 ' + new Date().toLocaleString())
+                    self.tip('请先登录')
+                    self.checkLogin(() => {
+                        self.request(url, data, method, success, error)
+                    });
+                } else {
                     if (typeof success == "function") {
                         success(res.data, res);
                     }
+                }
             },
             fail: function (res) {
                 if (typeof error == "function") {
@@ -240,6 +247,32 @@ App({
                 }
             }
         });
+    },
+    tip: function (msg) {
+        wx.showToast({
+            icon: 'none',
+            title: msg,
+        })
+    },
+    success: function (msg) {
+        wx.showToast({
+            title: msg,
+            icon: 'success'
+        });
+    },
+    error: function (msg) {
+        if (!msg) msg = '系统错误'
+        if (msg.length > 7) {
+            wx.showToast({
+                icon: 'none',
+                title: msg,
+            })
+        } else {
+            wx.showToast({
+                image: '/icons/error.png',
+                title: msg,
+            })
+        }
     },
     initShare: function (page, title, img = "", withTicket = true) {
         if (page == null) {

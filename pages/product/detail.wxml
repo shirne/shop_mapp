@@ -30,12 +30,40 @@
         </view>
     </view>
     <view class="arrow-list">
-        <view class='rowitem specs' bindtap="openMask" data-for="spec">
+        <view class='rowitem specs' wx:if="{{model.spec_data}}" bindtap="openMask" data-for="spec">
             <text class='title'>规格</text>
             <text class='desc'>{{specstext}}</text>
             <image class="icon arrow" src="/icons/arrow.png" />
         </view>
+        <view class='rowitem proprow' wx:if="{{model.prop_data}}" bindtap="openMask" data-for="attr">
+            <text class='title'>参数</text>
+            <text class='desc'>{{proptext}}</text>
+            <image src="/icons/arrow.png" class='icon arrow' />
+        </view>
     </view>
+
+    <view class='dblock comments' wx:if='{{comments && comments.length >0}}'>
+        <view class='cmt-head'>
+            <text class="cmt-ttl">商品评价</text>
+            <text class='cmt-count'>({{comments_count}})</text>
+        </view>
+        <view class='cmt-list'>
+            <view class='cmt-item' wx:for="{{comments}}" wx:key="key" wx:for-item="comment">
+                <block wx:if="{{index <1}}">
+                    <view class='cmt-user'>
+                        <image src='{{comment.user_avatar}}' class='avatar'></image>
+                        <text>{{comment.user_name}}</text>
+                    </view>
+                    <view class='cmt-cont'>{{comment.content}}</view>
+                    <view class='cmt-info'>{{comment.date}} {{comment.service}}</view>
+                </block>
+            </view>
+        </view>
+        <view class='cmt-button'>
+            <button type='default' bind:tap="viewComment">查看全部评价</button>
+        </view>
+    </view>
+    
     <view class='content'>
         <rich-text nodes="{{model.content}}"></rich-text>
     </view>
@@ -64,16 +92,18 @@
                 </view>
             </view>
             <view class='pcontent'>
-                <view class='plist'>
-                    <view class='specrow' wx:for="{{model.spec_data}}" wx:key="pskey">
-                        <view class='specname'>{{item.spec_name}}</view>
+                <view class='plist speclist'>
+                    <view class='specrow' wx:for="{{model.spec_data}}" wx:key="title" wx:for-index="key">
+                        <view class='specname'>{{item.title}}</view>
                         <view class='optionlist'>
-                            <view class='option{{optsku[item.spec_id] && optsku[item.spec_id][opt.spec_value_id]?"":" disabled"}}{{options[item.spec_id]==opt.spec_value_id?" checked":""}} {{opt.storage.length<1?"noStorage":""}}' wx:for="{{item.lists}}" wx:key="optkey" bindtap="selectOption"
-                                data-spec_id="{{item.spec_id}}" data-value_id="{{opt.spec_value_id}}" wx:for-item="opt">{{opt.label}}</view>
+                            <view class='option{{optsku[key] && optsku[key][opt]?"":" disabled"}}{{options[key]==opt?" checked":""}}' 
+                            wx:for="{{item.data}}" wx:key="this" bindtap="selectOption"  wx:for-item="opt"
+                                data-spec_id="{{key}}" data-value="{{opt}}">{{opt}}</view>
                         </view>
                     </view>
                 </view>
-                <view class='plist'>
+                <view class='plist countbox'>
+                    <text>购买数量</text>
                     <view class='input-group' bindtap='countGrow' >
                         <image class="input-group-addon" src="/icons/{{good_count>1?'minus':'minus-grey'}}.png" data-grow="-1" />
                         <input value='{{good_count}}' bindinput='setCount' bindblur='setCount'></input>
@@ -100,9 +130,9 @@
             <view class='phead'>产品参数</view>
             <view class='pcontent'>
                 <view class='plist attrlist'>
-                    <view class='pitem attritem' wx:for="{{product.properties}}" wx:key="key">
-                        <text class='title'>{{item.name}}</text>
-                        <text class='desc'>{{item.value}}</text>
+                    <view class='pitem attritem' wx:for="{{model.prop_data}}" wx:key="this" wx:for-index="key">
+                        <text class='title'>{{key}}</text>
+                        <text class='desc'>{{item}}</text>
                     </view>
                 </view>
             </view>
