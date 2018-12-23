@@ -116,7 +116,7 @@ navigator, .links {
 }
 
 .emptytip {
-    padding-left: 30rpx;
+    text-align: center;
     line-height: 100rpx;
     height: 100rpx;
     color: #999;
@@ -189,6 +189,7 @@ navigator, .links {
     color:#fff;
     background:#3498db;
 }
+
 .block {
     margin: 20rpx 0 0 0;
     background: #fff;
@@ -208,6 +209,98 @@ navigator, .links {
 .block-content {
     padding: 20rpx;
 }
+
+
+.formbox{
+  background:#fff;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+}
+.forminfo{
+  width:100%;
+  display: flex;
+  flex-direction: column;
+}
+.formrow{
+  padding:25rpx 0;
+  margin:0 20rpx;
+  display:flex;
+  flex-direction: row;
+  border-bottom:1rpx #e9e9e9 solid;
+  position:relative;
+  padding-bottom:14rpx;
+}
+.formtextarea{
+  padding:25rpx 0;
+  margin:0 20rpx;
+  height:210rpx;
+  border-bottom:1rpx #e9e9e9 solid;
+  display:flex;
+  flex-direction: row;
+}
+.formtextarea textarea{
+  flex-grow:1;
+  color:#333;
+  display:block;
+  font-size:28rpx;
+  height:210rpx;
+}
+.formrow .icon{
+  margin-right:20rpx;
+  width:40rpx;
+  height:40rpx;
+  background:transparent;
+}
+.formrow .label{
+  flex-grow:1;
+  line-height:40rpx;
+  font-size:28rpx;
+}
+.formrow .labelforput{
+  width:140rpx;
+  line-height:40rpx;
+  font-size:28rpx;
+}
+.formrow .input{
+  flex-grow: 1;
+  font-size:28rpx;
+  line-height:40rpx;
+  height:40rpx;
+  min-height: 0rpx;
+  color:#999;
+}
+.formrow .value{
+  flex-grow:1;
+  text-align:right;
+  margin-right:20rpx;
+  color:#999;
+  line-height:40rpx;
+  font-size:28rpx;
+}
+.formrow .placeholder{
+  position: absolute;
+  right:30rpx;
+  top:25rpx;
+  height:40rpx;
+  line-height:40rpx;
+  color:#e9e9e9;
+  font-size:28rpx;
+}
+.formrow .arrow{
+  width:30rpx;
+  height:40rpx;
+  background:transparent;
+}
+
+.formrow .placeholder-class,.formtextarea .placeholder-class{
+  color:#999;
+  font-size:28rpx;
+}
+.textarea-placeholder{color:#e9e9e9;}
+
+
+
 .squareimg{padding-top:100%;width:100%;position:relative;}
 .squareimg image{position:absolute;width:100%;height:100%;left:0;top:0;background-size:contain;}
 
@@ -264,13 +357,21 @@ navigator, .links {
     width:30rpx;
     height:40rpx;
 }
-
+.header{
+    width: 100%;
+    background:#fff;
+    box-shadow: #f0f0f0 0 1rpx 10rpx;
+    text-align: center;
+    position: relative;
+    line-height:100rpx;
+    font-size:28rpx;
+}
 .headfix{
     width: 100%;
     position: fixed;
     top:0;left:0;
     background:#fff;
-    box-shadow: #f0f0f0 0 1rpx 10rpx;
+    box-shadow:  0 1rpx 10rpx rgba(0,0,0,.2);
 }
 .head-tab {
     display: flex;

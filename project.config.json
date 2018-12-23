@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
@@ -40,7 +40,13 @@
 				{
 					"id": -1,
 					"name": "购物车",
-					"pathName": "pages/order/cart"
+					"pathName": "pages/order/cart",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "个人中心",
+					"pathName": "pages/member/index"
 				}
 			]
 		}

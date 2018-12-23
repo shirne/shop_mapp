@@ -4,8 +4,6 @@
         "pages/common/input",
         "pages/common/help",
         "pages/common/h5",
-        "pages/member/index",
-        "pages/member/profile",
         "pages/about/index",
         "pages/about/detail",
         "pages/news/index",
@@ -16,7 +14,13 @@
         "pages/product/detail",
         "pages/order/cart",
         "pages/order/confirm",
-        "pages/member/login"
+        "pages/member/login",
+        "pages/member/index",
+        "pages/member/profile",
+        "pages/member/address",
+        "pages/member/address-add",
+        "pages/member/order",
+        "pages/member/order-detail"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -36,7 +40,7 @@
                 "pagePath": "pages/product/index",
                 "iconPath": "icons/shop.png",
                 "selectedIconPath": "icons/shop-hover.png",
-                "text": "产品"
+                "text": "商品"
             },
             {
                 "pagePath": "pages/news/index",

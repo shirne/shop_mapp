@@ -1,0 +1,85 @@
+/* pages/member/address.wxss */
+page,.container{
+  height:100%;
+}
+.container{
+  display:flex;
+  flex-direction: column;
+}
+scroll-view{
+  width:100%;
+  height:50%;
+  flex-grow: 1;
+}
+.listbox{
+  width:100%;
+}
+.address-item{
+  background:#fff;
+  width:100%;
+  margin-bottom:20rpx;
+}
+.address-item .info{
+  padding:40rpx 20rpx 0 20rpx;
+  display:flex;
+  flex-direction: row;
+}
+.address-item .info view{
+  flex-grow: 1;
+  font-size:24rpx;
+  color:#101010;
+}
+.address-item .info .phone{
+  text-align: right;
+}
+.address-item .addstreet{
+  padding:0 20rpx 40rpx 20rpx;
+  font-size:24rpx;
+  border-bottom:1px #f0f0f2 solid;
+}
+.address-item .buttonlist{
+  padding:20rpx;
+  display:flex;
+  flex-direction: row;
+}
+.address-item .buttonlist s-checkbox{
+  flex-grow: 1;
+  font-size:24rpx;
+  line-height:28rpx;
+  color:#9b9b9b;
+}
+.address-item .buttonlist .actionwrap{
+  display:flex;
+  flex-direction: row;
+  font-size:24rpx;
+  line-height:28rpx;
+  color:#9b9b9b;
+  margin-left:40rpx;
+}
+.address-item .buttonlist .actionwrap image{
+  width:28rpx;
+  height:28rpx;
+  margin-right:10rpx;
+  background:transparent;
+}
+.action-box{
+  display:flex;
+  flex-direction: row;
+  width:100%;
+}
+.action-box view{
+  flex-grow: 1;
+  width:200rpx;
+  border-top:1rpx #ffa200 solid;
+  text-align:center;
+  font-size:28rpx;
+  line-height:96rpx;
+}
+.action-box .vice-action{
+  background:#fff;
+  color:#ffa200;
+}
+.action-box .main-action{
+  background:#ffa200;
+  color:#fff;
+}

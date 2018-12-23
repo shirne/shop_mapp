@@ -9,14 +9,27 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+      favourite_count: 0,
+      member: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+      app.checkLogin(() => {
+          wx.showLoading({
+              title: '加载中',
+          })
+          app.httpPost('member/profile', {}, (json) => {
+              wx.hideLoading()
+              if (json.code == 1) {
+                  json.data = trail.fixImage(json.data,'avatar')
+
+                  this.setData({member:json.data})
+              }
+          })
+      })
   },
 
   /**
@@ -30,7 +43,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+      
   },
 
   /**
@@ -66,5 +79,18 @@ Page({
    */
   onShareAppMessage: function () {
   
-  }
+  },
+
+    gotoOrder: function (e) {
+        var status = e.currentTarget.dataset.status
+        wx.navigateTo({
+            url: 'order?status=' + status,
+        })
+    },
+    gotoUrl: function (e) {
+        var url = e.currentTarget.dataset.url
+        wx.navigateTo({
+            url: url
+        })
+    }
 })

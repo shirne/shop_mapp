@@ -50,7 +50,7 @@ App({
 
                                 self.httpPost('auth/wxlogin', data, (json) => {
                                     self.globalData.isloging = false;
-                                    console.log(self.globalData)
+                                    //console.log(self.globalData)
                                     if (json.data && json.data.token) {
                                         console.log('登录成功')
                                         self.setLogin(json.data)
