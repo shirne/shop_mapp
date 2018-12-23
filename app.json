@@ -15,7 +15,8 @@
         "pages/product/list",
         "pages/product/detail",
         "pages/order/cart",
-        "pages/order/confirm"
+        "pages/order/confirm",
+        "pages/member/login"
     ],
     "window": {
         "backgroundTextStyle": "light",

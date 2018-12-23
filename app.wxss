@@ -130,6 +130,10 @@ navigator, .links {
     width: 100%;
 }
 
+.price{
+    color:#e00;
+}
+
 .uploadbox {
     text-align: center;
 }
@@ -302,6 +306,16 @@ navigator, .links {
 
 loading{
     width:100%;
+}
+
+.loadingbox{
+  text-align: center;
+  padding:80rpx 0;
+}
+.loadingbox image{
+  width:100rpx;
+  height:100rpx;
+  background:transparent;
 }
 
 /*富文本样式*/

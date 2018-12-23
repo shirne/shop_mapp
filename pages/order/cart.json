@@ -1,1 +1,5 @@
-{}
+{
+    "usingComponents": {
+        "s-checkbox": "/Components/s-checkbox/s-checkbox"
+    }
+}

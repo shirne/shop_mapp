@@ -69,8 +69,17 @@
     </view>
     <view class='fixed-bottom'>
         <view class='btnboxes'>
-
+            <button open-type='contact' session-from='product-{{product.product_id}}' class='notbutton iconbox'>
+                <image src="/icons/message.png" class='icon' />
+                <text>客服</text>
+            </button>
+            <view class='iconbox' bindtap="viewCart">
+                <image src="/icons/cart-v.png" class='icon' />
+                <text>购物车</text>
+                <view class='badge{{cartCount>0?"":" hidden"}}'>{{cartCount>99?'...':cartCount}}</view>
+            </view>
         </view>
+        <view class='pricebox'></view>
         <view class='button button_cart' bindtap='addtocart' data-for="spec">加入购物车</view>
         <view class='button button_buy' bindtap='buynow' data-for="spec">立即购买</view>
     </view>

@@ -3,6 +3,14 @@ const app = getApp()
 
 const default_image = '/icons/image.png'
 
+const getCartCount = (app, callback) => {
+    app.httpPost('cart/getcount', json => {
+        if (json.code == 1) {
+            callback(json.data)
+        }
+    })
+}
+
 const makeOrder = (api, data, success, error) => {
     wx.showLoading({
         title: '正在提交',
@@ -248,6 +256,7 @@ const fixTag = (node, pnode) => {
 }
 module.exports = {
     makeOrder: makeOrder,
+    getCartCount: getCartCount,
     uploadFile: uploadFile,
     fixListDate: fixListDate,
     fixDate: fixDate,

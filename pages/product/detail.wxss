@@ -162,6 +162,56 @@ page{
 .panel .buttons .btngroup button:first-child{border-radius:60rpx 0 0 60rpx;}
 .panel .buttons .btngroup button:last-child{border-radius:0 60rpx 60rpx 0;}
 
+.fixed-bottom .btnboxes{
+	flex-grow: 0;
+	justify-content: space-around;
+	display: flex;
+	align-items: center;
+	padding: 0 20rpx;
+}
+.fixed-bottom .iconbox{
+  margin:0 20rpx;
+  flex-grow:1;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  /* padding-top:15rpx; */
+  font-size:20rpx;
+  color:#9b9b9b;
+  position: relative;
+}
+.fixed-bottom .iconbox image{
+  width:40rpx;
+  height:40rpx;
+  background:transparent;
+}
+.fixed-bottom .iconbox text{
+  margin-top:3rpx;
+  line-height:1.2em;
+	font-size: 24rpx;
+}
+.iconbox .badge{
+  position:absolute;
+  width:32rpx;
+  height:32rpx;
+  right:0;
+  top:-6rpx;
+  background:#e55959;
+  border-radius:100rpx;
+  text-align: center;
+  line-height:32rpx;
+  color:#fff;
+}
+.iconbox .hidden{
+  display:none;
+}
+.fixed-bottom .pricebox{
+  flex-grow: 1;
+  text-align:right;
+  padding-right:40rpx;
+  padding-top:32rpx;
+}
+
 .fixed-bottom .button_cart{
     background:#f90;
 }

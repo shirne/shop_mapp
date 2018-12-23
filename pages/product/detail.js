@@ -1,6 +1,7 @@
 // pages/product/detail.js
-var util = require("../../utils/util.js");
-var trail = require("../../utils/trail.js");
+let util = require("../../utils/util.js");
+let trail = require("../../utils/trail.js");
+let Product = require("../../utils/product.js");
 const app = getApp()
 
 Page({
@@ -15,8 +16,11 @@ Page({
         duration: 1000,
         currentIndex: 1,
         screenWidth: 500,
+
+        //product:null,
         id: 0,
         model: null,
+        is_favourite:0,
         albums: null,
         skus: null,
         price: '',
@@ -27,6 +31,9 @@ Page({
 
         maskfor:''
     },
+
+    //组件数据
+    product:null,
 
     /**
      * 生命周期函数--监听页面加载
@@ -50,48 +57,22 @@ Page({
     onReady: function () {
         app.httpPost('product/view', { id: this.data.id }, json => {
             if (json.code == 1) {
-                let product = json.data.product
-                product.image = trail.fixImageUrl(product.image)
-                product.content = trail.fixContent(product.content)
+                let model = json.data.product
                 let albums = trail.fixListImage(json.data.images, 'image')
-                let skus = trail.fixListImage(json.data.skus, 'image')
-                skus.forEach(sku=>{
-                    sku.cost_price=parseFloat(sku.cost_price)
-                    sku.market_price = parseFloat(sku.market_price)
-                    sku.price = parseFloat(sku.price)
-                })
-                let proptext=[];
-                if (product.prop_data){
-                    let idx=0;
-                    for(let k in product.prop_data){
-                        if(idx>2){
-                            proptext.push('...')
-                            break;
-                        }
-                        proptext.push(k)
-                        idx++
-                    }
-                }
-                let spectext=[]
-                if(product.spec_data){
-                    let idx = 0;
-                    for (let k in product.spec_data) {
-                        if (idx > 2) {
-                            spectext.push('...')
-                            break;
-                        }
-                        spectext.push(product.spec_data[k].title)
-                        idx++
-                    }
-                }
+                let skus = json.data.skus
+                let product = new Product(model, skus)
+                
+                this.product=product
                 this.setData({
-                    model: product,
+                    model: model,
+                    //product:product,
+                    is_favourite:json.data.is_favourite,
                     albums: albums,
                     skus: skus,
-                    allstorage:this.getAllStorage(skus),
+                    allstorage: product.getAllStorage(),
                     sku:skus && skus.length==1?skus[0]:null,
-                    specstext: spectext.join(' '),
-                    proptext: proptext.join(' ')
+                    specstext: product.getSpecText(),
+                    proptext: product.getPropText(),
                 })
                 this.setPrice()
                 app.initShare(this, product.title, product.image)
@@ -104,29 +85,10 @@ Page({
         })
     },
     setPrice: function () {
-        let min_price=-1;
-        let max_price=-1;
-        let market_min_price = -1;
-        let market_max_price = -1;
-        if(this.data.skus){
-            this.data.skus.forEach(sku=>{
-                if(min_price<0){
-                    min_price = sku.price
-                    max_price = sku.price
-                    market_min_price = sku.market_price
-                    market_max_price = sku.market_price
-                }else{
-                    min_price = Math.min(min_price, sku.price)
-                    max_price = Math.max(max_price, sku.price)
-                    market_min_price = Math.min(market_min_price, sku.market_price)
-                    market_max_price = Math.max(market_max_price, sku.market_price)
-                }
-                
-            })
-        }
+        let product=this.product
         this.setData({
-            price: max_price>min_price?(min_price+'~'+max_price):min_price,
-            market_price: market_max_price > market_min_price ? (market_min_price + '~' + market_max_price) : market_min_price,
+            price: product.getPriceText(),
+            market_price: product.getMarketPriceText()
         })
     },
     openMask: function (e, frm = '') {
@@ -137,9 +99,9 @@ Page({
         }
         if (data.maskfor == 'spec') {
             if (!this.data.sku && this.data.skus instanceof Array && this.data.skus.length > 0) {
-                data.selected = this.getSelected(this.data.model.spec_data, this.data.options)
-                data.sku = this.searchSku()
-                data.optsku = this.getAllSku(this.data.skus, this.data.model.spec_data)
+                data.selected = this.product.getSelectedText( this.data.options)
+                data.sku = this.product.searchSku()
+                data.optsku = this.product.getSpecStatus(this.data.options)
             }
         }
         this.setData(data)
@@ -197,6 +159,9 @@ Page({
     onShareAppMessage: function () {
 
     },
+    updateCartCount:function(){
+
+    },
     selectOption: function (e) {
         var d = e.currentTarget.dataset
         var options = this.data.options
@@ -209,89 +174,13 @@ Page({
         } else {
             options[d.spec_id] = d.value
         }
-        var sku = this.searchSku(options)
+        var sku = this.product.searchSku(options)
         this.setData({
             sku: sku,
             options: options,
-            optsku: this.getAllSku(this.data.skus, this.data.model.spec_data, options),
-            selected: this.getSelected(this.data.model.spec_data, options)
+            optsku: this.product.getSpecStatus( options),
+            selected: this.product.getSelectedText( options)
         })
-    },
-    getAllStorage: function (skus) {
-        var storage = 0
-        for (var i = 0; i < skus.length; i++) {
-            storage += parseInt(skus[i].storage) || 0
-        }
-        return storage
-    },
-    getSelected: function (specs, opts = {}) {
-        var specvals = []
-        var selected = []
-        for (let spec_id in specs) {
-            if (opts[spec_id]) {
-                for (var j = 0; j < specs[spec_id].data.length; j++) {
-                    if (specs[spec_id].data[j] == opts[spec_id]) {
-                        specvals.push(specs[spec_id].data[j])
-                        break
-                    }
-                }
-            } else {
-                selected.push(specs[spec_id].title)
-            }
-        }
-        if (selected.length > 0) {
-            return "请选择 " + selected.join(' ')
-        } else {
-            return "已选：\"" + specvals.join('" "') + '"'
-        }
-    },
-    getAllSku: function (skus, specs, opts = {}) {
-        var allSku = {}
-        
-        for (let spec_id in specs) {
-            allSku[spec_id] = {}
-            var sks = skus.filter(sku => {
-                if (!opts || util.countObject(opts) < 1) {
-                    return true
-                } else {
-                    for (let sku_spec_id in sku.specs) {
-                        //确保当前规格可切换
-                        if (sku_spec_id != spec_id){
-                            if(opts[sku_spec_id] && opts[sku_spec_id] != sku.specs[sku_spec_id]) {
-                                return false
-                            }
-                        }
-                    }
-                    return true
-                }
-            })
-            sks.forEach(sku => {
-                if (sku.specs[spec_id] && sku.storage>0){
-                    allSku[spec_id][sku.specs[spec_id]] = true
-                }
-            })
-        }
-        return allSku
-    },
-    searchSku: function (opts = {}) {
-        var pass = false
-        var product = this.data.model
-        var skus=this.data.skus
-        for (var i = 0; i < skus.length; i++) {
-            var specs = skus[i].specs
-            pass = true
-            for (let spec_id in specs){
-                if(!opts[spec_id] || opts[spec_id] != specs[spec_id]){
-                    pass = false
-                    break
-                }
-            }
-            if (pass) {
-                return skus[i]
-            }
-
-        }
-        return null
     },
     countGrow(e) {
         if (this.data.sku == null) {
@@ -304,7 +193,7 @@ Page({
         if (grow < 1) {
             grow = 1
         }
-        if (this.data.model.max_buy != null && grow > this.data.product.max_buy) {
+        if (this.data.model.max_buy != null && grow > this.data.model.max_buy) {
             app.error("超出商品的限制购物数量")
             return
         }
@@ -394,8 +283,8 @@ Page({
         wx.showLoading({
             title: '正在处理',
         })
-        if (this.data.product.is_favourite) {
-            app.httpPost('product/del_favourite',
+        if (this.data.is_favourite) {
+            app.httpPost('member/del_favourite',
                 { ids: [this.data.model.id] },
                 (json) => {
                     wx.hideLoading()
@@ -423,6 +312,14 @@ Page({
                     }
                 })
         }
+    },
+    viewCart:function(e=null){
+        wx.switchTab({
+            url: '../order/cart',
+            success: function(res) {},
+            fail: function(res) {},
+            complete: function(res) {},
+        })
     },
     emptyEvent:function(e=null){
         if(e){

@@ -18,6 +18,9 @@ App({
         })
 
     },
+    /**
+     * 检查是否已登录并执行登录，登录成功则回调
+     */
     checkLogin: function (callback = null, widthinit = false) {
         if (this.globalData.isloging) {
             if (typeof callback == 'function') this.globalData.loginqueue.push(callback)
@@ -40,7 +43,7 @@ App({
 
                                 var data = {
                                     code: code,
-                                    store_id: self.globalData.storeId,
+                                    wxid: self.globalData.wxid,
                                     rawData: res.rawData,
                                     signature: res.signature
                                 }
@@ -56,8 +59,35 @@ App({
                                     } else {
                                         self.error(json.msg || "获取登录信息失败")
                                     }
+                                }, res => {
+                                    self.globalData.isloging = false;
+                                    self.error("网络错误，登录失败")
                                 })
 
+                            },
+                            fail: res => {
+                                wx.hideLoading()
+                                wx.showModal({
+                                    title: '取消授权提示',
+                                    content: '没有用户授权信息，不能获取用户在应用中的对应数据？',
+                                    cancelText: "重新授权",
+                                    confirmText: "不授权",
+                                    success: (data) => {
+                                        if (data.confirm) {
+                                            console.info("确认不授权")
+                                            self.error("无法自动登录")
+                                        } else if (data.cancel) {
+                                            wx.openSetting({
+                                                success: result => {
+                                                    if (result.authSetting['scope.userInfo'] == true) {
+                                                        self.globalData.isloging = false
+                                                        self.checkLogin(callback, withinit)
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
                             }
                         })
 
@@ -109,6 +139,7 @@ App({
             if (typeof success == 'function') success()
         }
     },
+    //检查token是否有效
     checkToken: function () {
         if (!this.globalData.token) {
             return false
@@ -197,11 +228,9 @@ App({
     request: function (url, data, method, success, error) {
         let self = this;
         let queryUrl = url
-        if (!this.globalData.debug) {
-            if (!data) data = {};
-            if (this.globalData.token)
-                data.token = this.globalData.token;
-        }
+        if (!data) data = {}
+        if (this.globalData.token)
+            data.token = this.globalData.token
         wx.request({
             url: this.globalData.server + queryUrl,
             data: data,
@@ -221,10 +250,14 @@ App({
                     }, true)
                 }else if(res.data.code==99){
                     console.log('需要登录 ' + new Date().toLocaleString())
-                    self.tip('请先登录')
-                    self.checkLogin(() => {
-                        self.request(url, data, method, success, error)
-                    });
+                    if (self.globalData.token){
+                        self.tip('服务器令牌验证出错')
+                    }else{
+                        self.tip('请先登录')
+                        self.checkLogin(() => {
+                            self.request(url, data, method, success, error)
+                        });
+                    }
                 } else {
                     if (typeof success == "function") {
                         success(res.data, res);
@@ -274,6 +307,7 @@ App({
             })
         }
     },
+    //设置分享信息
     initShare: function (page, title, img = "", withTicket = true) {
         if (page == null) {
             wx.hideShareMenu({})
@@ -318,6 +352,7 @@ App({
         refresh_token: "",
 
         cart_count:0,
+        wxid:'GBqVTSZEha',
         imgDir: 'http://scms.test.com',
         limit: 10,//分页条数
         server: "http://scms.test.com/api/"
