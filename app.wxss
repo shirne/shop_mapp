@@ -313,11 +313,13 @@ navigator, .links {
 .newsitem .infobox .infomation{color:#999;font-size:24rpx;line-height:30rpx;margin-top:6rpx;}
 
 .imglist{display:flex;flex-direction: row;flex-wrap: wrap;padding:0 0 20rpx 20rpx;}
-.imgitem{width: 40%;flex:1;margin:20rpx 20rpx 0 0;display:flex;flex-direction: column;background:#f0f0f2;box-shadow: #f0f0f0 1rpx 1rpx 10rpx;}
+.imgitem{width: 40%;flex:1;margin:20rpx 20rpx 0 0;display:flex;flex-direction: column;background:#f0f0f2;box-shadow: #f0f0f0 1rpx 1rpx 10rpx;border-radius:5rpx;overflow: hidden;}
 .imgitem .imgbox{padding-top:100%;width:100%;position:relative;}
 .imgitem .imgbox image{position:absolute;width:100%;height:100%;left:0;top:0;}
-.imgitem .ttlbox{padding:10rpx 20rpx;text-align: center;}
-.imgitem .ttlbox .infotitle{display:block;text-align:center;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.imgitem .ttlbox{padding:10rpx 20rpx;}
+.imgitem .ttlbox .infotitle{display:block;text-align: left;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.imgitem .pricebox{padding:10rpx 20rpx;}
+.imgitem .pricebox .rightinfo{float:right;color:#666;}
 
 .emptyitem{background:transparent;border:0;box-shadow: none;}
 

@@ -21,6 +21,10 @@
                     <view class='ttlbox'>
                         <text class='infotitle'>{{item.title}}</text>
                     </view>
+                    <view class='pricebox'>
+                        <text class='rightinfo'>已售 {{item.sale}}</text>
+                        <text class='price'>￥{{item.min_price}}</text>
+                    </view>
                 </view>
                 <view wx:else class='imgitem emptyitem'></view>
             </block>
