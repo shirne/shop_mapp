@@ -382,7 +382,9 @@ Page({
         })
     },
     gotoHome: function (e) {
-        util.shopTab('/pages/index/index')
+        wx.switchTab({
+            url: '/pages/index/index',
+        })
     },
 
     //生成订单数据
