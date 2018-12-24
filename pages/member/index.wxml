@@ -76,7 +76,7 @@
     <view class='block toolsinfo'>
         <view class='block-head'>必备工具</view>
         <view class='block-content'>
-            <view class='tool-item' bindtap='gotoUrl' data-url="/pages/member/recharge?store_id={{store.store_id}}">
+            <view class='tool-item' bindtap='gotoUrl' data-url="/pages/member/recharge">
                 <image class='icon' src='/icons/t-charge.png'></image>
                 <text class='item-title'>会员充值</text>
             </view>
@@ -88,7 +88,7 @@
                 <image class='icon' src='/icons/t-address.png'></image>
                 <text class='item-title'>地址管理</text>
             </view>
-            <view class='tool-item' bindtap='gotoUrl' data-url="/pages/index/about">
+            <view class='tool-item' bindtap='gotoUrl' data-url="/pages/about/index">
                 <image class='icon' src='/icons/t-about.png'></image>
                 <text class='item-title'>关于我们</text>
             </view>

@@ -119,7 +119,7 @@ App({
                 if (typeof callback == 'function') this.globalData.loginqueue.push(callback)
                 this.globalData.isloging = true;
 
-                this.httpPost('common/refresh_token', { refresh_token: this.globalData.refresh_token }, (json) => {
+                this.httpPost('auth/refresh_token', { refresh_token: this.globalData.refresh_token }, (json) => {
                     self.globalData.isloging = false;
                     if (json.code == 1) {
                         self.setLogin(json.data)

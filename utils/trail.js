@@ -19,7 +19,7 @@ const makeOrder = (api, data, success, error) => {
         data,
         (json) => {
             wx.hideLoading()
-            if (json.status == 1) {
+            if (json.code == 1) {
                 if (json.data && json.data.payment && json.data.payment.timeStamp) {
 
                     json.data.payment.timeStamp = json.data.payment.timeStamp.toString()
@@ -48,7 +48,7 @@ const makeOrder = (api, data, success, error) => {
                 }
 
             } else {
-                error(json.message)
+                error(json.msg)
             }
         })
 }
@@ -123,7 +123,7 @@ const uploadHandle= (data, tempFilePaths, success, error = null)=> {
                 data = null
             }
             if (data) {
-                if (data.status == 1) {
+                if (data.code == 1) {
                     success(data.data, data);
                 } else {
                     if (typeof error == "function") {

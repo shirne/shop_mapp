@@ -1,0 +1,12 @@
+/* pages/common/pick-address.wxss */
+.address-item{
+  padding:40rpx 20rpx;
+  border-bottom:1rpx #f0f0f2 solid
+}
+.address-item .name{
+    font-weight:bold;
+}
+
+.button-box{
+    margin-top:20rpx;
+}

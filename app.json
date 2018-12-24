@@ -20,7 +20,9 @@
         "pages/member/address",
         "pages/member/address-add",
         "pages/member/order",
-        "pages/member/order-detail"
+        "pages/member/order-detail",
+        "pages/member/recharge",
+        "pages/common/pick-address"
     ],
     "window": {
         "backgroundTextStyle": "light",
