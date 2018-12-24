@@ -9,7 +9,7 @@
         <view class='phone'>{{address.mobile}}</view>
       </view>
       <view class='addstreet'>
-        <text decode='true'>{{address.area}} {{address.street}}</text>
+        <text decode='true'>{{address.province}} {{address.city}} {{address.area}} {{address.address}}</text>
       </view>
       <view class='buttonlist'>
         <s-checkbox value="{{address.address_id}}" checked="{{address.address_id==default_id}}" bindchange="onSetDefault" label="设为默认地址"></s-checkbox>
