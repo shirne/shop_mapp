@@ -29,6 +29,10 @@ scroll-view{
   font-size:24rpx;
   color:#101010;
 }
+.address-item .info .name{
+  font-weight:bold;
+  font-size:28rpx;
+}
 .address-item .info .phone{
   text-align: right;
 }
