@@ -1,5 +1,10 @@
 <!--pages/common/help.wxml-->
 <view class='main-container'>
+
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">Help</view>
+    </cu-custom>
     <view class='help-head'>
         <text>{{title}}</text>
     </view>

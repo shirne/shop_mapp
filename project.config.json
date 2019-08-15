@@ -8,9 +8,11 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.94",
+	"libVersion": "2.4.4",
 	"appid": "touristappid",
 	"projectname": "%E5%BE%AE%E4%BF%A1%E5%95%86%E5%9F%8E",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -26,6 +28,10 @@
 		},
 		"game": {
 			"currentL": -1,
+			"list": []
+		},
+		"gamePlugin": {
+			"current": -1,
 			"list": []
 		},
 		"miniprogram": {
@@ -46,7 +52,15 @@
 				{
 					"id": -1,
 					"name": "个人中心",
-					"pathName": "pages/member/index"
+					"pathName": "pages/member/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "tab=member",
+					"scene": null
 				}
 			]
 		}

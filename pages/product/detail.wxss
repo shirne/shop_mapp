@@ -1,7 +1,6 @@
 /* pages/product/detail.wxss */
-page{
-    background:#f0f0f5;
-}
+
+
 .imageDirector{
     position: relative;
     height:0;
@@ -20,10 +19,15 @@ page{
     line-height:80rpx;
     background-color:rgba(0,0,0,.4);
 }
+swiper-item image{
+    width:100%;
+    height:100%;
+}
 .prod-info{
     background:#fff;
     width:100%;
     margin-bottom:20rpx;
+    padding-top:20rpx;
 }
 .favbtn{
     float:right;
@@ -45,6 +49,8 @@ page{
     font-size:32rpx;
     font-weight:bold;
     margin:20rpx;
+    margin-top:0;
+    width: 80%;
 }
 .price-box{
     padding-left:20rpx;
@@ -72,7 +78,7 @@ page{
 .arrow-list{
     margin-bottom:20rpx;
 }
-.content{
+.detail-content{
     width:100%;
     background:#fff;
     min-height:300rpx;
@@ -84,58 +90,6 @@ page{
 .prod-view-info .imgbox image{position:absolute;bottom:0;left:0;width:200rpx;height:200rpx;}
 .prod-view-info .infobox{flex:1;display:flex;flex-direction: column;padding-top:20rpx;}
 
-.comments{
-	margin-top: 0;
-    width: 100%;
-    background:#fff;
-    margin-bottom:20rpx;
-}
-
-.comments .cmt-head{
-  padding-left:20rpx;
-  padding-top:22rpx;
-  font-size:28rpx;
-  line-height:32rpx;
-}
-.cmt-head .cmt-ttl{
-  padding-left:10rpx;
-}
-.comments .cmt-list{
-  padding:0 40rpx;
-}
-.comments .cmt-item{
-  display:flex;
-  flex-direction: column;
-  padding:20rpx 0;
-}
-.cmt-user{
-  display:flex;
-  flex-direction: row;
-}
-.cmt-user .avatar{
-  width:50rpx;
-  height:50rpx;
-  border-radius:100rpx;
-  margin-right:10rpx;
-}
-.cmt-user text{
-  font-size:24rpx;
-  margin-top:10rpx;
-}
-.cmt-cont{
-  padding:10rpx;
-  font-size:24rpx;
-}
-.cmt-info{
-  color:#bbb;
-  padding:10rpx 0;
-  font-size:24rpx;
-}
-.cmt-button{
-  padding-bottom:40rpx;
-  display:flex;
-  align-items: center;
-}
 
 .pcontent .speclist{flex:1;}
 .specrow{padding:0 20rpx;margin:20rpx 0;}
@@ -161,60 +115,3 @@ page{
 .panel .buttons .btngroup button{width:100%;}
 .panel .buttons .btngroup button:first-child{border-radius:60rpx 0 0 60rpx;}
 .panel .buttons .btngroup button:last-child{border-radius:0 60rpx 60rpx 0;}
-
-.fixed-bottom .btnboxes{
-	flex-grow: 0;
-	justify-content: space-around;
-	display: flex;
-	align-items: center;
-	padding: 0 20rpx;
-}
-.fixed-bottom .iconbox{
-  margin:0 20rpx;
-  flex-grow:1;
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  /* padding-top:15rpx; */
-  font-size:20rpx;
-  color:#9b9b9b;
-  position: relative;
-}
-.fixed-bottom .iconbox image{
-  width:40rpx;
-  height:40rpx;
-  background:transparent;
-}
-.fixed-bottom .iconbox text{
-  margin-top:3rpx;
-  line-height:1.2em;
-	font-size: 24rpx;
-}
-.iconbox .badge{
-  position:absolute;
-  width:32rpx;
-  height:32rpx;
-  right:0;
-  top:-6rpx;
-  background:#e55959;
-  border-radius:100rpx;
-  text-align: center;
-  line-height:32rpx;
-  color:#fff;
-}
-.iconbox .hidden{
-  display:none;
-}
-.fixed-bottom .pricebox{
-  flex-grow: 1;
-  text-align:right;
-  padding-right:40rpx;
-  padding-top:32rpx;
-}
-
-.fixed-bottom .button_cart{
-    background:#f90;
-}
-.fixed-bottom .button_buy{
-    background:#f30;
-}

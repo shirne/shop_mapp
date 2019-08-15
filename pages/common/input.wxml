@@ -1,5 +1,10 @@
 <!--pages/common/input.wxml-->
 <view class="container">
+
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">输入信息</view>
+    </cu-custom>
     <view class="step">
         <view class="title">{{title}}</view>
     </view>

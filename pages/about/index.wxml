@@ -1,5 +1,10 @@
 <!--pages/about/index.wxml-->
 <view class='container'>
+
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">关于我们</view>
+    </cu-custom>
     <view class='logobox' wx:if="{{siteinfo}}">
         <image class='nobg' src="{{siteinfo.weblogo}}" mode="aspectFill"></image>
         <text>{{siteinfo.webname}}</text>

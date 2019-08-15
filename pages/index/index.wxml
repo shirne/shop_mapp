@@ -1,45 +1,27 @@
-<!--index.wxml-->
-<view class="container">
-    <swiper wx:if="{{banners && banners.length}}" indicator-dots="{{indicatorDots}}" indicator-active-color="#fff" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-        <block wx:for="{{banners}}" wx:key="bkey">
-            <swiper-item>
-                <image src="{{item.image}}" class="slide-image" />
-            </swiper-item>
-        </block>
-    </swiper>
-    <view class='block cates' wx:if="{{goods_cates}}">
-        <view class='block-content'>
-            <block wx:for="{{goods_cates}}" wx:key="ckey">
-                <view wx:if="{{item.id}}" class='item' data-id="{{item.id}}" bindtap='gotoProductList'>
-                    <view class="squareimg">
-                        <image class="iconview" src="{{item.icon}}" mode='aspectFit'></image>
-                    </view>
-                    <text>{{item.title}}</text>
-                </view>
-                <view wx:else class='item'></view>
-            </block>
-        </view>
+<home wx:if="{{PageCur=='home'}}"></home>
+<product wx:if="{{PageCur=='product'}}"></product>
+<news wx:if="{{PageCur=='news'}}"></news>
+<cart wx:if="{{PageCur=='cart'}}"></cart>
+<member wx:if="{{PageCur=='member'}}"></member>
+<view class="cu-bar tabbar bg-white shadow foot">
+    <view class="action" bindtap="NavChange" data-cur="home">
+        <view class="cuIcon-home{{PageCur=='home'?'fill text-red':''}}"></view>
+        <view class="{{PageCur=='home'?'text-red':'text-gray'}}">首页</view>
     </view>
-    <view class='block newsblock'>
-        <view class='block-ttl'>
-            <text>推荐产品</text>
-        </view>
-        <view class='block-content imglist'>
-            <block wx:for="{{goods}}" wx:key="key">
-                <view wx:if="{{item.id}}" class='imgitem' data-id="{{item.id}}" bindtap="gotoProduct">
-                    <view wx:if="{{item.image}}" class='imgbox'>
-                        <image class='sm-picture' src="{{item.image}}" mode='aspectFill'></image>
-                    </view>
-                    <view class='ttlbox'>
-                        <text class='infotitle'>{{item.title}}</text>
-                    </view>
-                    <view class='pricebox'>
-                        <text class='rightinfo'>已售 {{item.sale}}</text>
-                        <text class='price'>￥{{item.min_price}}</text>
-                    </view>
-                </view>
-                <view wx:else class='imgitem emptyitem'></view>
-            </block>
-        </view>
+    <view class="action" bindtap="NavChange" data-cur="product">
+        <view class="cuIcon-goods{{PageCur=='product'?'fill text-red':''}}"></view>
+        <view class="{{PageCur=='product'?'text-red':'text-gray'}}">产品</view>
+    </view>
+    <view class="action" bindtap="NavChange" data-cur="news">
+        <view class="cuIcon-newshot{{PageCur=='news'?'fill text-red':''}}"></view>
+        <view class="{{PageCur=='news'?'text-red':'text-gray'}}">新闻</view>
+    </view>
+    <view class="action" bindtap="NavChange" data-cur="cart">
+        <view class="cuIcon-cart{{PageCur=='cart'?'fill text-red':''}}"></view>
+        <view class="{{PageCur=='cart'?'text-red':'text-gray'}}">购物车</view>
+    </view>
+    <view class="action" bindtap="NavChange" data-cur="member">
+        <view class="cuIcon-my{{PageCur=='member'?'fill text-red':''}}"></view>
+        <view class="{{PageCur=='member'?'text-red':'text-gray'}}">我的</view>
     </view>
 </view>

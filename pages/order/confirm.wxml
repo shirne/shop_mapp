@@ -1,6 +1,10 @@
 <!--pages/order/confirm.wxml-->
 <form bindsubmit='submitOrder' report-submit="true">
     <view class="container">
+        <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+            <view slot="backText">返回</view>
+            <view slot="content">确认订单</view>
+        </cu-custom>
         <view class="scroll-box">
             <view class='block address-box' data-addressid="{{address.address_id}}" bindtap='pickAddress'>
                 <view class='add-row'>

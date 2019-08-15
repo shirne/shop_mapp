@@ -1,1 +1,9 @@
-{}
+{
+    "usingComponents": {
+        "home": "/pages/home/index",
+        "product": "/pages/product/index",
+        "news": "/pages/news/index",
+        "cart": "/pages/order/cart",
+        "member": "/pages/member/index"
+    }
+}

@@ -1,5 +1,0 @@
-<!--Components/s-checkbox/s-checkbox.wxml-->
-<view class="s-checkbox{{_checked?' checked':''}}" catchtap='onTap'>
-  <view class='control'></view>
-  <view wx:if="{{label}}" class="label">{{label}}</view>
-</view>

@@ -22,49 +22,19 @@
         "pages/member/order",
         "pages/member/order-detail",
         "pages/member/recharge",
-        "pages/common/pick-address"
+        "pages/common/pick-address",
+        "pages/home/index",
+        "pages/member/sign"
     ],
     "window": {
         "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#3498db",
+        "navigationBarBackgroundColor": "#fff",
         "navigationBarTitleText": "微信商城",
+        "navigationStyle": "custom",
         "navigationBarTextStyle": "white"
     },
-    "tabBar": {
-        "list": [
-            {
-                "pagePath": "pages/index/index",
-                "iconPath": "icons/home.png",
-                "selectedIconPath": "icons/home-hover.png",
-                "text": "首页"
-            },
-            {
-                "pagePath": "pages/product/index",
-                "iconPath": "icons/shop.png",
-                "selectedIconPath": "icons/shop-hover.png",
-                "text": "商品"
-            },
-            {
-                "pagePath": "pages/news/index",
-                "iconPath": "icons/news.png",
-                "selectedIconPath": "icons/news-hover.png",
-                "text": "新闻"
-            },
-            {
-                "pagePath": "pages/order/cart",
-                "iconPath": "icons/cart.png",
-                "selectedIconPath": "icons/cart-hover.png",
-                "text": "购物车"
-            },
-            {
-                "pagePath": "pages/member/index",
-                "iconPath": "icons/member.png",
-                "selectedIconPath": "icons/member-hover.png",
-                "text": "我的"
-            }
-        ],
-        "color": "#464545",
-        "selectedColor": "#3498db",
-        "backgroundColor": "#ffffff"
-    }
+    "usingComponents": {
+        "cu-custom": "/colorui/components/cu-custom"
+    },
+    "sitemapLocation": "sitemap.json"
 }

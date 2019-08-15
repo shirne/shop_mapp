@@ -1,5 +1,9 @@
 <!--pages/news/list.wxml-->
 <view class="container">
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">新闻列表</view>
+    </cu-custom>
     <view class='headfix'>
         <view class='head-tab' wx:if="{{cates}}">
             <block wx:for="{{cates}}" wx:key="ckey">
@@ -12,19 +16,19 @@
     <view class='block lists' wx:if="{{lists && lists.length}}">
         <view class='block-content'>
             <block wx:for="{{lists}}" wx:key="key">
-            <view wx:if="{{item.id}}" class='newsitem' data-id="{{item.id}}" bindtap='gotoDetail'>
-                <view wx:if="{{item.img_url}}" class='imgbox'>
-                    <image class='sm-picture' src="{{item.img_url}}" mode='aspectFill'></image>
-                </view>
-                <view class='infobox'>
-                    <text class='infotitle'>{{item.title}}</text>
-                    <text class='infodesc' decode="true">{{item.zhaiyao}}</text>
-                    <view class='infomation'>
-                        <text>{{item.add_time}}</text>
+                <view wx:if="{{item.id}}" class='newsitem' data-id="{{item.id}}" bindtap='gotoDetail'>
+                    <view wx:if="{{item.img_url}}" class='imgbox'>
+                        <image class='sm-picture' src="{{item.img_url}}" mode='aspectFill'></image>
+                    </view>
+                    <view class='infobox'>
+                        <text class='infotitle'>{{item.title}}</text>
+                        <text class='infodesc' decode="true">{{item.zhaiyao}}</text>
+                        <view class='infomation'>
+                            <text>{{item.add_time}}</text>
+                        </view>
                     </view>
                 </view>
-            </view>
-            <view wx:else class='newsitem emptyitem'></view>
+                <view wx:else class='newsitem emptyitem'></view>
             </block>
         </view>
     </view>

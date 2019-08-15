@@ -1,18 +1,25 @@
 <!--pages/common/pick-address.wxml-->
 <view class="container">
-  <view class='block'>
-    <view class="listbox" wx:if="{{addresses && addresses.length}}">
-      <view class='address-item{{address.address_id==selectedid?" selected":""}}' data-id="{{address.address_id}}" bindtap='pickAddress' wx:for="{{addresses}}" wx:key="key" wx:for-item="address">
-        <view class='info'>
-          <view class='float_right phone'>{{address.mobile}}</view>
-          <view class='name'>{{address.recive_name}}</view>
+
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">选择地址</view>
+    </cu-custom>
+    <view class='block'>
+        <view class="listbox" wx:if="{{addresses && addresses.length}}">
+            <view class='address-item{{address.address_id==selectedid?" selected":""}}' data-id="{{address.address_id}}" bindtap='pickAddress' wx:for="{{addresses}}" wx:key="key" wx:for-item="address">
+                <view class='info'>
+                    <view class='float_right phone'>{{address.mobile}}</view>
+                    <view class='name'>{{address.recive_name}}</view>
+                </view>
+                <view class='addstreet'>
+                    <text decode="true">{{address.province}} {{address.city}} {{address.area}} {{address.address}}</text>
+                </view>
+            </view>
         </view>
-        <view class='addstreet'><text decode="true">{{address.province}} {{address.city}} {{address.area}} {{address.address}}</text></view>
-      </view>
+        <view wx:else class="emptytip">您还没有添加过地址哦~</view>
     </view>
-    <view wx:else class="emptytip">您还没有添加过服务地址哦~</view>
-  </view>
-  <view class="button-box">
-  <button bindtap='manageAddress'>管理收货地址</button>
-  </view>
+    <view class="button-box">
+        <button bindtap='manageAddress'>管理收货地址</button>
+    </view>
 </view>

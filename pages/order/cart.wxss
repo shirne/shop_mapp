@@ -1,5 +1,4 @@
 /* pages/order/cart.wxss */
-page,.container{height:100%;}
 
 .cart-wrap{flex:1;height:50%;}
 .cartlist{background:#fff;}

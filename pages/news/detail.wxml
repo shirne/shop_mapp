@@ -1,19 +1,24 @@
 <!--pages/news/detail.wxml-->
 <view class='container'>
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">新闻详情</view>
+    </cu-custom>
     <view class='title'>{{model.title}}</view>
     <view class='model-info'>
         <text>发布时间：{{model.create_time}}</text>
         <text>浏览量：{{model.views}}</text>
     </view>
     <view class='description' wx:if="{{model.description}}">
-    <text>阅读摘要：</text>
-    {{model.description}}
+        <text>阅读摘要：</text> {{model.description}}
     </view>
-    <view class='content'>
+    <view class='detail-content'>
         <rich-text nodes="{{model.content}}"></rich-text>
     </view>
     <view class='buttons'>
-        <view class='flex'><text decode='true'>&emsp;</text></view>
+        <view class='flex'>
+            <text decode='true'>&emsp;</text>
+        </view>
         <button open-type='share'>分享</button>
         <button bindtap='diggUp'>({{model.digg}})点赞</button>
     </view>

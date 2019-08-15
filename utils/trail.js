@@ -190,6 +190,19 @@ const fixImage=(obj, key)=>{
         })
         return obj
     }
+    if (key.indexOf('.') > 0 && !obj[key]){
+        let parts = key.split('.')
+        let k = parts.shift()
+        let nk = parts.join('.')
+        if (obj[k]){
+            if (obj[k] instanceof Array) {
+                obj[k] = fixListImage(obj[k], nk)
+            } else {
+                obj[k] = fixImage(obj[k], nk)
+            }
+        }
+        return obj
+    }
     
     if (obj[key] instanceof Array){
         obj[key] = obj[key].map(img=>{

@@ -1,36 +1,40 @@
 <!--pages/member/address.wxml-->
 <view class="container">
-  <scroll-view scroll-y="true" scroll-x="false">
-  <view class="listbox">
+    <scroll-view scroll-y="true" scroll-x="false">
+        <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+            <view slot="backText">返回</view>
+            <view slot="content">管理收货地址</view>
+        </cu-custom>
+        <view class="listbox">
 
-    <view class='address-item' wx:if="{{!deleted[address.address_id]}}" wx:for="{{addresses}}" wx:key="key" wx:for-item="address">
-      <view class='info'>
-        <view class='name'>{{address.recive_name}}</view>
-        <view class='phone'>{{address.mobile}}</view>
-      </view>
-      <view class='addstreet'>
-        <text decode='true'>{{address.province}} {{address.city}} {{address.area}} {{address.address}}</text>
-      </view>
-      <view class='buttonlist'>
-        <s-checkbox value="{{address.address_id}}" checked="{{address.address_id==default_id}}" bindchange="onSetDefault" label="设为默认地址"></s-checkbox>
-        <view class='actionwrap' data-id="{{address.address_id}}" bindtap='editAddress'>
-          <image src="/icons/edit.png" /> 编辑
+            <view class='address-item' wx:if="{{!deleted[address.address_id]}}" wx:for="{{addresses}}" wx:key="key" wx:for-item="address">
+                <view class='info'>
+                    <view class='name'>{{address.recive_name}}</view>
+                    <view class='phone'>{{address.mobile}}</view>
+                </view>
+                <view class='addstreet'>
+                    <text decode='true'>{{address.province}} {{address.city}} {{address.area}} {{address.address}}</text>
+                </view>
+                <view class='buttonlist'>
+                    <s-checkbox value="{{address.address_id}}" checked="{{address.address_id==default_id}}" bindchange="onSetDefault" label="设为默认地址"></s-checkbox>
+                    <view class='actionwrap' data-id="{{address.address_id}}" bindtap='editAddress'>
+                        <image src="/icons/edit.png" /> 编辑
+                    </view>
+                    <view class='actionwrap' data-id="{{address.address_id}}" bindtap='delAddress'>
+                        <image src="/icons/del.png" /> 删除
+                    </view>
+                </view>
+            </view>
+            <view class="loadingbox" wx:if="{{isloading}}">
+                <image src="/icons/loading.gif" />
+            </view>
+            <view class="emptytip" wx:if="{{!isloading && !addresses.length}}">
+                <text>您还没添加过地址</text>
+            </view>
         </view>
-        <view class='actionwrap' data-id="{{address.address_id}}" bindtap='delAddress'>
-          <image src="/icons/del.png" /> 删除
-        </view>
-      </view>
+    </scroll-view>
+    <view class='action-box'>
+        <view class='vice-action' bindtap='addAddress'>手工添加地址</view>
+        <view class='main-action' bindtap='addFromWechat'>微信自动添加</view>
     </view>
-    <view class="loadingbox" wx:if="{{isloading}}">
-      <image src="/icons/loading.gif" />
-    </view>
-    <view class="emptytip" wx:if="{{!isloading && !addresses.length}}">
-      <text>您还没添加过地址</text>
-    </view>
-  </view>
-  </scroll-view>
-  <view class='action-box'>
-    <view class='vice-action' bindtap='addAddress'>手工添加地址</view>
-    <view class='main-action' bindtap='addFromWechat'>微信自动添加</view>
-  </view>
 </view>

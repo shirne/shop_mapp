@@ -1,14 +1,19 @@
 <!--pages/news/index.wxml-->
-<view class="container">
-    <view class='headfix'>
-        <view class='head-tab' wx:if="{{cates}}">
-            <block wx:for="{{cates}}" wx:key="ckey">
-                <view class='tab-item{{cate_id==item.id?" active":""}}' data-id="{{item.id}}" bindtap='changeCategory'>
-                    <text>{{item.title}}</text>
-                </view>
-            </block>
+<scroll-view scroll-y class="scrollPage">
+    <cu-custom bgColor="bg-gradual-pink">
+        <view slot="content">
+            商品中心
         </view>
-    </view>
+    </cu-custom>
+    <scroll-view scroll-x class="bg-white nav">
+    <view class="flex text-center">
+    <block wx:for="{{cates}}" wx:key="key">
+        <view class="cu-item flex-sub {{item.id==cate_id?' text-orange cur':''}}" bindtap="changeCategory" data-id="{{item.id}}">
+            <text class="cuIcon-camerafill"></text> {{item.title}}
+        </view>
+        </block>
+        </view>
+    </scroll-view>
     <view class='block lists' wx:if="{{lists && lists.length}}">
         <view class='block-content'>
             <view wx:for="{{lists}}" wx:key="key" class='newsitem' data-id="{{item.id}}" bindtap='gotoDetail'>
@@ -25,5 +30,5 @@
             </view>
         </view>
     </view>
-    <loading isloading="{{isloading}}" dataCount="{{lists?lists.length:0}}" hasmore="{{has_more}}">新闻更新中</loading>
-</view>
+    <view class='cu-tabbar-height'></view>
+</scroll-view>

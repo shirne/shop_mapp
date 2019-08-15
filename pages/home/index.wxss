@@ -1,0 +1,35 @@
+/* pages/home/index.wxss */
+
+.homepage{
+    background:#fff;
+}
+.card-swiper swiper-item{
+    width: calc(100% - 40rpx) !important;
+    left: 20rpx;
+    padding: 30rpx 0rpx 30rpx;
+}
+.card-swiper swiper-item .swiper-item{
+    transform: scale(.98);
+}
+
+.cates .block-inner{
+    margin-top:0;
+}
+.cates .item{
+    text-align: center;
+    font-size:32rpx;
+    padding:0 20rpx;
+}
+.cates .squareimg{
+    padding-top:100%;
+    border-radius:100%;
+    background-size:cover;
+    background-position: cneter center;
+    background-repeat:no-repeat;
+    background-color:#f4f4f4;
+    margin-bottom:20rpx;
+}
+
+.screen-swiper swiper-item{
+    border-radius:10rpx;
+}

@@ -1,0 +1,108 @@
+<!--index.wxml-->
+<scroll-view scroll-y class="scrollPage homepage">
+    <cu-custom bgColor="bg-gradual-pink">
+        <view slot="content">
+            商城首页
+        </view>
+    </cu-custom>
+    <view class="cu-bar search bg-white">
+        <view class="search-form round">
+            <text class="cuIcon-search"></text>
+            <input type="text" placeholder="搜索产品，文章" confirm-type="search"></input>
+        </view>
+        <view class="action">
+            <button class="cu-btn bg-green shadow-blur round">搜索</button>
+        </view>
+    </view>
+    <view class="container">
+        <swiper wx:if="{{banners && banners.length}}" class="card-swiper" indicator-dots="{{false}}" circular="{{true}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="cardSwiper">
+            <swiper-item wx:for="{{banners}}" wx:key class="{{cardCur==index?'cur':''}}">
+                <view class="swiper-item">
+                    <image src="{{item.image}}" mode="aspectFill" ></image>
+                </view>
+            </swiper-item>
+        </swiper>
+        <view class='block cates' wx:if="{{goods_cates}}">
+            <view class="block-inner">
+                <view class='block-content grid col-4'>
+                    <block wx:for="{{goods_cates}}" wx:key="ckey">
+                        <view wx:if="{{item.id}}" class='item' data-id="{{item.id}}" bindtap='gotoProductList'>
+                            <view class="item-inner">
+                                <view class="squareimg bg-img" style="background-image:url({{item.icon}});">
+                                </view>
+                                <text>{{item.title}}</text>
+                            </view>
+                        </view>
+                        <view wx:else class='item'></view>
+                    </block>
+                </view>
+            </view>
+        </view>
+        <view class='block goods-block'>
+            <view class="block-inner">
+                <view class='block-ttl'>
+                    <text>推荐礼包</text>
+                </view>
+                <view class='block-content'>
+                    <view class="grid col-3">
+                        <block wx:for="{{goods}}" wx:key="key">
+                            <view wx:if="{{item.id}}" data-id="{{item.id}}" bindtap="gotoProduct">
+                                <view class='imgitem'>
+                                    <view wx:if="{{item.image}}" class='imgbox'>
+                                        <image class='sm-picture' src="{{item.image}}" mode='aspectFill'></image>
+                                    </view>
+                                    <view class='ttlbox'>
+                                        <text class='infotitle'>{{item.title}}</text>
+                                    </view>
+                                    <view class='pricebox'>
+                                        <text class='rightinfo'> ￥{{item.market_price}}</text>
+                                        <text class='price'>￥{{item.min_price}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class="block" style="padding:0 20rpx;">
+            <swiper class="screen-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+                <swiper-item wx:for="{{midbanners}}" wx:key>
+                    <image src="{{item.image}}" mode="aspectFill"></image>
+                </swiper-item>
+            </swiper>
+        </view>
+
+        <block wx:for="{{goods_cates}}" wx:key="ckey">
+            <view class='block goods-block' wx:if="{{item.products && item.products.length>0}}">
+                <view class="block-inner">
+                    <view class='block-ttl'>
+                        <text>{{item.title}}</text>
+                    </view>
+                    <view class='block-content'>
+                        <view class="grid col-3">
+                            <block wx:for="{{item.products}}" wx:key="key">
+                                <view wx:if="{{item.id}}" data-id="{{item.id}}" bindtap="gotoProduct">
+                                    <view class='imgitem'>
+                                        <view wx:if="{{item.image}}" class='imgbox'>
+                                            <image class='sm-picture' src="{{item.image}}" mode='aspectFill'></image>
+                                        </view>
+                                        <view class='ttlbox'>
+                                            <text class='infotitle'>{{item.title}}</text>
+                                        </view>
+                                        <view class='pricebox'>
+                                            <text class='rightinfo'>￥{{item.market_price}}</text>
+                                            <text class='price'>￥{{item.min_price}}</text>
+                                        </view>
+                                    </view>
+                                </view>
+                            </block>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </view>
+    <view class='cu-tabbar-height'></view>
+</scroll-view>

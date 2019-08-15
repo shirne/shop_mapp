@@ -1,5 +1,10 @@
 <!--pages/order/cart.wxml-->
 <view class='container'>
+    <cu-custom bgColor="bg-gradual-pink">
+        <view slot="content">
+            购物车
+        </view>
+    </cu-custom>
     <scroll-view class='cart-wrap' scroll-x="false" scroll-y="true">
         <view class='cartlist' wx:if="{{carts && carts.length>0}}">
             <view class='cart-item' wx:for="{{carts}}" wx:key="k" wx:for-index="idx" wx:for-item="cart">
@@ -95,4 +100,5 @@
             </view>
         </view>
     </view>
+    <view class='cu-tabbar-height'></view>
 </view>

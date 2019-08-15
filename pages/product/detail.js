@@ -20,6 +20,7 @@ Page({
         //product:null,
         id: 0,
         model: null,
+        hasProp:false,
         is_favourite:0,
         albums: null,
         skus: null,
@@ -73,6 +74,7 @@ Page({
                     sku:skus && skus.length==1?skus[0]:null,
                     specstext: product.getSpecText(),
                     proptext: product.getPropText(),
+                    hasProp: model.prop_data && util.countObject(model.prop_data)>0
                 })
                 this.setPrice()
                 app.initShare(this, product.title, product.image)
@@ -91,10 +93,11 @@ Page({
             market_price: product.getMarketPriceText()
         })
     },
-    openMask: function (e, frm = '') {
+    openModal: function (e, frm = '') {
         var data = {
             ismask: true,
             opt_from: frm,
+            modal_title: e.currentTarget.dataset.title,
             maskfor: e.currentTarget.dataset.for
         }
         if (data.maskfor == 'spec') {
@@ -106,17 +109,23 @@ Page({
         }
         this.setData(data)
     },
-    hideMask: function (e) {
+    hideModal: function (e) {
         this.setData({
             ismask: false,
-            isclosing: true,
+            modal_title:'',
             maskfor: ''
         })
-        setTimeout(() => {
-            this.setData({
-                isclosing: false
-            })
-        }, 500)
+    },
+    confirmModal: function (e) {
+        if(this.maskfor=='spec'){
+            if(this.opt_from=='buy'){
+                this.sureAddCart(e)
+            }else{
+                this.sureBuy(e)
+            }
+        }else{
+            this.hideModal();
+        }
     },
     /**
      * 生命周期函数--监听页面显示
@@ -229,7 +238,7 @@ Page({
         if (this.data.sku) {
             this.sureAddCart(e)
         } else {
-            this.openMask(e, 'cart')
+            this.openModal(e, 'cart')
         }
     },
     sureAddCart: function (e) {
@@ -251,7 +260,7 @@ Page({
                 } else {
                     app.error(json.msg)
                 }
-                this.hideMask()
+                this.hideModal()
             })
         }
     },
@@ -259,7 +268,7 @@ Page({
         if (this.data.sku) {
             this.sureBuy(e)
         } else {
-            this.openMask(e, 'buy')
+            this.openModal(e, 'buy')
         }
     },
     sureBuy: function (e) {
@@ -270,7 +279,7 @@ Page({
                 app.error('该商品暂时缺货')
                 return
             }
-            this.hideMask()
+            this.hideModal()
             wx.navigateTo({
                 url: '../order/confirm?from=buy&storage=' + this.data.sku.storage + '&getdata=getOrderData',
                 success: function (res) { },

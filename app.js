@@ -8,12 +8,18 @@ App({
                 this.globalData.systemInfo = res
 
                 //基础库版本提示
-                if (util.compareVersion(res.SDKVersion, '1.9.1') < 0) {
+                if (util.compareVersion(res.SDKVersion, '2.4.4') < 0) {
                     wx.showModal({
                         title: '提示',
                         content: '当前微信版本过低，部分功能可能无法使用。'
                     })
                 }
+
+                this.globalData.StatusBar = res.statusBarHeight;
+                let custom = wx.getMenuButtonBoundingClientRect();
+                this.globalData.Custom = custom;
+                this.globalData.CustomBar = custom.bottom + custom.top - res.statusBarHeight;
+        
             },
         })
 
@@ -310,6 +316,7 @@ App({
     //设置分享信息
     initShare: function (page, title, img = "", withTicket = true) {
         if (page == null) {
+            console.log("hideshare")
             wx.hideShareMenu({})
             return
         }
@@ -324,6 +331,7 @@ App({
             }
             var data = {
                 title: title ? title : this.globalData.siteinfo.sitename,
+                imageUrl: img ? img : this.globalData.siteinfo.weblogo,
                 path: page.route,
                 success: function (res) {
                     // 转发成功
@@ -332,9 +340,6 @@ App({
                 fail: function (res) {
                     // 转发失败
                 }
-            }
-            if (img) {
-                data.imageUrl = img
             }
             return data
         }

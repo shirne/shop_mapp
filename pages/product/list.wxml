@@ -1,7 +1,11 @@
 <!--pages/product/list.wxml-->
 <view class="container{{cates && cates.length>0?'':' nopadtop'}}">
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">商品列表</view>
+    </cu-custom>
     <view class='headfix' wx:if="{{cates}}">
-        <view class='head-tab' >
+        <view class='head-tab'>
             <block wx:for="{{cates}}" wx:key="ckey">
                 <view class='tab-item{{cate_id==item.id?" active":""}}' data-id="{{item.id}}" bindtap='changeCategory'>
                     <text>{{item.title}}</text>
@@ -20,7 +24,7 @@
                         <text class='infotitle'>{{item.title}}</text>
                     </view>
                     <view class='pricebox'>
-                        <text class='rightinfo'>已售 {{item.sale}}</text>
+                        <text class='rightinfo'>￥{{item.market_price}}</text>
                         <text class='price'>￥{{item.min_price}}</text>
                     </view>
                 </view>
