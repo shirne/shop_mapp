@@ -31,7 +31,7 @@ Component({
                     wx.hideLoading()
                     if (json.code == 1) {
                         json.data = trail.fixImage(json.data, 'avatar')
-
+                        json.data.cardno = util.formatNumber(json.data.id,8)
                         this.setData({
                             member: json.data
                         })

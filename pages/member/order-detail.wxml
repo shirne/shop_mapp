@@ -1,2 +1,8 @@
 <!--pages/member/order-detail.wxml-->
-<text>pages/member/order-detail.wxml</text>
+<scroll-view scroll-y="true">
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">订单详情</view>
+    </cu-custom>
+    
+</scroll-view>

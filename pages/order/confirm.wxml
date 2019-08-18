@@ -8,7 +8,7 @@
         <view class="scroll-box">
             <view class='block address-box' data-addressid="{{address.address_id}}" bindtap='pickAddress'>
                 <view class='add-row'>
-                    <image src="/icons/location.png" class='icon iconlocate'></image>
+                    <view class="icon"><text class="cuIcon-location text-xl"></text></view>
                     <view class='add-info' wx:if="{{address && address.address_id}}">
                         <view>
                             <text class='float_right add-mobile'>{{address.mobile}}</text>
@@ -19,7 +19,7 @@
                         </view>
                     </view>
                     <view class='add-empty' wx:else>请选择收货地址</view>
-                    <image src='/icons/arrow.png' class='icon iconarr' />
+                    <view class="icon"><text class="cuIcon-right text-xl"></text></view>
                 </view>
             </view>
 
@@ -43,18 +43,14 @@
                 <text class='desc' wx:if="{{products[0].limit_count>0}}">(每人限购 {{products[0].limit_count}} 件)</text>
                 <text class='desc red_tips' wx:elif='{{products[0].tip && products[0].tip.need_buy_count>0}}'>{{products[0].tip.need_buy_count}}件立减{{products[0].tip.amount}}元</text>
                 <text class='desc' wx:else></text>
-                <view class='input-group' bindtap='countGrow' data-index="{{idx}}">
-                    <image class='input-group-addon' data-grow="-1" src="/icons/{{products[0].count>1?'minus':'minus-grey'}}.png"></image>
-                    <input type='text' name="number" bindinput='setCount' bindblur='setCount' value="{{products[0].count}}" data-index="{{0}}"></input>
-                    <image class='input-group-addon' data-grow="1" src="/icons/{{products[0].count<storage?'plus':'plus-grey'}}.png"></image>
-                </view>
+                <number-input value="{{products[0].count}}" bind:change="setCount"></number-input>
             </view>
 
             <view class='extrow'>
                 <text class='label'>配送方式</text>
                 <text class='desc'></text>
                 <text class='value'>{{express.fee > 0 ? ("快递 ￥"+express.fee) : express.title}}</text>
-                <image class='icon arrow' src="/icons/arrow.png"></image>
+                <view class="icon"><text class="cuIcon-right text-lg"></text></view>
             </view>
             <view class='extrow'>
                 <text class='label'>给卖家留言</text>

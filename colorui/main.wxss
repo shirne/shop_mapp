@@ -3775,35 +3775,35 @@ scroll-view.cu-steps .cu-item {
  ==================== */
 
 .text-xs {
-	font-size: 20rpx;
+	font-size: 20rpx !important;
 }
 
 .text-sm {
-	font-size: 24rpx;
+	font-size: 24rpx !important;
 }
 
 .text-df {
-	font-size: 28rpx;
+	font-size: 28rpx !important;
 }
 
 .text-lg {
-	font-size: 32rpx;
+	font-size: 32rpx !important;
 }
 
 .text-xl {
-	font-size: 36rpx;
+	font-size: 36rpx !important;
 }
 
 .text-xxl {
-	font-size: 44rpx;
+	font-size: 44rpx !important;
 }
 
 .text-sl {
-	font-size: 80rpx;
+	font-size: 80rpx !important;
 }
 
 .text-xsl {
-	font-size: 120rpx;
+	font-size: 120rpx !important;
 }
 
 .text-Abc {

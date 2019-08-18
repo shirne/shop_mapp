@@ -71,10 +71,10 @@ page{
 .address-box .add-row{
   display:flex;
   flex-direction: row;
+  align-items: center;
 }
 .address-box .icon{
   width:38rpx;
-  height:48rpx;
   background:transparent;
 }
 .address-box .iconlocate{

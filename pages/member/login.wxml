@@ -1,2 +1,8 @@
 <!--pages/member/login.wxml-->
-<text>pages/member/login.wxml</text>
+<scroll-view scroll-y="true">
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">会员登录</view>
+    </cu-custom>
+    
+</scroll-view>

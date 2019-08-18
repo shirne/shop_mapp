@@ -301,17 +301,10 @@ App({
     },
     error: function (msg) {
         if (!msg) msg = '系统错误'
-        if (msg.length > 7) {
-            wx.showToast({
-                icon: 'none',
-                title: msg,
-            })
-        } else {
-            wx.showToast({
-                image: '/icons/error.png',
-                title: msg,
-            })
-        }
+        wx.showToast({
+            icon: 'none',
+            title: msg,
+        })
     },
     //设置分享信息
     initShare: function (page, title, img = "", withTicket = true) {
@@ -357,7 +350,7 @@ App({
         refresh_token: "",
 
         cart_count:0,
-        wxid:'GBqVTSZEha',
+        wxid:'OCUgNk',
         imgDir: 'http://scms.test.com',
         limit: 10,//分页条数
         server: "http://scms.test.com/api/"

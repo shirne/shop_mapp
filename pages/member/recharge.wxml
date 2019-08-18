@@ -1,2 +1,8 @@
 <!--pages/member/recharge.wxml-->
-<text>pages/member/recharge.wxml</text>
+<scroll-view scroll-y="true">
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">会员充值</view>
+    </cu-custom>
+    
+</scroll-view>

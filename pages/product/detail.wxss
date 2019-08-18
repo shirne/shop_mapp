@@ -32,6 +32,7 @@ swiper-item image{
 .favbtn{
     float:right;
     width:100rpx;
+    text-align: center;
 }
 .favbtn image{
     display:block;

@@ -7,7 +7,13 @@
     margin-top:0;
     background:left bottom no-repeat #ffbb00;
     background-size:cover;
+    position: relative;
 }
 .ucenter-bg  .avatar{
     margin-left:20rpx;
+}
+.ucenter-bg .cardno{
+    position: absolute;
+    top:20rpx;
+    right:20rpx;
 }

@@ -1,0 +1,14 @@
+/* components/numberInput/numberInput.wxss */
+
+.input-group{
+    display:flex;
+    flex-direction: row;
+}
+.input-group input{
+    flex:1 1 auto;
+}
+.input-group .input-group-addon{
+    width:40rpx;
+    height:40rpx;
+    flex:0 0 auto;
+}

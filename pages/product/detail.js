@@ -83,7 +83,7 @@ Page({
     },
     bannerChange: function (e) {
         this.setData({
-            currentIndex: e.detail.current
+            currentIndex: e.detail.current+1
         })
     },
     setPrice: function () {

@@ -1,2 +1,8 @@
 <!--pages/member/profile.wxml-->
-<text>pages/member/profile.wxml</text>
+<scroll-view scroll-y="true">
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">个人资料</view>
+    </cu-custom>
+    
+</scroll-view>

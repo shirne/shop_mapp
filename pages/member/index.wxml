@@ -7,13 +7,15 @@
     </cu-custom>
     <view class="block ucenter-bg">
         <view class="block-inner" style="background-image:url(/images/cardbg.png)">
+            <view class="cardno text-gold">No.{{member.cardno}}</view>
             <view class="flex flex-wrap">
                 <image src="/images/logo.png" class="cu-avatar xl round avatar " mode="widthFix"></image>
-                <view>
-                    <view class="text-lg">{{member.nickname?member.nickname:member.username}}
-                        <text class="text-df">VIP</text>
+                <view class="margin-left-sm padding-top-sm">
+                    <view>
+                        <text class="text-lg text-bold">{{member.nickname?member.nickname:member.username}}</text>
+                        <text class="text-sm text-gray">VIP</text>
                     </view>
-                    <view class="margin-top-sm">
+                    <view class="margin-top-xs">
                         <text>红润酒业，助力您的发展</text>
                     </view>
                 </view>

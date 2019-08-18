@@ -5,7 +5,7 @@
         <view slot="content">商品详情</view>
     </cu-custom>
     <block wx:if="{{albums && albums.length}}">
-        <swiper bindchange="{{bannerChange}}" indicator-dots="{{indicatorDots}}" indicator-active-color="#fff" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:{{screenWidth}}px">
+        <swiper bindchange="bannerChange" indicator-dots="{{indicatorDots}}" indicator-active-color="#fff" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:{{screenWidth}}px">
             <block wx:for="{{albums}}" wx:key="bkey">
                 <swiper-item>
                     <image src="{{item.image}}" mode="aspectFill" class="slide-image" />
@@ -18,8 +18,8 @@
     </block>
     <view class="prod-info">
         <view class="favbtn">
-            <image class="icon" src="/icons/favourite.png" />
-            <text>加入收藏</text>
+            <i class="cuIcon-favor{{is_favourite?'fill':''}} text-xl text-yellow"></i>
+            <text>{{is_favourite?'已':'加入'}}收藏</text>
         </view>
         <view class='prod-title'>{{model.title}}</view>
         <view class="price-box">
