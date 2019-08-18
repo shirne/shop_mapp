@@ -17,7 +17,9 @@
         <view class="{{PageCur=='news'?'text-red':'text-gray'}}">新闻</view>
     </view>
     <view class="action" bindtap="NavChange" data-cur="cart">
-        <view class="cuIcon-cart{{PageCur=='cart'?'fill text-red':''}}"></view>
+        <view class="cuIcon-cart{{PageCur=='cart'?'fill text-red':''}}">
+        <view class="cu-tag badge" wx:if="{{cart_count>0}}">{{cart_count}}</view>
+        </view>
         <view class="{{PageCur=='cart'?'text-red':'text-gray'}}">购物车</view>
     </view>
     <view class="action" bindtap="NavChange" data-cur="member">

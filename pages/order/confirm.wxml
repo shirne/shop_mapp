@@ -6,9 +6,9 @@
             <view slot="content">确认订单</view>
         </cu-custom>
         <view class="scroll-box">
-            <view class='block address-box' data-addressid="{{address.address_id}}" bindtap='pickAddress'>
+            <view class='block address-box bg-white' data-addressid="{{address.address_id}}" bindtap='pickAddress'>
                 <view class='add-row'>
-                    <view class="icon"><text class="cuIcon-location text-xl"></text></view>
+                    <view class="icon padding-left-sm"><text class="cuIcon-location text-xxl text-red"></text></view>
                     <view class='add-info' wx:if="{{address && address.address_id}}">
                         <view>
                             <text class='float_right add-mobile'>{{address.mobile}}</text>
@@ -43,7 +43,7 @@
                 <text class='desc' wx:if="{{products[0].limit_count>0}}">(每人限购 {{products[0].limit_count}} 件)</text>
                 <text class='desc red_tips' wx:elif='{{products[0].tip && products[0].tip.need_buy_count>0}}'>{{products[0].tip.need_buy_count}}件立减{{products[0].tip.amount}}元</text>
                 <text class='desc' wx:else></text>
-                <number-input value="{{products[0].count}}" bind:change="setCount"></number-input>
+                <number-input value="{{products[0].count}}" bind:change="setCount" />
             </view>
 
             <view class='extrow'>

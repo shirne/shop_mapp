@@ -65,14 +65,14 @@
             </view>
             客服
         </button>
-        <view class="action">
+        <view class="action" bindtap="gotocart">
             <view class="cuIcon-cart">
-                <view class="cu-tag badge">99</view>
+                <view class="cu-tag badge" wx:if="{{cart_count>0}}">{{cart_count}}</view>
             </view>
             购物车
         </view>
-        <view class="bg-orange submit" bindtap="addtocart">加入购物车</view>
-        <view class="bg-red submit" bindtap="buynow">立即订购</view>
+        <view class="bg-orange submit" bindtap="addtocart" data-for="spec" data-title="添加购物车">加入购物车</view>
+        <view class="bg-red submit" bindtap="buynow" data-for="spec" data-title="选择规格">立即购买</view>
     </view>
     <view class="cu-modal bottom-modal {{ismask?'show':''}}" >
         <view class="cu-dialog">
@@ -109,11 +109,7 @@
                         </view>
                         <view class='plist countbox'>
                             <text>购买数量</text>
-                            <view class='input-group' bindtap='countGrow'>
-                                <image class="input-group-addon" src="/icons/{{good_count>1?'minus':'minus-grey'}}.png" data-grow="-1" />
-                                <input value='{{good_count}}' bindinput='setCount' bindblur='setCount'></input>
-                                <image class="input-group-addon" src="/icons/{{good_count<cart.storage?'plus':'plus-grey'}}.png" data-grow="1" />
-                            </view>
+                            <number-input value="{{good_count}}" bind:change="setCount" />
                         </view>
                     </view>
                     <view class='buttons'>

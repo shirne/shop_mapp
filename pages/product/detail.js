@@ -30,6 +30,8 @@ Page({
         good_count:1,
         options:{},
 
+        cart_count:0,
+
         maskfor:''
     },
 
@@ -49,6 +51,11 @@ Page({
         //console.log(sysInfo)
         this.setData({
             screenWidth: sysInfo.windowWidth
+        })
+        app.getCartCount(count=>{
+            this.setData({
+                cart_count: count
+            })
         })
     },
 
@@ -148,26 +155,6 @@ Page({
 
     },
 
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
-    },
     updateCartCount:function(){
 
     },
@@ -231,15 +218,26 @@ Page({
             good_count: value
         })
     },
+    gotocart:function(e){
+        var pages = getCurrentPages();
+        if(pages[0].route == '/pages/index/index'){
+            wx.navigateBack({
+                delta: pages.length,
+                success:function(){
+                    pages[0].changeTab('cart')
+                }
+            })
+        }else{
+            wx.reLaunch({
+                url: '/pages/index/index?tab=cart',
+            })
+        }
+    },
     /**
      * 添加到购物车
      */
     addtocart:function(e=null){
-        if (this.data.sku) {
-            this.sureAddCart(e)
-        } else {
-            this.openModal(e, 'cart')
-        }
+        this.openModal(e, 'cart')
     },
     sureAddCart: function (e) {
         if (!this.data.sku) {

@@ -1,1 +1,5 @@
-{}
+{
+    "usingComponents": {
+        "numberInput": "/components/numberInput/numberInput"
+    }
+}

@@ -6,6 +6,9 @@
 page {
     background:#f4f4f4;
 }
+button.action{
+    background: transparent;
+}
 .scrollPage {
   height: 100vh;
 }

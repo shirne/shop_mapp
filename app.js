@@ -221,6 +221,21 @@ App({
     clearProfile: function () {
         this.globalData.profile = null
     },
+    getCartCount:function(callback,force){
+        var self=this
+        if(force || self.globalData.cart_count<0){
+            this.checkLogin(function(){
+                self.httpPost('cart/getcount', json => {
+                    if (json.code == 1) {
+                        self.globalData.cart_count = parseInt(json.data) || 0;
+                        callback(json.data)
+                    }
+                })
+            })
+        }else{
+            callback(self.globalData.cart_count)
+        }
+    },
     httpGet: function (url, success, error) {
         this.request(url, {}, 'GET', success, error)
     },
@@ -349,7 +364,7 @@ App({
         token_expire: 7200,
         refresh_token: "",
 
-        cart_count:0,
+        cart_count:-1,
         wxid:'OCUgNk',
         imgDir: 'http://scms.test.com',
         limit: 10,//分页条数
