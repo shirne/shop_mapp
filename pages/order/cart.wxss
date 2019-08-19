@@ -2,7 +2,7 @@
 
 .cart-wrap{flex:1;height:50%;}
 .cartlist{background:#fff;}
-.cart-item{display:flex;flex-direction:row;padding:20rpx;border-bottom:1rpx #e8e8e8 solid;}
+.cart-item{display:flex;flex-direction:row;align-items:center;padding:20rpx;border-bottom:1rpx #e8e8e8 solid;}
 .cart-item s-checkbox{margin-top:50rpx;}
 .cart-item .picture{width:150rpx;height:150rpx;margin-left:20rpx;}
 .cart-item .no_goods_wrap .picture{margin-left:0;}
@@ -43,47 +43,10 @@
   text-align: center;
 }
 .cartempty view{text-align: center;}
+.cartempty .cuIcon-cart{font-size:200rpx !important;color:#aaa;}
 .cartempty text{color:#999;}
 .cartempty button{margin-top:40rpx;}
-.bottom-buttons{
-  width:100%;
-  height:98rpx;
-  background:#fff;
-  border-top:1rpx #e9e9e9 solid;
-  display:flex;
-  flex-direction: row;
-  bottom:0;
-  left:0;
-}
-.bottom-buttons .iconbox{
-  margin-left:20rpx;
-  display:flex;
-  flex-direction: row;
-  align-items: center;
-  padding-top:14rpx;
-}
-.bottom-buttons .iconbox view{
-  font-size:24rpx;
-  color:#9b9b9b;
-}
-.bottom-buttons .pricebox{
-  flex-grow: 1;
-  text-align:right;
-  padding-right:40rpx;
-  padding-top:32rpx;
-}
-.bottom-buttons .pricebox .dvice{
-	font-size: 24rpx;
-}
-.bottom-buttons .buynow{
-    border:0;
-  padding:0 44rpx;
-  line-height:98rpx;
-  background:#ffa200;
-  color:#fff;
-  height:98rpx;
-  border-radius:0;
-}
+
 
 .spec-mask{
   position:fixed;

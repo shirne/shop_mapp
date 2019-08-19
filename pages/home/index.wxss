@@ -1,8 +1,5 @@
 /* pages/home/index.wxss */
 
-.homepage{
-    background:#fff;
-}
 .card-swiper swiper-item{
     width: calc(100% - 40rpx) !important;
     left: 20rpx;

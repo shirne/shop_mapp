@@ -1,0 +1,12 @@
+<!--Components/loading/loading.wxml-->
+<view class="loadingbox" wx:if="{{_isloading}}">
+    <image src="/icons/loading{{loadstyle?('-'+loadstyle):''}}.gif" />
+</view>
+<block wx:elif="{{!hasmore}}">
+    <view class='nocontents' wx:if="{{dataCount<1}}">
+        <slot></slot>
+    </view>
+    <view class="line-seperator" wx:else>
+        <view class="ls-inner"><text>{{nomoreLabel}}</text></view>
+    </view>
+</block>

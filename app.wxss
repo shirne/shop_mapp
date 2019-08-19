@@ -265,6 +265,11 @@ button.action{
     border-radius:10rpx;
 }
 
+
+number-input{
+    width:230rpx;
+}
+
 /*富文本样式*/
 .detail-content{
     
@@ -279,3 +284,17 @@ rich-text .tag_img{
     max-width: 100%;
 }
 
+.secfoot{
+    position: fixed;
+    width: 100%;
+    bottom: 100rpx;
+    z-index: 1025;
+}
+
+.secfoot .submit{
+    flex:1 !important;
+}
+.secfoot .action:first-child{
+    padding-left:20rpx;
+    flex:0 0 auto;
+}

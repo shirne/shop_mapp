@@ -219,19 +219,7 @@ Page({
         })
     },
     gotocart:function(e){
-        var pages = getCurrentPages();
-        if(pages[0].route == '/pages/index/index'){
-            wx.navigateBack({
-                delta: pages.length,
-                success:function(){
-                    pages[0].changeTab('cart')
-                }
-            })
-        }else{
-            wx.reLaunch({
-                url: '/pages/index/index?tab=cart',
-            })
-        }
+        app.switchIndex('cart')
     },
     /**
      * 添加到购物车

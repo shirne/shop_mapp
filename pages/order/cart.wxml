@@ -8,7 +8,7 @@
     <scroll-view class='cart-wrap' scroll-x="false" scroll-y="true">
         <view class='cartlist' wx:if="{{carts && carts.length>0}}">
             <view class='cart-item' wx:for="{{carts}}" wx:key="k" wx:for-index="idx" wx:for-item="cart">
-                <s-checkbox checked='{{cart.checked}}' bindchanged="itemChecked" value="{{cart.sku_id}}"></s-checkbox>
+                <checkbox class="round" checked='{{cart.checked}}' bindchange="itemChecked" value="{{cart.sku_id}}"></checkbox>
                 <image wx:if='{{cart.storage >0}}' class='picture' src="{{cart.product_image}}" catchtap='toDetail' data-item='{{cart}}'></image>
                 <view wx:else class='picture no_goods_wrap'>
                     <image class='picture' src="{{cart.product_image}}" catchtap='toDetail' data-item='{{cart}}'></image>
@@ -18,16 +18,13 @@
                     </view>
                 </view>
                 <view wx:if="{{cart.editMode}}" class='item-edit'>
-                    <view class='input-group' bindtap='countGrow' data-index="{{idx}}" >
-                        <image class="input-group-addon" src="/icons/{{cart.count>1?'minus':'minus-grey'}}.png" data-grow="-1" />
-                        <input value='{{cart.count}}' bindinput='setCount' bindblur='setCount' data-index="{{idx}}"></input>
-                        <image class="input-group-addon" src="/icons/{{cart.count<cart.storage?'plus':'plus-grey'}}.png" data-grow="1" />
-                    </view>
+                    <number-input value="{{cart.count}}" data-index="{{idx}}" bind:change="setCount" />
+
                     <view class='specedit' wx:if="{{cart.specs}}" data-index="{{idx}}" data-product_id="{{cart.product_id}}" data-specs="{{cart.specs}}" bind:tap="showSpec">
                         <text wx:for="{{cart.specs}}" wx:key="sk" wx:for-index="spec_name" decode='true'>{{cart.spec_data[spec_name].title}}:{{item}}&emsp;</text>
-                        <image src="/icons/arrow-drop.png" class='dropspec'></image>
+                        <view class="dropspec"><text class="cuIcon-unfold"></text></view>
                     </view>
-                    <view class='item-del' bindtap='delCart' data-id="{{cart.sku_id}}"  data-index="{{idx}}" >删除</view>
+                    <view class='item-del' bindtap='delCart' data-id="{{cart.sku_id}}"  data-index="{{idx}}" ><text class="cuIcon-delete"></text> 删除</view>
                 </view>
                 <view wx:else class='item-info' catchtap='toDetail' data-item='{{cart}}'>
                     <view class='info-title'>{{cart.product_title}}</view>
@@ -35,37 +32,37 @@
                         <text wx:for="{{cart.specs}}" wx:for-index="spec_name" wx:key="sk" decode='true'>{{cart.spec_data[spec_name].title}}:{{item}}&emsp;</text>
                     </view>
                     <view class='info-price'>
-                        <text class="float_right count">✕{{cart.count}}</text>
-                        <text class='float_left price other-price'>￥{{cart.product_price}}</text>
+                        <text class="fr count">✕{{cart.count}}</text>
+                        <text class='fl price other-price'>￥{{cart.product_price}}</text>
                     </view>
                 </view>
                 <view class='editbtn'>
                     <button wx:if="{{cart.editMode}}" type='primary' data-id="{{cart.id}}" bind:tap="saveEdit">完成</button>
-                    <image wx:else src="/icons/edit.png" class='icon' data-id="{{cart.id}}" bind:tap="enableEdit"></image>
+                    <view wx:else class="icon" data-id="{{cart.id}}" bind:tap="enableEdit"><text class="cuIcon-edit text-lg text-orange"></text></view>
                 </view>
             </view>
         </view>
         <block wx:else>
             <view wx:if="{{!isloading}}" class='cartempty'>
+                <view><text class="cuIcon-cart"></text></view>
                 <view>
                     <text>购物车空空如也</text>
                 </view>
-                <button type='primary' bindtap="gotoHome">去逛逛</button>
+                <button class="cu-btn round line-blue" role="button" aria-disabled="false" bindtap="gotoHome">去逛逛</button>
             </view>
         </block>
-        <view class="loadingbox" wx:if="{{isloading}}">
-            <image src="/icons/loading.gif" />
-        </view>
     </scroll-view>
-    <view class='bottom-buttons'>
-        <view class='iconbox'>
-            <s-checkbox checked='{{checked}}' bindchanged="checkall" label="全选"></s-checkbox>
+    <view wx:if="{{carts && carts.length>0}}" class='cu-bar bg-white tabbar border secfoot'>
+        <view class='action iconbox'>
+            <label class="checkbox">
+            <checkbox class="round" checked='{{checked}}' bindtap="checkall" ></checkbox> 全选
+            </label>
         </view>
-        <view class='pricebox'>
+        <view class='action pricebox text-right padding-right'>
             <text class='dvice'>(不含运费)</text> 合计
             <text class='price'>￥{{totalPrice}}</text>
         </view>
-        <view class='button buynow' bindtap='goSettle'>结算</view>
+        <view class='bg-red submit buynow' bindtap='goSettle'>结算</view>
     </view>
     <view class='spec-mask{{ismask?" maskopen":(isclosing?" maskclosing":"")}}' catch:tap="closeMask">
         <view class='spec-view' catch:tap="emptyEvent">

@@ -4,8 +4,10 @@ let trail = require("../../utils/trail.js");
 let Product = require("../../utils/product.js");
 const app = getApp()
 
-Page({
-
+Component({
+    options: {
+        addGlobalClass: true,
+    },
   /**
    * 页面的初始数据
    */
@@ -51,7 +53,7 @@ Page({
         
         app.checkLogin(() => {
             app.httpPost('cart/getall', (json) => {
-                if (json.code == 1) {
+                if (json.code == 1 && json.data) {
                     var carts = this.fixDataImage(json.data)
                     this.setData({
                         carts:carts,
@@ -81,6 +83,7 @@ Page({
         })
     },
     checkall: function (e) {
+        //console.log(e)
         var carts = this.data.carts
         var ischecked = e ? e.detail.checked : true
         for (var i = 0; i < carts.length; i++) {
@@ -99,6 +102,7 @@ Page({
         util.shopTab(url)
     },
     itemChecked: function (e) {
+        console.log(e)
         var carts = this.data.carts
         var ischecked = e.detail.checked
         var cart_id = e.detail.value
@@ -337,9 +341,7 @@ Page({
         })
     },
     gotoHome: function (e) {
-        wx.switchTab({
-            url: '/pages/index/index',
-        })
+        app.switchIndex('home')
     },
 
     //生成订单数据

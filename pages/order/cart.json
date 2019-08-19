@@ -1,3 +1,7 @@
 {
-    "component": true
+    "component": true,
+    "usingComponents": {
+        "number-input": "/components/number-input/number-input",
+        "s-checkbox": "/components/s-checkbox/s-checkbox"
+    }
 }

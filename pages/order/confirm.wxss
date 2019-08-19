@@ -54,6 +54,7 @@ page{
 .extrow .arrow{margin-right:30rpx;    width:30rpx;    height:40rpx;}
 .extrow .vgrey{color:#9b9b9b;}
 .extrow .icon{margin-right:20rpx;}
+.extrow number-input{margin-right:20rpx;}
 .extrow .itext{flex:1;margin:0 20rpx;min-height:10rpx;line-height:40rpx;height:40rpx;}
 .extrow .input-placeholder{line-height:40rpx;}
 

@@ -1,0 +1,61 @@
+/* components/number-input/number-input.wxss */
+
+.input-group{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    border:1rpx #ddd solid;
+    height: 60rpx;
+}
+.input-group input{
+    flex:1 1 auto;
+    height:60rpx;
+    line-height: 60rpx;
+    overflow: hidden;
+    border:0;
+    border-left:1rpx #ddd solid;
+    border-right: 1rpx #ddd solid;
+    padding:0 10rpx;
+    text-align: center;
+}
+.input-group .input-group-addon{
+    width:60rpx;
+    height:100%;
+    flex:0 0 auto;
+    position:relative;
+}
+.input-group .minus:after{
+    content:"";
+    position: absolute;
+    height:2rpx;
+    top:50%;
+    margin-top:-1rpx;
+    width:60%;
+    left:20%;
+    background:#333;
+}
+.input-group .plus:before{
+    content:"";
+    position: absolute;
+    height:2rpx;
+    top:50%;
+    margin-top:-1rpx;
+    width:60%;
+    left:20%;
+    background:#333;
+}
+.input-group .plus:after{
+    content:"";
+    position: absolute;
+    width:2rpx;
+    left:50%;
+    margin-left:-1rpx;
+    height:60%;
+    top:20%;
+    background:#333;
+}
+
+.input-group .input-group-addon.disabled:before,
+.input-group .input-group-addon.disabled:after{
+    background-color:#ddd;
+}

@@ -22,7 +22,6 @@ App({
         
             },
         })
-
     },
     /**
      * 检查是否已登录并执行登录，登录成功则回调
@@ -320,6 +319,25 @@ App({
             icon: 'none',
             title: msg,
         })
+    },
+    switchIndex: function (tab) {
+        var pages = getCurrentPages();
+        if (pages[0].route == 'pages/index/index') {
+            if(pages.length>1){
+                wx.navigateBack({
+                    delta: pages.length,
+                    success: function () {
+                        pages[0].changeTab(tab)
+                    }
+                })
+            }else{
+                pages[0].changeTab(tab)
+            }
+        } else {
+            wx.reLaunch({
+                url: '/pages/index/index?tab=' + tab,
+            })
+        }
     },
     //设置分享信息
     initShare: function (page, title, img = "", withTicket = true) {
