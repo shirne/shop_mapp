@@ -24,17 +24,29 @@
         </swiper>
         <view class='block cates' wx:if="{{goods_cates}}">
             <view class="block-inner">
-                <view class='block-content grid col-4'>
+                <view class='grid col-4'>
                     <block wx:for="{{goods_cates}}" wx:key="ckey">
                         <view wx:if="{{item.id}}" class='item' data-id="{{item.id}}" bindtap='gotoProductList'>
                             <view class="item-inner">
                                 <view class="squareimg bg-img" style="background-image:url({{item.icon}});">
                                 </view>
-                                <text>{{item.title}}</text>
+                                <text class="text-df">{{item.title}}</text>
                             </view>
                         </view>
                         <view wx:else class='item'></view>
                     </block>
+                </view>
+            </view>
+        </view>
+        <view class="block fourmenu" wx:if="{{fourmenu && fourmenu.length>0}}">
+            <view class="flex fwrapper">
+                <view class="flex-sub margin-right-sm fimage-item fleftbig" style="background-image:url({{fourmenu[0].image}})"></view>
+                <view class="flex-sub">
+                    <view class="fimage-item margin-bottom-sm ftopbig" style="background-image:url({{fourmenu[1].image}})"></view>
+                    <view class="flex">
+                        <view class="flex-sub margin-right-xs fimage-item fsmall" style="background-image:url({{fourmenu[2].image}})"></view>
+                        <view class="flex-sub margin-left-xs fimage-item fsmall" style="background-image:url({{fourmenu[3].image}})"></view>
+                    </view>
                 </view>
             </view>
         </view>

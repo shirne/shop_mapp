@@ -21,6 +21,9 @@ Component({
     },
     lifetimes: {
         attached: function () {
+            wx.showLoading({
+                title: '',
+            })
             app.getSiteInfo(siteinfo => {
                 //console.log(siteinfo)
                 wx.setNavigationBarTitle({
@@ -37,6 +40,10 @@ Component({
                     'advs': {
                         flag: 'banner'
                     },
+                    'four_advs': {
+                        call: 'advs',
+                        flag: 'fourmenu'
+                    },
                     'medium_advs':{
                         call:'advs',
                         flag: 'midbanner'
@@ -48,31 +55,47 @@ Component({
                         if (goods) {
                             goods = goods['lists']
                             goods = trail.fixListImage(goods, 'image')
+                            goods = trail.fixMarketPrice(goods);
                         }
                         let cates = json.data['product.get_cates']
                         if (cates) {
                             cates = trail.fixListImage(cates, 'icon,products.image')
+                            for(let i=0;i<cates.length;i++){
+                                cates[i].products = trail.fixMarketPrice(cates[i].products);
+                            }
                         }
                         let articles = json.data['article.get_list']['lists']
                         if (articles) {
                             articles = articles['lists']
                             articles = trail.fixListImage(articles, 'cover')
                         }
-                        let advs = json.data['advs'], midadvs = json.data['medium_advs']
+                        let advs = json.data['advs'], midadvs = json.data['medium_advs'], fourmenu = json.data['four_advs']
                         advs = trail.fixListImage(advs, 'image')
                         midadvs = trail.fixListImage(midadvs, 'image')
+                        
+                        if (fourmenu && fourmenu.length>0){
+                            fourmenu = trail.fixListImage(fourmenu, 'image')
+                            if (fourmenu.length<4){
+                                fourmenu.push({ image: ''})
+                                fourmenu.push({ image: ''})
+                                fourmenu.push({ image: ''})
+                            }
+                        }
                         this.setData({
                             banners: advs,
                             midbanners: midadvs,
+                            fourmenu: fourmenu,
                             goods: goods,
                             goods_cates: cates
                         })
                     }
+                    wx.hideLoading()
                 }
             )
         }
     },
     methods: {
+        
         cardSwiper: function (e) {
             this.setData({
                 cardCur: e.detail.current

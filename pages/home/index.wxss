@@ -15,7 +15,7 @@
 .cates .item{
     text-align: center;
     font-size:32rpx;
-    padding:0 20rpx;
+    padding:0 40rpx;
 }
 .cates .squareimg{
     padding-top:100%;
@@ -29,4 +29,24 @@
 
 .screen-swiper swiper-item{
     border-radius:10rpx;
+}
+
+.fourmenu .fwrapper{
+    margin:0 30rpx;
+}
+.fourmenu .fimage-item{
+    background:center center no-repeat #fff;
+    background-size:cover;
+    border-radius:10rpx;
+    box-shadow: 0 2rpx 10rpx rgba(0,0,0,.05)
+}
+.fourmenu .fleftbig{
+    flex:0 0 40%;
+    padding-top:30%;
+}
+.fourmenu .ftopbig{
+    padding-top:30%;
+}
+.fourmenu .fsmall{
+    padding-top:30%;
 }
