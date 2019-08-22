@@ -17,9 +17,9 @@
         </view>
     </block>
     <view class="prod-info">
-        <view class="favbtn">
-            <i class="cuIcon-favor{{is_favourite?'fill':''}} text-xl text-yellow"></i>
-            <text>{{is_favourite?'已':'加入'}}收藏</text>
+        <view class="favbtn" bindtap="setFavourite">
+            <text class="cuIcon-favor{{is_favourite?'fill':''}} text-xl text-yellow"></text>
+            <text >{{is_favourite?'已':'加入'}}收藏</text>
         </view>
         <view class='prod-title'>{{model.title}}</view>
         <view class="price-box">
@@ -30,7 +30,7 @@
                 <text>￥{{market_price}}</text>
             </view>
             <view class='express'>快递：免费</view>
-            <view class='sales'>销量 {{model.sale}} 笔</view>
+            <view class='sales'>销量 {{model.sale}}</view>
         </view>
     </view>
     <view class="cu-list menu">
@@ -84,16 +84,16 @@
             <view class="padding-sm">
                 <view class='panel{{maskfor=="spec"?" panelopen":""}}' >
                     <view class='prod-view-info'>
-                        <view class='imgbox'>
+                        <view class='vimgbox'>
                             <image src="{{sku.image?sku.image:model.image}}" class='picture'></image>
                         </view>
-                        <view class='infobox' wx:if="{{sku}}">
-                            <text class='price'>￥{{sku.price}}</text>
+                        <view class='infobox text-left' wx:if="{{sku}}">
+                            <text class='price text-red text-xl'>￥{{sku.price}}</text>
                             <text class='storage'>{{sku.storage>0?("库存"+sku.storage+"件"):"暂时缺货"}}</text>
                             <text class='specinfo'>{{selected}}</text>
                         </view>
-                        <view class='infobox' wx:else>
-                            <text class='price'>￥{{price}}</text>
+                        <view class='infobox text-left' wx:else>
+                            <text class='price text-red text-xl'>￥{{price}}</text>
                             <text class='storage'>库存{{allstorage}}件</text>
                             <text class='specinfo'>{{selected}}</text>
                         </view>
@@ -108,7 +108,7 @@
                             </view>
                         </view>
                         <view class='plist countbox'>
-                            <text>购买数量</text>
+                            <text class="text-left">购买数量</text>
                             <number-input value="{{good_count}}" bind:change="setCount" />
                         </view>
                     </view>

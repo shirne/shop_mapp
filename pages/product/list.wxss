@@ -1,13 +1,8 @@
 /* pages/product/index.wxss */
+
 .container{
     padding-top:110rpx;
 }
 .nopadtop{
     padding-top:0;
-}
-.block-content{
-    display:flex;
-    flex-direction: row;
-    flex-wrap:wrap;
-    padding-right:0;
 }

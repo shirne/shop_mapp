@@ -49,10 +49,12 @@ Page({
     loadData: function () {
         var cid = this.getCateId()
         var page = this.data.page
+        
         app.httpPost('product/get_list?cate=' + cid+'&page='+page, json => {
             if (json.code == 1 && cid == this.getCateId()) {
                 let products=json.data.lists
                 products = trail.fixListImage(products,'image')
+                products = trail.fixMarketPrice(products)
                 if (products.length % 2 == 1) products.push({})
                 this.setData({
                     lists: this.data.lists.concat(products),

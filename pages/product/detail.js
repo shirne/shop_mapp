@@ -1,7 +1,7 @@
 // pages/product/detail.js
-let util = require("../../utils/util.js");
-let trail = require("../../utils/trail.js");
-let Product = require("../../utils/product.js");
+const util = require("../../utils/util.js");
+const trail = require("../../utils/trail.js");
+const Product = require("../../utils/product.js");
 const app = getApp()
 
 Page({
@@ -52,7 +52,7 @@ Page({
         this.setData({
             screenWidth: sysInfo.windowWidth
         })
-        app.getCartCount(count=>{
+        trail.getCartCount(count=>{
             this.setData({
                 cart_count: count
             })

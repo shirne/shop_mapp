@@ -60,6 +60,10 @@ swiper-item image{
     color:#b00;
     font-weight:bold;
     font-size:32rpx;
+    display: block;
+}
+.price-box .price::first-letter{
+    font-size:20rpx;
 }
 .expinfos{
     display:flex;
@@ -86,11 +90,12 @@ swiper-item image{
     padding-bottom:100rpx;
 }
 
-.prod-view-info{display:flex;flex-direction: row;}
-.prod-view-info .imgbox{width:200rpx;height:120rpx;position:relative;margin:0 20rpx;}
-.prod-view-info .imgbox image{position:absolute;bottom:0;left:0;width:200rpx;height:200rpx;}
-.prod-view-info .infobox{flex:1;display:flex;flex-direction: column;padding-top:20rpx;}
-
+.prod-view-info{display:flex;flex-direction: row;align-items:center;height:220rpx;}
+.prod-view-info .vimgbox{width:200rpx;height:200rpx;margin:0 20rpx;}
+.prod-view-info .vimgbox image{width:200rpx;height:200rpx;}
+.prod-view-info .infobox{flex:1;}
+.prod-view-info .infobox .price{font-weight:bold;display:block;}
+.prod-view-info .infobox .price::first-letter{font-size:20rpx;font-weight:normal}
 
 .pcontent .speclist{flex:1;}
 .specrow{padding:0 20rpx;margin:20rpx 0;}

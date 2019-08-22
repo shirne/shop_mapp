@@ -33,10 +33,10 @@ Component({
     ready: function () {
         app.httpPost('product/get_cates', json => {
             if (json.code == 1) {
-                json.data = trail.fixListImage(json.data, 'icon')
-                if (json.data.length % 2 == 1) json.data.push({})
+                let cates = trail.fixListImage(json.data, 'icon')
+                
                 this.setData({
-                    cates: json.data,
+                    cates: cates,
                     cate_id: this.data.cate_id ? this.data.cate_id : json.data[0].id
                 })
                 this.loadData()
@@ -51,7 +51,7 @@ Component({
                     if (json.code == 1) {
                         let lists = json.data.lists
                         lists = trail.fixListImage(lists, 'image')
-                        if (lists.length % 2 == 1) lists.push({})
+                        lists = trail.fixMarketPrice(lists);
 
                         this.setData({
                             lists: lists,

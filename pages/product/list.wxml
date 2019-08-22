@@ -13,23 +13,29 @@
             </block>
         </view>
     </view>
-    <view class='block lists' wx:if="{{lists && lists.length>0}}">
-        <view class='block-content imgbox'>
-            <block wx:for="{{lists}}" wx:key="key">
-                <view wx:if="{{item.id}}" class='imgitem' data-id="{{item.id}}" bindtap='gotoDetail'>
-                    <view wx:if="{{item.image}}" class='imgbox'>
-                        <image class='sm-picture' src="{{item.image}}" mode='aspectFill'></image>
+    <view class='block goods-block' wx:if="{{lists && lists.length>0}}">
+        <view class="block-inner">
+            <view class='block-content '>
+                <view class="grid col-3">
+                <block wx:for="{{lists}}" wx:key="key">
+                    <view wx:if="{{item.id}}"  data-id="{{item.id}}" bindtap='gotoDetail'>
+                        <view class='imgitem'>
+                        <view wx:if="{{item.image}}" class='imgbox'>
+                            <image class='sm-picture' src="{{item.image}}" mode='aspectFill'></image>
+                        </view>
+                        <view class='ttlbox'>
+                            <text class='infotitle'>{{item.title}}</text>
+                        </view>
+                        <view class='pricebox'>
+                            <text class='rightinfo'>￥{{item.market_price}}</text>
+                            <text class='price'>￥{{item.min_price}}</text>
+                        </view>
+                        </view>
                     </view>
-                    <view class='ttlbox'>
-                        <text class='infotitle'>{{item.title}}</text>
-                    </view>
-                    <view class='pricebox'>
-                        <text class='rightinfo'>￥{{item.market_price}}</text>
-                        <text class='price'>￥{{item.min_price}}</text>
-                    </view>
+                    <view wx:else class='imgitem emptyitem'></view>
+                </block>
                 </view>
-                <view wx:else class='imgitem emptyitem'></view>
-            </block>
+            </view>
         </view>
     </view>
     <loading isloading="{{isloading}}" dataCount="{{lists?lists.length:0}}" hasmore="{{has_more}}">产品资料整理中</loading>
