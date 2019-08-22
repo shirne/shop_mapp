@@ -17,7 +17,8 @@ Page({
         totalPrice: 0,
         products_total_price: 0,
         express: { fee: 0, title: '免邮' },
-        ordering: false
+        ordering: false,
+        delay_timing:0
     },
 
     /**
@@ -31,29 +32,65 @@ Page({
                 storage: parseInt(options.storage)
             })
         }
-        if (options.getdata) {
-            var pages = getCurrentPages()
-            if (pages.length > 1) {
-                var total_price = 0;
-                var prevpage = pages[pages.length - 2];
-                if (prevpage && typeof prevpage[options.getdata] === typeof Math.abs) {
-                    var products = prevpage[options.getdata]()
-                    if (products && products.length > 0) {
-                        products.forEach(product => {
-                            total_price += parseFloat(product.product_price) * product.count
-                        })
-                        total_price = Math.round(total_price * 100) / 100
-                    }
-                    this.setData({
-                        products: products,
-                        totalPrice: total_price.toFixed(2)
-                    })
-                }
-            }
-        }
+
         wx.showLoading({
             title: '',
         })
+        
+
+        if (options.data) {
+            this.data.delay_timing = setTimeout(() => {
+                this.errorBack()
+            }, 3000);
+            if (this.getOpenerEventChannel ){
+                const eventChannel = this.getOpenerEventChannel()
+                //eventChannel.emit('acceptDataFromOpenedPage', { data: 'test' });
+                //eventChannel.emit('someEvent', { data: 'test' });
+                // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
+                eventChannel.on('acceptDataFromOpenerPage',  (data)=> {
+                    console.log(data)
+                    this.setdata(data)
+                })
+            }else{
+                let data = app.globalData[options.data]
+                app.globalData[options.data]=null
+                if(data){
+                    this.setdata(data)
+                }
+            }
+        }else{
+            this.errorBack()
+        }
+    },
+    errorBack(msg = '数据错误'){
+        app.error(msg)
+        setTimeout(()=>{
+            wx.navigateBack({
+
+            })
+        },600)
+        
+    },
+    setdata(products){
+        clearTimeout(this.data.delay_timing)
+        if (products && products.length > 0) {
+            let total_price=0
+            products.forEach(product => {
+                total_price += parseFloat(product.product_price) * product.count
+            })
+            total_price = Math.round(total_price * 100) / 100
+
+            this.setData({
+                products: products,
+                totalPrice: total_price.toFixed(2)
+            })
+            this.prepare()
+        }else{
+            this.errorBack()
+        }
+        
+    },
+    prepare(){
         app.checkLogin(() => {
             var data = {}
             data.products = []
@@ -76,12 +113,12 @@ Page({
                         this.calcolation()
                     })
                 } else {
-                    app.error('数据错误')
+                    this.errorBack()
                 }
             })
         })
     },
-
+    
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

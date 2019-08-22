@@ -55,37 +55,66 @@ const makeOrder = (api, data, success, error) => {
         (json) => {
             wx.hideLoading()
             if (json.code == 1) {
-                if (json.data && json.data.payment && json.data.payment.timeStamp) {
-
-                    json.data.payment.timeStamp = json.data.payment.timeStamp.toString()
-                    var payment = json.data != null ? json.data.payment : {}
-                    //todo 转到支付
-                    wx.requestPayment({
-                        ...payment,
-                        'success': function (res) {
-                            if (res.errMsg == 'requestPayment:ok') {
-                                success(json.data)
-                            }
-                        },
-                        'fail': function (res) {
-                            error(json.data)
-                        },
-                        'complete': function (res) {
-                            //6.5.2 及之前版本中，用户取消支付不会触发 fail 回调，只会触发 complete 回调
-                            //回调 errMsg 为 'requestPayment:cancel'
-                            if (res.errMsg == 'requestPayment:cancel') {
+                if (json.data && json.data.payment) {
+                    if (json.data.payment.timeStamp){
+                        doPay(json.data.payment, res=>{
+                            success(json.data)
+                        }, res=>{
+                            app.alert('支付失败', res => {
                                 error(json.data)
-                            }
+                            })
+                        })
+                    }else{
+                        app.alert('发起支付失败', res => {
+                            error(json.data)
+                        })
+                    }
+                } else {
+                    app.httpPost('order/wechatpay', { order_id: json.data.order_id}, json=>{
+                        if (json.data.payment && json.data.payment.timeStamp) {
+                            doPay(json.data.payment, res => {
+                                success(json.data)
+                            }, res=>{
+                                app.alert('支付失败', res => {
+                                    error(json.data)
+                                })
+                            })
+                        }else{
+                            app.alert('发起支付失败',res=>{
+                                error(json.data)
+                            })
                         }
                     })
-                } else {
-                    success(json.data)
+                    
                 }
 
             } else {
                 error(json.msg)
             }
         })
+}
+
+const doPay = (payment, success, error)=>{
+    payment.timeStamp = payment.timeStamp.toString()
+    //todo 转到支付
+    wx.requestPayment({
+        ...payment,
+        'success': function (res) {
+            if (res.errMsg == 'requestPayment:ok') {
+                success(res)
+            }
+        },
+        'fail': function (res) {
+            error(res)
+        },
+        'complete': function (res) {
+            //6.5.2 及之前版本中，用户取消支付不会触发 fail 回调，只会触发 complete 回调
+            //回调 errMsg 为 'requestPayment:cancel'
+            if (res.errMsg == 'requestPayment:cancel') {
+                error(res)
+            }
+        }
+    })
 }
 
 const uploadFile= (data, success, error = null, handle = null)=> {

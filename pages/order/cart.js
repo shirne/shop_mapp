@@ -335,7 +335,14 @@ Component({
             return
         }
         wx.navigateTo({
-            url: '/pages/order/confirm?getdata=getOrderData',
+            url: '/pages/order/confirm?data=cartdata',
+            success:(res)=>{
+                if(res.eventChannel){
+                    res.eventChannel.emit('acceptDataFromOpenerPage', this.getOrderData())
+                }else{
+                    app.globalData['cartdata'] = this.getOrderData()
+                }
+            }
         })
     },
     gotoHome: function (e) {

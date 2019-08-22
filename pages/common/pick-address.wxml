@@ -5,7 +5,7 @@
         <view slot="backText">返回</view>
         <view slot="content">选择地址</view>
     </cu-custom>
-    <view class='block'>
+    <view class='block bg-white'>
         <view class="listbox" wx:if="{{addresses && addresses.length}}">
             <view class='address-item{{address.address_id==selectedid?" selected":""}}' data-id="{{address.address_id}}" bindtap='pickAddress' wx:for="{{addresses}}" wx:key="key" wx:for-item="address">
                 <view class='info'>

@@ -291,6 +291,20 @@ App({
             title: msg,
         })
     },
+    alert: function(msg, confirm = null, cancel=null){
+        
+        wx.showModal({
+            title: '提示',
+            content: msg,
+            success(res) {
+                if (res.confirm) {
+                    confirm && confirm(res)
+                } else if (res.cancel) {
+                    cancel && cancel(res)
+                }
+            }
+        })
+    },
     switchIndex: function (tab) {
         var pages = getCurrentPages();
         if (pages[0].route == 'pages/index/index') {
