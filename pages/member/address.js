@@ -36,7 +36,7 @@ Page({
     onShow: function () {
         var self = this;
         app.checkLogin(() => {
-            app.httpPost('member/addresses', {}, (data) => {
+            app.httpPost('member.address/index', {}, (data) => {
                 if (data.code == 1) {
                     var addresses = data.data
                     var default_id = 0
@@ -95,7 +95,7 @@ Page({
         if (defaultid == this.data.default_id) return;
         var self = this
         app.confirm('您确定将所选地址设为默认地址？', () => {
-            app.httpPost('member/set_default_address', { id: defaultid }, (json) => {
+            app.httpPost('member.address/set_default', { id: defaultid }, (json) => {
                 if (json.code == 1) {
                     self.setData({
                         default_id: defaultid
@@ -123,7 +123,7 @@ Page({
         var id = e.currentTarget.dataset.id
         var self = this
         app.confirm('您是否确认删除该地址？', () => {
-            app.httpPost('member/del_address', { id: id }, (data) => {
+            app.httpPost('member.address/delete', { id: id }, (data) => {
                 if (data.status == 0) {
                     app.success('删除成功')
                     var deleted = self.data.deleted
@@ -152,13 +152,13 @@ Page({
                 address.address = res.detailInfo
                 //address.recive_name = res.nationalCode
                 address.mobile = res.telNumber
-                address.id = 0
+                //address.id = 0
 
                 wx.showLoading({
                     title: '正在提交'
                 })
-                app.httpPost('member/edit_address',
-                    {address:address},
+                app.httpPost('member.address/save',
+                    {address:address,id:0},
                     (json) => {
                         wx.hideLoading()
                         if (json.code == 1) {

@@ -56,8 +56,8 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "pages/index/index",
+					"id": 3,
+					"name": "会员中心",
 					"pathName": "pages/index/index",
 					"query": "tab=member",
 					"scene": null

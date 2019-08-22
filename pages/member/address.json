@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "s-checkbox": "/Components/s-checkbox/s-checkbox"
+    "s-checkbox": "/components/s-checkbox/s-checkbox"
   },
     "navigationBarTitleText":"地址管理"
 }

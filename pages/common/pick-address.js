@@ -43,7 +43,7 @@ Page({
     onShow: function () {
         var self = this
         app.checkLogin(() => {
-            app.httpPost('member/addresses', {}, (json) => {
+            app.httpPost('member.address/index', {}, (json) => {
                 if (json.code == 1) {
                     self.setData({
                         addresses: json.data

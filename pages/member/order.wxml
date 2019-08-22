@@ -4,5 +4,54 @@
         <view slot="backText">返回</view>
         <view slot="content">订单管理</view>
     </cu-custom>
-
+    <view class="bg-white nav">
+        <view class="flex text-center">
+            <view class="cu-item flex-sub{{status===''?' text-orange cur':''}}" bindtap="changeStatus" data-status="">全部</view>
+            <view class="cu-item flex-sub{{status==='0'?' text-orange cur':''}}" bindtap="changeStatus" data-status="0">待支付</view>
+            <view class="cu-item flex-sub{{status==='1'?' text-orange cur':''}}" bindtap="changeStatus" data-status="1">已支付</view>
+            <view class="cu-item flex-sub{{status==='2'?' text-orange cur':''}}" bindtap="changeStatus" data-status="2">待收货</view>
+            <view class="cu-item flex-sub{{status==='4'?' text-orange cur':''}}" bindtap="changeStatus" data-status="4">已完成</view>
+        </view>
+    </view>
+    <view class="emptytip" wx:if="{{!orders || orders.length<1}}">
+        <view><text class="cuIcon-form text-xsl"></text></view>
+        <view><text class="text-gray">您还没有相关的订单</text></view>
+    </view>
+    <view class="cu-card orderlist">
+        <view wx:for="{{orders}}" wx:key="order.orderno" wx:for-item="order" class="cu-item shadow">
+            <view class="card-header">
+                <view class="flex">
+                    <text class="cuIcon-form"></text>
+                    <view class="content flex-sub">
+                        <view>{{order.orderno}}</view>
+                    </view>
+                    <view class="text-gray text-sm text-right">
+                        {{order.status}}
+                    </view>
+                </view>
+            </view>
+            <view class="card-content bg-gray">
+                <view class="cu-list menu-avatar">
+                    <view wx:for="{{order.products}}" class="cu-item ">
+                        <view class="cu-avatar radius lg" style="background-image:url({{product.image}});"></view>
+                        <view class="content">
+                            <view class="text-pink">
+                                <text class="text-cut">{{product.title}}</text>
+                            </view>
+                            <view class="text-gray text-sm flex">
+                                <text class="text-cut">{{product.spectitle}}</text>
+                            </view>
+                        </view>
+                        <view class="action">
+                            <view class="price">{{product.price}}</view>
+                            <view class="cu-tag round bg-red sm">{{product.count}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="text-gray text-right padding">
+                <button class="cu-btn round line-blue" role="button">确认收货</button>
+            </view>
+        </view>
+    </view>
 </scroll-view>

@@ -29,7 +29,8 @@
                 <image src="/icons/loading.gif" />
             </view>
             <view class="emptytip" wx:if="{{!isloading && !addresses.length}}">
-                <text>您还没添加过地址</text>
+                <view><text class="cuIcon-location text-xsl"></text></view>
+                <view>您还没有添加过地址哦~</view>
             </view>
         </view>
     </scroll-view>

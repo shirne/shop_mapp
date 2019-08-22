@@ -1,7 +1,7 @@
 // pages/order/cart.js
-let util = require("../../utils/util.js");
-let trail = require("../../utils/trail.js");
-let Product = require("../../utils/product.js");
+const util = require("../../utils/util.js");
+const trail = require("../../utils/trail.js");
+const Product = require("../../utils/product.js");
 const app = getApp()
 
 Component({
@@ -75,12 +75,9 @@ Component({
         return data
     },
     updateCount: function () {
-        trail.getCartCount(app, count => {
-            app.globalData.cart_count = count
-            this.setData({
-                cart_count: count
-            })
-        })
+        trail.getCartCount(count => {
+            
+        },true)
     },
     checkall: function (e) {
         //console.log(e)
@@ -299,6 +296,7 @@ Component({
                         carts: carts
                     })
                     this.calcolation()
+                    
                 }
             })
         })
@@ -337,7 +335,7 @@ Component({
             return
         }
         wx.navigateTo({
-            url: 'confirm?getdata=getOrderData',
+            url: '/pages/order/confirm?getdata=getOrderData',
         })
     },
     gotoHome: function (e) {
@@ -356,7 +354,7 @@ Component({
     },
     toDetail(e) {
         wx.navigateTo({
-            url: '../product/detail?id=' + e.currentTarget.dataset.item.product_id,
+            url: '/pages/product/detail?id=' + e.currentTarget.dataset.item.product_id,
         })
     }
   }

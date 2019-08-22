@@ -17,9 +17,12 @@
                 </view>
             </view>
         </view>
-        <view wx:else class="emptytip">您还没有添加过地址哦~</view>
+        <view wx:else class="emptytip">
+        <view><text class="cuIcon-location text-xsl"></text></view>
+        <view>您还没有添加过地址哦~</view>
+        </view>
     </view>
-    <view class="button-box">
-        <button bindtap='manageAddress'>管理收货地址</button>
+    <view class="button-box text-center">
+        <button class="cu-btn round line-blue" bindtap='manageAddress'>管理收货地址</button>
     </view>
 </view>

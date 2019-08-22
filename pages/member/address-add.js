@@ -26,7 +26,7 @@ Page({
                 action: "修改",
                 address_id: options.address_id
             })
-            app.httpPost('member/get_address', { id: options.address_id }, (json) => {
+            app.httpPost('member.address/view', { id: options.address_id }, (json) => {
                 if (json.code == 1) {
                     var areas = [json.data.province, json.data.city, json.data.area]
                     this.setData({
@@ -165,7 +165,7 @@ Page({
         this.setData({
             isloading: true
         })
-        app.httpPost('member/edit_address', { id: this.data.address_id, address: address }, (json) => {
+        app.httpPost('member.address/save', { id: this.data.address_id, address: address }, (json) => {
             if (json.code == 1) {
                 app.success('保存成功')
                 setTimeout(() => {
