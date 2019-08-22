@@ -23,21 +23,12 @@ Component({
     lifetimes:{
         attached: function (options) {
             app.initShare(null);
-            app.checkLogin(() => {
-                wx.showLoading({
-                    title: '加载中',
-                })
-                app.httpPost('member/profile', {}, (json) => {
-                    wx.hideLoading()
-                    if (json.code == 1) {
-                        json.data = trail.fixImage(json.data, 'avatar')
-                        json.data.cardno = util.formatNumber(json.data.id,8)
-                        this.setData({
-                            member: json.data
-                        })
-                    }
+            trail.getProfile((profile)=>{
+                this.setData({
+                    member: profile
                 })
             })
+            
         },
 
         moved: function () { },

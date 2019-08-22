@@ -8,8 +8,12 @@
     <view class="block ucenter-bg">
         <view class="block-inner" style="background-image:url(/images/cardbg.png)">
             <view class="cardno text-gold">No.{{member.cardno}}</view>
-            <view class="flex flex-wrap">
-                <image src="/images/logo.png" class="cu-avatar xl round avatar " mode="widthFix"></image>
+                <view class="flex flex-wrap">
+                    <view class="cu-avatar round xl avatar" style="background-image:url({{member.avatar}})">
+                    <view wx:if="{{member.gender == 1}}" class="cu-tag badge cuIcon-male bg-blue"></view>
+                    <view wx:elif="{{member.gender == 2}}" class="cu-tag badge cuIcon-female bg-pink"></view>
+                    <view wx:else class="cu-tag badge cuIcon-question bg-gray"></view>
+                </view>
                 <view class="margin-left-sm padding-top-sm">
                     <view>
                         <text class="text-lg text-bold">{{member.nickname?member.nickname:member.username}}</text>
@@ -151,9 +155,10 @@
             <view class='block-ttl'>
                 <text>公告</text>
             </view>
-            <view class='block-content'>
+            <view class='block-content' wx:if="{{notice && notice.id}}">
                 <rich-text nodes="{{notice.content}}"></rich-text>
             </view>
+            <view wx:else class="emptytip">暂无公告</view>
         </view>
     </view>
     <view class='cu-tabbar-height'></view>

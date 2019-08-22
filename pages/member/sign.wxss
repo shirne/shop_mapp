@@ -1,1 +1,44 @@
 /* pages/member/sign.wxss */
+
+.signheader{
+    text-align: center;
+    align-items: center;
+    padding:30rpx 0;
+}
+.signheader .avatar{
+    width:60rpx;
+    height:60rpx;
+
+}
+
+.signbox{
+    border-left:1rpx #ddd solid;
+    border-top:1rpx #ddd solid;
+    box-sizing: content-box;
+}
+.signbox .flex-sub{
+    border-right:1rpx #ddd solid;
+    border-bottom:1rpx #ddd solid;
+    box-sizing: content-box;
+    text-align: center;
+    line-height:2.5em;
+    position: relative;
+    font-weight:bold;
+}
+.signbox .flex-sub.signed:before{
+    content:"\e645";
+    font-family: "cuIcon";
+    position: absolute;
+    color:var(--green);
+    right:0;top:0;
+    font-size:28rpx;
+    line-height:1.2em;
+}
+.signbox .flex-sub.other{
+    color:#999;
+    background:#eee;
+}
+.signbox .flex-sub.active{
+    background-color: var(--blue);
+    color:var(--white);
+}

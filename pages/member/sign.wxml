@@ -4,5 +4,47 @@
         <view slot="backText">返回</view>
         <view slot="content">签到</view>
     </cu-custom>
-    
+    <view class="signheader bg-white flex">
+        <view class="flex-sub">
+            <view>连续签到</view>
+            <view>{{keey_days}}</view>
+        </view>
+        <view class="flex-sub">
+            <view>
+            <view class="cu-avatar round lg" style="background-image:url({{member.avatar}})">
+                <view wx:if="{{member.gender == 1}}" class="cu-tag badge cuIcon-male bg-blue"></view>
+                <view wx:elif="{{member.gender == 2}}" class="cu-tag badge cuIcon-female bg-pink"></view>
+                <view wx:else class="cu-tag badge cuIcon-question bg-gray"></view>
+            </view>
+            </view>
+            <view class="padding-xs"><text>{{member.nickname?member.nickname:member.username}}</text></view>
+            <view class="padding-xs"><text class="cuIcon-choiceness"></text> 积分: {{member.credit}}</view>
+            <view class="padding-xs">
+                <view wx:if="{{signed}}" class="text-orange">已签到</view>
+                <button wx:else class="cu-btn round line-blue" role="button" bindtap="dosign">立即签到</button>
+            </view>
+        </view>
+        <view class="flex-sub">
+            <view>今日排名</view>
+            <view>{{ranking_day?ranking_day:'-'}}</view>
+        </view>
+    </view>
+    <view class="signbody">
+        <view class="cu-bar bg-white solid-bottom margin-top">
+            <view class="action" bindtap="changeMonth" data-month="{{prevmonth}}">
+                <text class="cuIcon-back"></text> {{prevmonth}}
+            </view>
+            <view class="content">{{year}}-{{month}}</view>
+            <view class="action" bindtap="changeMonth" data-month="{{nextmonth}}">
+                {{nextmonth}} <text class="cuIcon-right"></text>
+            </view>
+        </view>
+        <view class="bg-white padding-sm">
+            <view class="signbox">
+                <view class="flex" wx:for="{{dates}}" wx:key="index" wx:for-item="items">
+                    <view class="flex-sub{{date.isThisMonth?'':' other'}}{{signedDates[date.fullDate]?' signed':''}}" wx:for="{{items}}" wx:key="date" wx:for-item="date">{{date.date}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
 </scroll-view>
