@@ -1,4 +1,5 @@
 const formatTime = (date, withTime = true, spliter = '/') => {
+    if(!isValidDate(date))return ' - '
     const year = date.getFullYear()
     const month = date.getMonth() + 1
     const day = date.getDate()
@@ -16,8 +17,54 @@ const formatNumber = (n, len) => {
     return l >= len ? n : (new Array(len - l + 1).join('0') + n)
 }
 
+const transDate= date=>{
+    if(typeof date == typeof 'a'){
+        date = string2date(date)
+    }else if(typeof date == typeof 1){
+        date = timestamp2date(date)
+    }
+    if(date instanceof Date){
+        return date
+    }
+    return new Date('a')
+}
+const isValidDate = (date)=>{
+    return date && date instanceof Date && !isNaN(date.getTime())
+}
+
+const timestamp2date = timestamp=>{
+    return (timestamp) ? new Date(timestamp * 1000) : new Date()
+}
+
+const string2date = datestring => {
+    return (datestring) ? new Date(datestring.replace(/-/g,'/')) : new Date()
+}
+
+const prevDate = date=>{
+    date = transDate(date)
+    let yestoday = new Date(date.getTime() - 24*60*60*1000)
+    return yestoday
+}
+
+const nextDate = date => {
+    date = transDate(date)
+    let tommrow = new Date(date.getTime() + 24 * 60 * 60 * 1000)
+    return tommrow
+}
+
+const daysOfMonth = (year,month)=>{
+    let nextMonth = month + 1
+    if(nextMonth>11){
+        nextMonth = 0
+        year += 1
+    }
+    let nfirstDay = new Date(year, nextMonth, 1)
+    let lastDay = prevDate(nfirstDay)
+    return lastDay.getDate()
+}
+
 const dateFormat = (format, timestamp) => {
-    let a, jsdate = ((timestamp) ? new Date(timestamp * 1000) : new Date());
+    let a, jsdate = timestamp2date(timestamp);
     let pad = function(n, c) {
         if ((n = n + "").length < c) {
             return new Array(++c - n.length).join("0") + n;
@@ -451,11 +498,17 @@ const actionSheet = (actions, callback) => {
 module.exports = {
     formatTime: formatTime,
     formatNumber: formatNumber,
+    isValidDate: isValidDate,
+    timestamp2date: timestamp2date,
+    string2date: string2date,
     dateFormat: dateFormat,
     getLocalTime: getLocalTime,
     getAge: getAge,
     addDayToWeek: addDayToWeek,
     addDay: addDay,
+    prevDate: prevDate,
+    nextDate:nextDate,
+    daysOfMonth: daysOfMonth,
     countObject: countObject,
     compareVersion: compareVersion,
     strgblen: strgblen,

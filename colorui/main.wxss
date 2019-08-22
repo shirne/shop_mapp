@@ -3853,89 +3853,89 @@ scroll-view.cu-steps .cu-item {
 .text-red,
 .line-red,
 .lines-red {
-	color: var(--red);
+	color: var(--red) !important;
 }
 
 .text-orange,
 .line-orange,
 .lines-orange {
-	color: var(--orange);
+	color: var(--orange) !important;
 }
 
 .text-yellow,
 .line-yellow,
 .lines-yellow {
-	color: var(--yellow);
+	color: var(--yellow) !important;
 }
 
 .text-olive,
 .line-olive,
 .lines-olive {
-	color: var(--olive);
+	color: var(--olive) !important;
 }
 
 .text-green,
 .line-green,
 .lines-green {
-	color: var(--green);
+	color: var(--green) !important;
 }
 
 .text-cyan,
 .line-cyan,
 .lines-cyan {
-	color: var(--cyan);
+	color: var(--cyan) !important;
 }
 
 .text-blue,
 .line-blue,
 .lines-blue {
-	color: var(--blue);
+	color: var(--blue) !important;
 }
 
 .text-purple,
 .line-purple,
 .lines-purple {
-	color: var(--purple);
+	color: var(--purple) !important;
 }
 
 .text-mauve,
 .line-mauve,
 .lines-mauve {
-	color: var(--mauve);
+	color: var(--mauve) !important;
 }
 
 .text-pink,
 .line-pink,
 .lines-pink {
-	color: var(--pink);
+	color: var(--pink) !important;
 }
 
 .text-brown,
 .line-brown,
 .lines-brown {
-	color: var(--brown);
+	color: var(--brown) !important;
 }
 
 .text-grey,
 .line-grey,
 .lines-grey {
-	color: var(--grey);
+	color: var(--grey) !important;
 }
 
 .text-gray,
 .line-gray,
 .lines-gray {
-	color: var(--gray);
+	color: var(--gray) !important;
 }
 
 .text-black,
 .line-black,
 .lines-black {
-	color: var(--black);
+	color: var(--black) !important;
 }
 
 .text-white,
 .line-white,
 .lines-white {
-	color: var(--white);
+	color: var(--white) !important;
 }

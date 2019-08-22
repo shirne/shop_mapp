@@ -124,7 +124,7 @@ App({
                 if (typeof callback == 'function') this.globalData.loginqueue.push(callback)
                 this.globalData.isloging = true;
 
-                this.httpPost('auth/refresh_token', { refresh_token: this.globalData.refresh_token }, (json) => {
+                this.httpPost('auth/refresh', { refresh_token: this.globalData.refresh_token }, (json) => {
                     self.globalData.isloging = false;
                     if (json.code == 1) {
                         self.setLogin(json.data)
@@ -182,21 +182,7 @@ App({
             if (typeof callback == 'function') callback(this.globalData.userInfo)
         }
     },
-    getProfile: function (callback = null) {
-        if (!this.globalData.profile) {
-            var self = this;
-            this.httpPost('member/profile', (json) => {
-                if (json.status == 1) {
-                    self.globalData.profile = json.data.profile
-                    if (typeof callback == 'function') callback(self.globalData.profile)
-                } else {
-                    setTimeout(() => { self.getProfile(callback) }, 3000)
-                }
-            })
-        } else {
-            if (typeof callback == 'function') callback(this.globalData.profile)
-        }
-    },
+    
     getSiteInfo: function (callback = null) {
         if (!this.globalData.siteinfo) {
             var self = this;
@@ -219,21 +205,6 @@ App({
     },
     clearProfile: function () {
         this.globalData.profile = null
-    },
-    getCartCount:function(callback,force){
-        var self=this
-        if(force || self.globalData.cart_count<0){
-            this.checkLogin(function(){
-                self.httpPost('cart/getcount', json => {
-                    if (json.code == 1) {
-                        self.globalData.cart_count = parseInt(json.data) || 0;
-                        callback(json.data)
-                    }
-                })
-            })
-        }else{
-            callback(self.globalData.cart_count)
-        }
     },
     httpGet: function (url, success, error) {
         this.request(url, {}, 'GET', success, error)

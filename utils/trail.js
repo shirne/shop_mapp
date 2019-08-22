@@ -1,14 +1,49 @@
 var util = require("util.js");
 const app = getApp()
 
-const default_image = '/icons/image.png'
+const default_image = '/images/image.png'
 
-const getCartCount = (app, callback) => {
-    app.httpPost('cart/getcount', json => {
-        if (json.code == 1) {
-            callback(json.data)
-        }
-    })
+var cart_count = -1
+const getCartCount = (callback, force) => {
+    if (force || cart_count < 0) {
+        app.checkLogin( ()=> {
+            app.httpPost('cart/getcount', json => {
+                if (json.code == 1) {
+                    cart_count = parseInt(json.data) || 0;
+                    let pages = getCurrentPages()
+                    
+                    if (pages.length>0 && pages[0].route == 'pages/index/index'){
+                        pages[0].setCartCount(cart_count)
+                    }
+
+                    callback(cart_count)
+                }
+            })
+        })
+    } else {
+        callback(cart_count)
+    }
+}
+
+var userprofile=null
+const getProfile = (callback = null, force = false) =>{
+    if (!userprofile || force) {
+        app.checkLogin(() => {
+            app.httpPost('member/profile', (json) => {
+                if (json.code == 1) {
+                    json.data = fixImage(json.data, 'avatar')
+                    json.data.cardno = util.formatNumber(json.data.id, 8)
+                    userprofile = json.data
+                    if (typeof callback == 'function') callback(userprofile)
+                } else {
+                    setTimeout(() => { getProfile(callback) }, 3000)
+                }
+            })
+        })
+
+    } else {
+        if (typeof callback == 'function') callback(userprofile)
+    }
 }
 
 const makeOrder = (api, data, success, error) => {
@@ -267,9 +302,19 @@ const fixTag = (node, pnode) => {
         }
     }
 }
+const fixMarketPrice = (goods)=>{
+    if (goods && goods.length) {
+        for (let i = 0; i < goods.length; i++) {
+            goods[i].market_price = Math.round(goods[i].market_price) || 0
+        }
+    }
+    return goods;
+}
+
 module.exports = {
     makeOrder: makeOrder,
     getCartCount: getCartCount,
+    getProfile: getProfile,
     uploadFile: uploadFile,
     fixListDate: fixListDate,
     fixDate: fixDate,
@@ -277,5 +322,6 @@ module.exports = {
     fixImage: fixImage,
     fixImageUrl: fixImageUrl,
     fixContent: fixContent,
-    fixTag: fixTag
+    fixTag: fixTag,
+    fixMarketPrice: fixMarketPrice
 }

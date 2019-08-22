@@ -74,6 +74,16 @@ button.action{
     display:block;
 }
 
+.card-header{
+    padding:10rpx 20rpx;
+}
+.card-header .flex{
+    align-items: center;
+}
+.card-content{
+    padding:20rpx;
+}
+
 .nav-list {
   display: flex;
   flex-wrap: wrap;
@@ -184,8 +194,8 @@ button.action{
 
 .emptytip {
     text-align: center;
-    line-height: 100rpx;
-    height: 100rpx;
+    line-height: 2em;
+    padding: 100rpx 0;
     color: #999;
 }
 
@@ -232,14 +242,18 @@ button.action{
 .goods-block .ttlbox {
     height:2.5em;
     line-height:1.2em;
+    padding-top:.3em;
     overflow: hidden;
 }
+
 .goods-block .price{
     font-weight:bold;
     color:#d00;
+    display:block;
 }
 .goods-block .price::first-letter{
-    font-size:24rpx;
+    font-size:20rpx;
+    font-weight:normal;
 }
 .goods-block .rightinfo{
     float:right;
@@ -288,7 +302,7 @@ rich-text .tag_img{
     position: fixed;
     width: 100%;
     bottom: 100rpx;
-    z-index: 1025;
+    z-index: 1023;
 }
 
 .secfoot .submit{

@@ -1,4 +1,8 @@
 /* Components/loading/loading.wxss */
+.loadingbox{
+    width:100%;
+}
+
 .line-seperator {
     width: 100%;
     border-top: 1rpx #d5d5d6 solid;

@@ -1,4 +1,5 @@
 
+const trail = require("../../utils/trail.js");
 const app = getApp()
 
 Page({
@@ -12,15 +13,18 @@ Page({
             this.setData({'PageCur': args.tab})
         }
         app.checkLogin(()=>{
-            app.getCartCount(count=>{
-                this.setData({
-                    cart_count:count
-                })
+            trail.getCartCount(count=>{
+                
             })
         })
     },
     NavChange(e) {
         this.changeTab(e.currentTarget.dataset.cur)
+    },
+    setCartCount(count){
+        this.setData({
+            cart_count: count
+        })
     },
     changeTab(tab){
         var alltabs = ['home', 'product','news','cart','member'];
