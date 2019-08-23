@@ -1,5 +1,5 @@
 const formatTime = (date, withTime = true, spliter = '/') => {
-    if(!isValidDate(date))return ' - '
+    if (!isValidDate(date)) return ' - '
     const year = date.getFullYear()
     const month = date.getMonth() + 1
     const day = date.getDate()
@@ -7,42 +7,50 @@ const formatTime = (date, withTime = true, spliter = '/') => {
     const minute = date.getMinutes()
     const second = date.getSeconds()
 
-    return [year, month, day].map(formatNumber).join(spliter) + (withTime ? (' ' + [hour, minute, second].map(formatNumber).join(':')) : '')
+    let datestr = [year, month, day].map(item => {
+        return formatNumber(item)
+    }).join(spliter)
+
+    if (withTime) {
+        datestr += ' ' + [hour, minute, second].map(item => {
+            return formatNumber(item)
+        }).join(':')
+    }
+    return datestr
 }
 
 const formatNumber = (n, len) => {
     if (!len) len = 2;
     let l = n.toString().length;
-
     return l >= len ? n : (new Array(len - l + 1).join('0') + n)
 }
 
-const transDate= date=>{
-    if(typeof date == typeof 'a'){
+const transDate = date => {
+    if (typeof date == typeof 'a') {
         date = string2date(date)
-    }else if(typeof date == typeof 1){
+    } else if (typeof date == typeof 1) {
         date = timestamp2date(date)
     }
-    if(date instanceof Date){
+    if (date instanceof Date) {
         return date
     }
     return new Date('a')
 }
-const isValidDate = (date)=>{
+const isValidDate = (date) => {
     return date && date instanceof Date && !isNaN(date.getTime())
 }
 
-const timestamp2date = timestamp=>{
+const timestamp2date = timestamp => {
     return (timestamp) ? new Date(timestamp * 1000) : new Date()
 }
 
 const string2date = datestring => {
-    return (datestring) ? new Date(datestring.replace(/-/g,'/')) : new Date()
+    return (datestring) ? new Date(datestring.replace(/-/g, '/')) : new Date()
 }
 
-const prevDate = date=>{
+const prevDate = date => {
     date = transDate(date)
-    let yestoday = new Date(date.getTime() - 24*60*60*1000)
+    let yestoday = new Date(date.getTime() - 24 * 60 * 60 * 1000)
     return yestoday
 }
 
@@ -52,9 +60,9 @@ const nextDate = date => {
     return tommrow
 }
 
-const daysOfMonth = (year,month)=>{
+const daysOfMonth = (year, month) => {
     let nextMonth = month + 1
-    if(nextMonth>11){
+    if (nextMonth > 11) {
         nextMonth = 0
         year += 1
     }
@@ -65,7 +73,7 @@ const daysOfMonth = (year,month)=>{
 
 const dateFormat = (format, timestamp) => {
     let a, jsdate = timestamp2date(timestamp);
-    let pad = function(n, c) {
+    let pad = function (n, c) {
         if ((n = n + "").length < c) {
             return new Array(++c - n.length).join("0") + n;
         } else {
@@ -85,33 +93,33 @@ const dateFormat = (format, timestamp) => {
     let txt_months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let f = {
         // Day 
-        d: function() {
+        d: function () {
             return pad(f.j(), 2)
         },
-        D: function() {
+        D: function () {
             return f.l().substr(0, 3)
         },
-        j: function() {
+        j: function () {
             return jsdate.getDate()
         },
-        l: function() {
+        l: function () {
             return txt_weekdays[f.w()]
         },
-        N: function() {
+        N: function () {
             return f.w() + 1
         },
-        S: function() {
+        S: function () {
             return txt_ordin[f.j()] ? txt_ordin[f.j()] : 'th'
         },
-        w: function() {
+        w: function () {
             return jsdate.getDay()
         },
-        z: function() {
+        z: function () {
             return (jsdate - new Date(jsdate.getFullYear() + "/1/1")) / 864e5 >> 0
         },
 
         // Week 
-        W: function() {
+        W: function () {
             var a = f.z(),
                 b = 364 + f.L() - a;
             var nd2, nd = (new Date(jsdate.getFullYear() + "/1/1").getDay() || 7) - 1;
@@ -128,19 +136,19 @@ const dateFormat = (format, timestamp) => {
         },
 
         // Month 
-        F: function() {
+        F: function () {
             return txt_months[f.n()]
         },
-        m: function() {
+        m: function () {
             return pad(f.n(), 2)
         },
-        M: function() {
+        M: function () {
             return f.F().substr(0, 3)
         },
-        n: function() {
+        n: function () {
             return jsdate.getMonth() + 1
         },
-        t: function() {
+        t: function () {
             var n;
             if ((n = jsdate.getMonth() + 1) == 2) {
                 return 28 + f.L();
@@ -154,26 +162,26 @@ const dateFormat = (format, timestamp) => {
         },
 
         // Year 
-        L: function() {
+        L: function () {
             var y = f.Y();
             return (!(y & 3) && (y % 1e2 || !(y % 4e2))) ? 1 : 0
         },
         //o not supported yet 
-        Y: function() {
+        Y: function () {
             return jsdate.getFullYear()
         },
-        y: function() {
+        y: function () {
             return (jsdate.getFullYear() + "").slice(2)
         },
 
         // Time 
-        a: function() {
+        a: function () {
             return jsdate.getHours() > 11 ? "pm" : "am"
         },
-        A: function() {
+        A: function () {
             return f.a().toUpperCase()
         },
-        B: function() {
+        B: function () {
             // peter paul koch: 
             var off = (jsdate.getTimezoneOffset() + 60) * 60;
             var theSeconds = (jsdate.getHours() * 3600) + (jsdate.getMinutes() * 60) + jsdate.getSeconds() + off;
@@ -184,22 +192,22 @@ const dateFormat = (format, timestamp) => {
             if ((String(beat)).length == 2) beat = "0" + beat;
             return beat;
         },
-        g: function() {
+        g: function () {
             return jsdate.getHours() % 12 || 12
         },
-        G: function() {
+        G: function () {
             return jsdate.getHours()
         },
-        h: function() {
+        h: function () {
             return pad(f.g(), 2)
         },
-        H: function() {
+        H: function () {
             return pad(jsdate.getHours(), 2)
         },
-        i: function() {
+        i: function () {
             return pad(jsdate.getMinutes(), 2)
         },
-        s: function() {
+        s: function () {
             return pad(jsdate.getSeconds(), 2)
         },
         //u not supported yet 
@@ -207,13 +215,13 @@ const dateFormat = (format, timestamp) => {
         // Timezone 
         //e not supported yet 
         //I not supported yet 
-        O: function() {
+        O: function () {
             var t = pad(Math.abs(jsdate.getTimezoneOffset() / 60 * 100), 4);
             if (jsdate.getTimezoneOffset() > 0) t = "-" + t;
             else t = "+" + t;
             return t;
         },
-        P: function() {
+        P: function () {
             var O = f.O();
             return (O.substr(0, 3) + ":" + O.substr(3, 2))
         },
@@ -221,16 +229,16 @@ const dateFormat = (format, timestamp) => {
         //Z not supported yet 
 
         // Full Date/Time 
-        c: function() {
+        c: function () {
             return f.Y() + "-" + f.m() + "-" + f.d() + "T" + f.h() + ":" + f.i() + ":" + f.s() + f.P()
         },
         //r not supported yet 
-        U: function() {
+        U: function () {
             return Math.round(jsdate.getTime() / 1000)
         }
     };
 
-    return format.replace(/[\\]?([a-zA-Z])/g, function(t, s) {
+    return format.replace(/[\\]?([a-zA-Z])/g, function (t, s) {
         let ret = '';
         if (t != s) {
             // escaped 
@@ -447,14 +455,15 @@ const alert = (msg, callback = null) => {
         title: "系统提示",
         content: msg,
         showCancel: false,
-        success: function(res) {
+        success: function (res) {
             if (typeof callback == 'function') {
                 callback(res)
             }
         }
     }
     if (typeof msg == 'object') {
-        config = { ...config,
+        config = {
+            ...config,
             ...msg
         }
     }
@@ -465,7 +474,7 @@ const confirm = (msg, callback = null, cancel = null) => {
         title: "系统提示",
         content: msg,
         showCancel: true,
-        success: function(res) {
+        success: function (res) {
             if (res.confirm) {
                 if (typeof callback == 'function') {
                     callback()
@@ -478,7 +487,8 @@ const confirm = (msg, callback = null, cancel = null) => {
         }
     }
     if (typeof msg == 'object') {
-        config = { ...config,
+        config = {
+            ...config,
             ...msg
         }
     }
@@ -507,7 +517,7 @@ module.exports = {
     addDayToWeek: addDayToWeek,
     addDay: addDay,
     prevDate: prevDate,
-    nextDate:nextDate,
+    nextDate: nextDate,
     daysOfMonth: daysOfMonth,
     countObject: countObject,
     compareVersion: compareVersion,
