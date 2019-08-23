@@ -1,4 +1,6 @@
 <!--pages/member/order.wxml-->
+<import src="/pages/tpl/order-status.wxml"/>
+
 <scroll-view scroll-y="true">
     <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
         <view slot="backText">返回</view>
@@ -13,45 +15,71 @@
             <view class="cu-item flex-sub{{status==='4'?' text-orange cur':''}}" bindtap="changeStatus" data-status="4">已完成</view>
         </view>
     </view>
-    <view class="emptytip" wx:if="{{!orders || orders.length<1}}">
-        <view><text class="cuIcon-form text-xsl"></text></view>
-        <view><text class="text-gray">您还没有相关的订单</text></view>
-    </view>
+
     <view class="cu-card orderlist">
-        <view wx:for="{{orders}}" wx:key="order.orderno" wx:for-item="order" class="cu-item shadow">
+        <block wx:for="{{orders}}" wx:key="key" wx:for-item="blocks">
+        <view wx:for="{{blocks}}" wx:key="id" wx:for-item="order" class="cu-item shadow">
             <view class="card-header">
                 <view class="flex">
                     <text class="cuIcon-form"></text>
                     <view class="content flex-sub">
-                        <view>{{order.orderno}}</view>
+                        <view>{{order.order_no}}</view>
                     </view>
                     <view class="text-gray text-sm text-right">
-                        {{order.status}}
+                        <template is="orderStatus" data="{{status:order.status}}"/>
                     </view>
                 </view>
             </view>
-            <view class="card-content bg-gray">
+            <view class="card-content bg-white">
                 <view class="cu-list menu-avatar">
-                    <view wx:for="{{order.products}}" class="cu-item ">
-                        <view class="cu-avatar radius lg" style="background-image:url({{product.image}});"></view>
-                        <view class="content">
-                            <view class="text-pink">
-                                <text class="text-cut">{{product.title}}</text>
+                    <view wx:for="{{order.products}}" wx:for-item="product" wx:key="id" class="flex ">
+                        <view class="cu-avatar radius lg" style="background-image:url({{product.product_image}});"></view>
+                        <view class="flex-sub" style="height:100%;padding:0 20rpx;">
+                            <view class="text-lg">
+                                <text class="text-cut">{{product.product_title}}</text>
                             </view>
-                            <view class="text-gray text-sm flex">
-                                <text class="text-cut">{{product.spectitle}}</text>
+                            <view wx:if="{{product.sku_specs}}" class="text-gray text-sm flex">
+                                <text class="text-cut">{{product.sku_specs}}</text>
                             </view>
                         </view>
-                        <view class="action">
-                            <view class="price">{{product.price}}</view>
-                            <view class="cu-tag round bg-red sm">{{product.count}}</view>
+                        <view class="action text-right">
+                            <view class="price">￥{{product.product_price}}</view>
+                            <view ><text class="cuIcon-close"></text>  {{product.count}}</view>
                         </view>
                     </view>
                 </view>
             </view>
-            <view class="text-gray text-right padding">
-                <button class="cu-btn round line-blue" role="button">确认收货</button>
+            <view class="text-right margin-sm">共 {{order.product_count}} 件商品 合计：{{order.payamount}}</view>
+            <view class="text-gray text-right margin-sm">
+                <block wx:if="{{order.status < 0}}">
+                    <button class="cu-btn round margin-left-sm line-gray" data-action="delete" data-id="{{order.id}}" role="button">删除订单</button>
+                </block>
+                <block wx:if="{{order.status==0}}">
+                <button class="cu-btn round margin-left-sm line-gray" data-action="cancel" data-id="{{order.id}}" role="button">取消订单</button>
+                <button class="cu-btn round margin-left-sm line-orange" data-action="repay" data-id="{{order.id}}" role="button">立即付款</button>
+                </block>
+                <block wx:if="{{order.status>1}}">
+                <button class="cu-btn round margin-left-sm line-gray" data-action="express" data-id="{{order.id}}" role="button">查看物流</button>
+                </block>
+                <block wx:if="{{order.status>0 && order.status<3}}">
+                <button class="cu-btn round margin-left-sm line-blue" data-action="confirm" data-id="{{order.id}}" role="button">确认收货</button>
+                </block>
             </view>
+        </view>
+        </block>
+    </view>
+
+    
+    <view wx:if="{{isloading}}" class="cu-load loading" ></view>
+    <block wx:elif="{{totalcount>0}}">
+        <view wx:if="{{!hasmore && page>1}}" class="cu-load over" ></view>
+    </block>
+    <view wx:else class="emptytip">
+        <view>
+            <text class="cuIcon-form text-xsl"></text>
+        </view>
+        <view>
+            <text class="text-gray">您还没有相关的订单</text>
         </view>
     </view>
 </scroll-view>

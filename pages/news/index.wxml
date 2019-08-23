@@ -2,14 +2,14 @@
 <scroll-view scroll-y class="scrollPage">
     <cu-custom bgColor="bg-gradual-pink">
         <view slot="content">
-            商品中心
+            新闻中心
         </view>
     </cu-custom>
     <scroll-view scroll-x class="bg-white nav">
     <view class="flex text-center">
     <block wx:for="{{cates}}" wx:key="key">
         <view class="cu-item flex-sub {{item.id==cate_id?' text-orange cur':''}}" bindtap="changeCategory" data-id="{{item.id}}">
-            <text class="cuIcon-camerafill"></text> {{item.title}}
+            {{item.title}}
         </view>
         </block>
         </view>
@@ -29,6 +29,10 @@
                 </view>
             </view>
         </view>
+    </view>
+    <view class="cu-load loading" wx:if="{{isloading}}"></view>
+    <view class="emptytip" wx:elif="{{!hasmore}}">
+        <view>没有更多动态了</view>
     </view>
     <view class='cu-tabbar-height'></view>
 </scroll-view>

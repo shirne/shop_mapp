@@ -1,0 +1,11 @@
+<template name="orderStatus">
+<view wx:if="{{status == 0}}" class="cu-tag round bg-red">待付款</view>
+<view wx:elif="{{status == -3}}" class="cu-tag round bg-orange">退款中</view>
+<view wx:elif="{{status == -2}}" class="cu-tag round bg-gray">已取消</view>
+<view wx:elif="{{status == -1}}" class="cu-tag round bg-gray">已失效</view>
+<view wx:elif="{{status == 1}}" class="cu-tag round bg-blue">待发货</view>
+<view wx:elif="{{status == 2}}" class="cu-tag round bg-blue">待收货</view>
+<view wx:elif="{{status == 3}}" class="cu-tag round bg-blue">待评价</view>
+<view wx:elif="{{status == 4}}" class="cu-tag round bg-blue">已完成</view>
+<view wx:else class="cu-tag round bg-gray"> - </view>
+</template>

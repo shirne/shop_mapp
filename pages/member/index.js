@@ -14,7 +14,11 @@ Component({
         favourite_count: 0,
         member: {
             niakname:'请登录'
-        }
+        },
+        issigned:false,
+        sign_keep_days: 0,
+        sign_days: 0,
+        signrecords:0
     },
 
     /**
@@ -27,6 +31,38 @@ Component({
                 this.setData({
                     member: profile
                 })
+            })
+
+            app.httpPost('common/batch',{
+                'notice':{},
+                'lastsign': { call: 'member/sign.getlastsign' },
+                'signtotaldays': { call: 'member/sign.totaldays' },
+                'signrecords':{call:'member/sign.totalcredit'}
+            },json=>{
+                //console.log(json)
+                let newData={}
+                if(json.data.notice){
+                    newData.notice=json.data.notice
+                }
+                if (json.data.lastsign){
+                    let lastsign=json.data.lastsign
+                    let curdate = util.formatTime(new Date(),false,'-')
+                    console.log(curdate,lastsign.signdate)
+                    if (lastsign.signdate == curdate) {
+                        newData['issigned'] = true
+                        newData['sign_keey_days'] = lastsign.keep_days
+                    } else {
+                        //newData['issigned'] = false
+                        let yesdate = util.prevDate(curdate)
+                        console.log(yesdate)
+                        if (lastsign.signdate == util.formatTime(yesdate, false, '-')) {
+                            newData['sign_keey_days'] = lastsign.keep_days
+                        }
+                    }
+                }
+                newData['signrecords'] = json.data.signrecords;
+                newData['sign_days'] = json.data.signtotaldays;
+                this.setData(newData)
             })
             
         },

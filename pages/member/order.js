@@ -1,4 +1,9 @@
 // pages/member/order.js
+const util = require("../../utils/util.js");
+const trail = require("../../utils/trail.js");
+const app = getApp()
+
+
 Page({
 
     /**
@@ -6,7 +11,11 @@ Page({
      */
     data: {
         status:"",
-        orders:[]
+        page:1,
+        orders:[[]],
+        hasmore:true,
+        totalcount:0,
+        isloading:true
     },
 
     /**
@@ -66,13 +75,41 @@ Page({
     },
     changeStatus(e){
         let status=e.target.dataset.status
-        console.log(status)
+        //console.log(status)
         this.setData({
-            status:status
+            status: status,
+            hasmore: true,
+            page:1
         })
         this.loadData()
     },
     loadData(){
-
+        console.log('loadData')
+        if(!this.data.hasmore)return;
+        this.setData({
+            isloading: true
+        })
+        app.httpPost('member.order/index',{status:this.data.status,page:this.data.page},json=>{
+            let newData = {
+                hasmore: false,
+                isloading: false
+            }
+            if(json.code == 1){
+                newData['totalcount']=json.data.count
+                if(json.data && json.data.lists && json.data.lists.length>0){
+                    let lists = trail.fixListImage(json.data.lists,'products.product_image')
+                    newData['orders[' + this.data.page + ']'] = json.data.lists
+                    if (this.data.page < json.data.total_page){
+                        newData['hasmore'] = true;
+                        this.data.page ++
+                    }
+                }
+                
+            }else{
+                app.tip('加载错误')
+            }
+            console.log(newData)
+            this.setData(newData)
+        })
     }
 })

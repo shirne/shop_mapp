@@ -1,6 +1,6 @@
 <home wx:if="{{PageCur=='home'}}"></home>
 <product wx:if="{{PageCur=='product'}}"></product>
-<news wx:if="{{PageCur=='news'}}"></news>
+<news wx:if="{{PageCur=='news'}}" ispulldown="{{ispulldown}}" isreachbottom="{{isreachbottom}}" bindrequest="onRequireSupport"></news>
 <cart wx:if="{{PageCur=='cart'}}"></cart>
 <member wx:if="{{PageCur=='member'}}"></member>
 <view class="cu-bar tabbar bg-white shadow foot">
@@ -14,7 +14,7 @@
     </view>
     <view class="action" bindtap="NavChange" data-cur="news">
         <view class="cuIcon-newshot{{PageCur=='news'?'fill text-red':''}}"></view>
-        <view class="{{PageCur=='news'?'text-red':'text-gray'}}">新闻</view>
+        <view class="{{PageCur=='news'?'text-red':'text-gray'}}">动态</view>
     </view>
     <view class="action" bindtap="NavChange" data-cur="cart">
         <view class="cuIcon-cart{{PageCur=='cart'?'fill text-red':''}}">
