@@ -9,9 +9,18 @@
     <view class="bg-white nav">
         <view class="flex text-center">
             <view class="cu-item flex-sub{{status===''?' text-orange cur':''}}" bindtap="changeStatus" data-status="">全部</view>
-            <view class="cu-item flex-sub{{status==='0'?' text-orange cur':''}}" bindtap="changeStatus" data-status="0">待支付</view>
-            <view class="cu-item flex-sub{{status==='1'?' text-orange cur':''}}" bindtap="changeStatus" data-status="1">已支付</view>
-            <view class="cu-item flex-sub{{status==='2'?' text-orange cur':''}}" bindtap="changeStatus" data-status="2">待收货</view>
+            <view class="cu-item flex-sub{{status==='0'?' text-orange cur':''}}" bindtap="changeStatus" data-status="0">
+            <view class='cu-tag badge' wx:if="{{ordercounts[0]}}">{{ordercounts[0]>99?'...':ordercounts[0]}}</view>
+            待支付
+            </view>
+            <view class="cu-item flex-sub{{status==='1'?' text-orange cur':''}}" bindtap="changeStatus" data-status="1">
+            <view class='cu-tag badge' wx:if="{{ordercounts[1]}}">{{ordercounts[1]>99?'...':ordercounts[1]}}</view>
+            已支付
+            </view>
+            <view class="cu-item flex-sub{{status==='2'?' text-orange cur':''}}" bindtap="changeStatus" data-status="2">
+            <view class='cu-tag badge' wx:if="{{ordercounts[2]}}">{{ordercounts[2]>99?'...':ordercounts[2]}}</view>
+            待收货
+            </view>
             <view class="cu-item flex-sub{{status==='4'?' text-orange cur':''}}" bindtap="changeStatus" data-status="4">已完成</view>
         </view>
     </view>

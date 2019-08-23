@@ -1,1 +1,9 @@
 /* pages/member/order.wxss */
+
+.nav .cu-item{
+    position:relative;
+}
+.nav .cu-item .cu-tag.badge{
+    right:0;
+    top:5rpx;
+}

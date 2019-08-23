@@ -40,25 +40,24 @@
                 <view class="cu-list grid col-4 no-border icon-hasbg">
                     <view class='cu-item order-item' bindtap='gotoOrder' data-status="1">
                         <view class="cuIcon-pay text-gold">
-                            <view class='cu-tag badge' wx:if="{{shop_order.unpaid_count}}">{{shop_order.unpaid_count>99?'...':shop_order.unpaid_count}}</view>
+                            <view class='cu-tag badge' wx:if="{{ordercounts[0]}}">{{ordercounts[0]>99?'...':ordercounts[0]}}</view>
                         </view>
                         <text class='item-title'>待付款</text>
                     </view>
                     <view class='cu-item order-item' bindtap='gotoOrder' data-status="3">
                         <view class="cuIcon-send text-gold">
-                            <view class='cu-tag badge' wx:if="{{shop_order.unpaid_count}}">{{shop_order.unpaid_count>99?'...':shop_order.unpaid_count}}</view>
+                            <view class='cu-tag badge' wx:if="{{ordercounts[1]}}">{{ordercounts[1]>99?'...':ordercounts[1]}}</view>
                         </view>
                         <text class='item-title'>待发货</text>
                     </view>
                     <view class='cu-item order-item' bindtap='gotoOrder' data-status="6">
                         <view class="cuIcon-deliver text-gold">
-                            <view class='cu-tag badge' wx:if="{{shop_order.unpaid_count}}">{{shop_order.unpaid_count>99?'...':shop_order.unpaid_count}}</view>
+                            <view class='cu-tag badge' wx:if="{{ordercounts[2]}}">{{ordercounts[2]>99?'...':ordercounts[2]}}</view>
                         </view>
                         <text class='item-title'>待收货</text>
                     </view>
                     <view class='cu-item order-item' bindtap='gotoShopOrder' data-status="0">
                         <view class="cuIcon-refund text-gold">
-                            <view class='cu-tag badge' wx:if="{{shop_order.unpaid_count}}">{{shop_order.unpaid_count>99?'...':shop_order.unpaid_count}}</view>
                         </view>
                         <text class='item-title'>退款/售后</text>
                     </view>

@@ -13,6 +13,7 @@ Page({
         status:"",
         page:1,
         orders:[[]],
+        ordercounts:[],
         hasmore:true,
         totalcount:0,
         isloading:true
@@ -79,12 +80,13 @@ Page({
         this.setData({
             status: status,
             hasmore: true,
+            orders:[[]],
             page:1
         })
         this.loadData()
     },
     loadData(){
-        console.log('loadData')
+        //console.log('loadData')
         if(!this.data.hasmore)return;
         this.setData({
             isloading: true
@@ -95,6 +97,7 @@ Page({
                 isloading: false
             }
             if(json.code == 1){
+                newData['ordercounts']=json.data.counts
                 newData['totalcount']=json.data.count
                 if(json.data && json.data.lists && json.data.lists.length>0){
                     let lists = trail.fixListImage(json.data.lists,'products.product_image')
@@ -108,7 +111,7 @@ Page({
             }else{
                 app.tip('加载错误')
             }
-            console.log(newData)
+            //console.log(newData)
             this.setData(newData)
         })
     }

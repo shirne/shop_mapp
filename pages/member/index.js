@@ -15,6 +15,7 @@ Component({
         member: {
             niakname:'请登录'
         },
+        ordercounts:{},
         issigned:false,
         sign_keep_days: 0,
         sign_days: 0,
@@ -37,7 +38,8 @@ Component({
                 'notice':{},
                 'lastsign': { call: 'member/sign.getlastsign' },
                 'signtotaldays': { call: 'member/sign.totaldays' },
-                'signrecords':{call:'member/sign.totalcredit'}
+                'signrecords':{call:'member/sign.totalcredit'},
+                'ordercounts':{call:'member/order.counts'}
             },json=>{
                 //console.log(json)
                 let newData={}
@@ -62,6 +64,7 @@ Component({
                 }
                 newData['signrecords'] = json.data.signrecords;
                 newData['sign_days'] = json.data.signtotaldays;
+                newData['ordercounts'] = json.data.ordercounts;
                 this.setData(newData)
             })
             
