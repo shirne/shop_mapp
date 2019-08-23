@@ -121,7 +121,7 @@ App({
             this.globalData.token = ""
             if (this.globalData.refresh_token) {
 
-                if (typeof callback == 'function') this.globalData.loginqueue.push(callback)
+                if (typeof success == 'function') this.globalData.loginqueue.push(success)
                 this.globalData.isloging = true;
 
                 this.httpPost('auth/refresh', { refresh_token: this.globalData.refresh_token }, (json) => {
@@ -219,12 +219,16 @@ App({
     request: function (url, data, method, success, error) {
         let self = this;
         let queryUrl = url
-        if (!data) data = {}
+        /*if (!data) data = {}
         if (this.globalData.token)
-            data.token = this.globalData.token
+            data.token = this.globalData.token*/
+        let header={}
+        if (this.globalData.token)
+            header.token = this.globalData.token
         wx.request({
             url: this.globalData.server + queryUrl,
             data: data,
+            header: header,
             method: method,
             dataType: 'json',
             success: function (res) {
@@ -244,7 +248,7 @@ App({
                     if (self.globalData.token){
                         self.tip('服务器令牌验证出错')
                     }else{
-                        self.tip('请先登录')
+                        //self.tip('请先登录')
                         self.checkLogin(() => {
                             self.request(url, data, method, success, error)
                         });
