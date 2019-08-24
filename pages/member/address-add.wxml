@@ -4,37 +4,37 @@
         <view slot="backText">返回</view>
         <view slot="content">编辑地址</view>
     </cu-custom>
-    <view class="formbox">
-        <view class="forminfo">
-            <view class="formrow">
-                <text class="labelforput">收货人</text>
+    <form class="formbox">
+        <view class="forminfo margin-top">
+            <view class="cu-form-group">
+                <text class="title">收货人</text>
                 <input class='input' bindblur='bindValueChange' data-key="recive_name" value='{{address.recive_name}}'></input>
             </view>
-            <view class="formrow">
-                <text class="labelforput">联系电话</text>
+            <view class="cu-form-group">
+                <text class="title">联系电话</text>
                 <input class='input' bindblur='bindValueChange' data-key="mobile" value='{{address.mobile}}'></input>
             </view>
-            <picker mode="region" bindchange="bindAreaChange" value="{{area}}">
-                <view class="formrow">
-                    <text class="label">所在地区</text>
-                    <text class="placeholder">{{address.area?'':'请选择'}}</text>
-                    <view class="value">
-                        <text decode="true">{{address.province}} {{address.city}} {{address.area}}</text>
+            <view class="cu-form-group">
+                <text class="title">所在地区</text>
+                <picker mode="region" bindchange="bindAreaChange" value="{{area}}">
+                    <view class="picker">
+                        {{address.area?(address.province+' '+address.city+' '+address.area):'请选择'}}
                     </view>
-                    <image class="arrow" src="/icons/arrow.png" />
-                </view>
-            </picker>
+                </picker>
+            </view>
 
-            <view class="formtextarea">
+
+            <view class="cu-form-group margin-top">
                 <textarea bindblur='bindTextAreaBlur' placeholder='详细地址' placeholder-class='placeholder-class' value="{{address.address}}"></textarea>
             </view>
-        </view>
 
-        <view class='formrow outrow' bindtap='checkRowTap'>
-            <text class='label'>设为默认地址</text>
-            <s-checkbox bindchanged="onChanged" checked='{{address.is_default}}' value="1"></s-checkbox>
+            <view class='cu-form-group margin-top' bindtap='checkRowTap'>
+                <text class='title'>设为默认地址</text>
+                <s-checkbox bindchanged="onChanged" checked='{{address.is_default}}' value="1"></s-checkbox>
+            </view>
         </view>
-    </view>
-    <button type="primary" loading='{{isloading}}' bindtap="buttonComplete">完成</button>
-
+        <view class="padding flex flex-direction">
+            <button class="cu-btn bg-blue lg" loading='{{isloading}}' bindtap="buttonComplete">完成</button>
+        </view>
+    </form>
 </view>

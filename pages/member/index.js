@@ -49,14 +49,14 @@ Component({
                 if (json.data.lastsign){
                     let lastsign=json.data.lastsign
                     let curdate = util.formatTime(new Date(),false,'-')
-                    console.log(curdate,lastsign.signdate)
+                    //console.log(curdate,lastsign.signdate)
                     if (lastsign.signdate == curdate) {
                         newData['issigned'] = true
                         newData['sign_keey_days'] = lastsign.keep_days
                     } else {
                         //newData['issigned'] = false
                         let yesdate = util.prevDate(curdate)
-                        console.log(yesdate)
+                        //console.log(yesdate)
                         if (lastsign.signdate == util.formatTime(yesdate, false, '-')) {
                             newData['sign_keey_days'] = lastsign.keep_days
                         }

@@ -17,16 +17,16 @@
                 </view>
                 <view class='buttonlist'>
                     <s-checkbox value="{{address.address_id}}" checked="{{address.address_id==default_id}}" bindchange="onSetDefault" label="设为默认地址"></s-checkbox>
-                    <view class='actionwrap' data-id="{{address.address_id}}" bindtap='editAddress'>
-                        <image src="/icons/edit.png" /> 编辑
+                    <view class='actionwrap text-blue' data-id="{{address.address_id}}" bindtap='editAddress'>
+                        <text class="cuIcon-edit"></text> 编辑
                     </view>
-                    <view class='actionwrap' data-id="{{address.address_id}}" bindtap='delAddress'>
-                        <image src="/icons/del.png" /> 删除
+                    <view class='actionwrap text-red' data-id="{{address.address_id}}" bindtap='delAddress'>
+                        <text class="cuIcon-delete"></text> 删除
                     </view>
                 </view>
             </view>
             <view class="loadingbox" wx:if="{{isloading}}">
-                <image src="/icons/loading.gif" />
+                <view class="cu-load loading"></view>
             </view>
             <view class="emptytip" wx:if="{{!isloading && !addresses.length}}">
                 <view><text class="cuIcon-location text-xsl"></text></view>
