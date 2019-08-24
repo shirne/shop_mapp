@@ -71,6 +71,13 @@ Page({
                     }
                 }
                 
+                let cursigndata = this.data.signedDates
+                if (!cursigndata) cursigndata={}
+                if (!cursigndata[signdata.signdate] ){
+                    cursigndata[signdata.signdate] = signdata
+                    newData["signedDates"] = cursigndata
+                }
+                
                 this.setData(newData)
             }
         })

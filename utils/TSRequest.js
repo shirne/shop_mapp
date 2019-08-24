@@ -17,12 +17,15 @@ class TSRequest{
     data=null
     isloading=false
 
+    error_timing=0
+
     constructor(api='', param=null, process=null){
         if(!app) app=getApp()
         this.setparam(api, param, process)
     }
 
     setparam(api = '', param = null, process = null){
+        console.log('new TSRequest:',api)
         if(typeof param == 'function'){
             process = param
             param=null
@@ -86,14 +89,16 @@ class TSRequest{
 
     _onerror(){
         if(this.trytimes>= this.maxtimes){
-            this.isloading = false
             console.error('获取数据失败,已尝试：' + this.trytimes + ' 次')
+            this.isloading = false
+            this.trytimes = 0
             this._callback(false)
         }else{
-            setTimeout(() => {
+            clearTimeout(this.error_timing)
+            this.error_timing = setTimeout(() => {
                 this.trytimes++;
                 this._request()
-            }, 1000 + this.trytimes * 1000)
+            }, this.trytimes * 500)
         }
     }
 }

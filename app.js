@@ -4,7 +4,10 @@ const Login = require("utils/Login.js");
 const TSRequest = require("utils/TSRequest.js");
 
 App({
-    onLaunch: function () {
+    onLaunch: function (options) {
+        if(options.agent){
+            this.globalData.agent=options.agent
+        }
         wx.getSystemInfo({
             success: res => {
                 this.globalData.systemInfo = res
@@ -24,7 +27,7 @@ App({
 
             },
         })
-        this.login = new Login(this)
+        this.login = new Login(this, this.globalData.agent)
     },
     checkLogin(callback = null, widthinit = false) {
         this.login.checkLogin(callback)
@@ -119,7 +122,7 @@ App({
                     });
                 } else if (res.data.code == 103) {
                     console.log('Token过期 AT ' + new Date().toLocaleString())
-                    self.refreshToken(() => {
+                    self.login.refreshToken(() => {
                         self.request(url, data, method, success, error)
                     }, true)
                 } else if (res.data.code == 99) {
@@ -145,12 +148,7 @@ App({
             },
             complete: function (res) {
                 if (res.statusCode != 200) {
-                    if (typeof error == "function") {
-                        error(res);
-                    } else {
-                        //self.error("服务器维护中")
-                        console.log('请求出错　', url)
-                    }
+                    console.log('请求出错　', url)
                 }
             }
         });
@@ -292,7 +290,8 @@ App({
         userInfo: null,
         profile: null,
 
-
+        agent:'',
+        
         cart_count: -1,
         wxid: 'OCUgNk',
         imgDir: 'http://scms.test.com',

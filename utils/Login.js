@@ -7,23 +7,30 @@ class Login {
 
     userInfo=null
 
+    agent = ''
+
     token= ""
     token_time= 0
     token_expire= 7200
     refresh_token= ""
 
-    constructor(app) {
+    constructor(app, agent) {
         this.app = app
+        this.agent = agent
     }
 
     getToken(){
         return this.token
     }
 
+    clearLogin(){
+        this.token = ''
+    }
+
     /**
      * 检查是否已登录并执行登录，登录成功则回调
      */
-    checkLogin(callback = null, widthinit = false) {
+    checkLogin(callback = null) {
         if (this.isloging) {
             if (typeof callback == 'function') this.loginqueue.push(callback)
             console.log('已在登录')
@@ -48,6 +55,9 @@ class Login {
                                     wxid: self.app.globalData.wxid,
                                     rawData: res.rawData,
                                     signature: res.signature
+                                }
+                                if(self.agent){
+                                    data.agent = self.agent
                                 }
 
                                 self.app.httpPost('auth/wxlogin', data, (json) => {
@@ -83,7 +93,7 @@ class Login {
                                                 success: result => {
                                                     if (result.authSetting['scope.userInfo'] == true) {
                                                         self.isloging = false
-                                                        self.checkLogin(callback, withinit)
+                                                        self.checkLogin(callback)
                                                     }
                                                 }
                                             })
