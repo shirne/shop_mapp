@@ -14,19 +14,29 @@ Component({
         cate_id: 0,
         isloading: true,
         page: 1,
-        has_more: true
+        has_more: true,
+        isattached: false
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    attached: function (options) {
-        app.getSiteInfo((siteinfo) => {
-            var pages = getCurrentPages();
-            app.initShare(pages[pages.length - 1], siteinfo.webname + '-产品中心', siteinfo.weblogo)
-        })
+    lifetimes: {
+        /**
+         * 生命周期函数--监听页面加载
+         */
+        attached: function (options) {
+            this.data.isattached = true
+            app.getSiteInfo((siteinfo) => {
+                if (this.data.isattached) {
+                    this.triggerEvent('sharedata', {
+                        title: siteinfo.webname + '-产品中心',
+                        img: siteinfo.weblogo
+                    })
+                }
+            })
+        },
+        moved: function () { },
+        detached: function () {
+            this.data.isattached = false
+        },
     },
-
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -34,7 +44,7 @@ Component({
         app.httpPost('product/get_cates', json => {
             if (json.code == 1) {
                 let cates = trail.fixListImage(json.data, 'icon')
-                
+
                 this.setData({
                     cates: cates,
                     cate_id: this.data.cate_id ? this.data.cate_id : json.data[0].id

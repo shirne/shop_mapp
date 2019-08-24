@@ -11,8 +11,11 @@ Page({
         needreachbottom:false,
         isreachbottom:false
     },
+    params:{
+        tab:'home'
+    },
     onLoad(args){
-        app.initShare(this)
+        //app.initShare(this)
         if (args && args.tab){
             this.setData({'PageCur': args.tab})
         }
@@ -40,11 +43,18 @@ Page({
                 needreachbottom: false,
                 isreachbottom: false
             })
+            this.params.tab = tab
         }else{
             app.tip('页面错误')
         }
     },
-
+    onRequireShare(e){
+        if(e.detail && e.detail.title){
+            app.initShare(this,e.detail.title,e.detail.img)
+        }else{
+            app.initShare(null)
+        }
+    },
     onRequireSupport(e){
         console.log(e)
         if(e.detail.pulldown){

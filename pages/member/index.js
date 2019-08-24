@@ -27,8 +27,9 @@ Component({
      */
     lifetimes:{
         attached: function (options) {
+            console.log('member')
             app.initShare(null);
-            trail.getProfile((profile)=>{
+            app.getProfile((profile)=>{
                 this.setData({
                     member: profile
                 })

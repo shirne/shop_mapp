@@ -1,4 +1,5 @@
-var util = require("util.js");
+const util = require("util.js");
+
 const app = getApp()
 
 const default_image = '/images/image.png'
@@ -25,26 +26,6 @@ const getCartCount = (callback, force) => {
     }
 }
 
-var userprofile=null
-const getProfile = (callback = null, force = false) =>{
-    if (!userprofile || force) {
-        app.checkLogin(() => {
-            app.httpPost('member/profile', (json) => {
-                if (json.code == 1) {
-                    json.data = fixImage(json.data, 'avatar')
-                    json.data.cardno = util.formatNumber(json.data.id, 8)
-                    userprofile = json.data
-                    if (typeof callback == 'function') callback(userprofile)
-                } else {
-                    setTimeout(() => { getProfile(callback) }, 3000)
-                }
-            })
-        })
-
-    } else {
-        if (typeof callback == 'function') callback(userprofile)
-    }
-}
 
 const makeOrder = (api, data, success, error) => {
     wx.showLoading({
@@ -281,15 +262,9 @@ const fixImage=(obj, key)=>{
     }
     return obj
 }
+
 const fixImageUrl = (url) => {
-    if (!url) return url
-    if (typeof url !== 'string' ) return url
-    if (url.indexOf('http://') == 0 || url.indexOf('https://') == 0) return url
-    var prefix = app.globalData.imgDir
-    if (url.indexOf('/') !== 0) {
-        prefix += '/'
-    }
-    return prefix + url
+    return app.fixImageUrl(url)
 }
 
 const fixContent = (content)=>{
@@ -348,7 +323,6 @@ module.exports = {
     makeOrder: makeOrder,
     payOrder: payOrder,
     getCartCount: getCartCount,
-    getProfile: getProfile,
     uploadFile: uploadFile,
     fixListDate: fixListDate,
     fixDate: fixDate,

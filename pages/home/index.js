@@ -17,20 +17,23 @@ Component({
         duration: 1000,
         cardCur: 0,
         goods_cates: null,
-        hot_news: null
+        hot_news: null,
+        isattached:false
     },
     lifetimes: {
         attached: function () {
+            this.data.isattached=true
+            console.log('home')
             wx.showLoading({
                 title: '',
             })
             app.getSiteInfo(siteinfo => {
-                //console.log(siteinfo)
-                wx.setNavigationBarTitle({
-                    title: siteinfo.name,
-                })
-                var pages=getCurrentPages();
-                app.initShare(pages[pages.length-1], siteinfo.name, siteinfo.weblogo)
+                if (this.data.isattached){
+                    this.triggerEvent('sharedata',{
+                        title: siteinfo.webname,
+                        img: siteinfo.weblogo
+                    })
+                }
             })
             app.httpPost(
                 'common/batch', {
@@ -92,7 +95,13 @@ Component({
                     wx.hideLoading()
                 }
             )
-        }
+        },
+        moved: function () { 
+            console.log('moved')
+        },
+        detached: function () {
+            this.data.isattached = false
+         },
     },
     methods: {
         

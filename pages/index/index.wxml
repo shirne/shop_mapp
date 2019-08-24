@@ -1,8 +1,8 @@
-<home wx:if="{{PageCur=='home'}}"></home>
-<product wx:if="{{PageCur=='product'}}"></product>
-<news wx:if="{{PageCur=='news'}}" ispulldown="{{ispulldown}}" isreachbottom="{{isreachbottom}}" bindrequest="onRequireSupport"></news>
-<cart wx:if="{{PageCur=='cart'}}"></cart>
-<member wx:if="{{PageCur=='member'}}"></member>
+<home wx:if="{{PageCur=='home'}}" bindsharedata="onRequireShare"></home>
+<product wx:if="{{PageCur=='product'}}" bindsharedata="onRequireShare"></product>
+<news wx:if="{{PageCur=='news'}}" bindsharedata="onRequireShare" ispulldown="{{ispulldown}}" isreachbottom="{{isreachbottom}}" bindrequest="onRequireSupport" bindsharedata="onRequireShare"></news>
+<cart wx:if="{{PageCur=='cart'}}" bindsharedata="onRequireShare"></cart>
+<member wx:if="{{PageCur=='member'}}" bindsharedata="onRequireShare"></member>
 <view class="cu-bar tabbar bg-white shadow foot">
     <view class="action" bindtap="NavChange" data-cur="home">
         <view class="cuIcon-home{{PageCur=='home'?'fill text-red':''}}"></view>

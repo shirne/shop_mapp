@@ -34,21 +34,30 @@ Component({
         lists: [],
         page: 1,
         has_more: true,
-        isloading: true
+        isloading: true,
+        isattached: false
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    attached: function (options) {
-        console.log('news:attached')
-        this.triggerEvent('request', { pulldown: true, reachbottom: true })
-        app.getSiteInfo((siteinfo) => {
-            var pages = getCurrentPages();
-            app.initShare(pages[pages.length - 1], siteinfo.webname + '-新闻中心', siteinfo.weblogo)
-        })
+    lifetimes: {
+        /**
+         * 生命周期函数--监听页面加载
+         */
+        attached: function (options) {
+            this.data.isattached = true
+            this.triggerEvent('request', { pulldown: true, reachbottom: true })
+            app.getSiteInfo((siteinfo) => {
+                if (this.data.isattached) {
+                    this.triggerEvent('sharedata', {
+                        title: siteinfo.webname + '-新闻中心',
+                        img: siteinfo.weblogo
+                    })
+                }
+            })
+        },
+        moved: function () { },
+        detached: function () {
+            this.data.isattached = false
+        },
     },
-
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

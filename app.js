@@ -1,5 +1,7 @@
 //app.js
-var util = require("utils/util.js");
+const util = require("utils/util.js");
+const Login = require("utils/Login.js");
+const TSRequest = require("utils/TSRequest.js");
 
 App({
     onLaunch: function () {
@@ -19,155 +21,13 @@ App({
                 let custom = wx.getMenuButtonBoundingClientRect();
                 this.globalData.Custom = custom;
                 this.globalData.CustomBar = custom.bottom + custom.top - res.statusBarHeight;
-        
+
             },
         })
+        this.login = new Login(this)
     },
-    /**
-     * 检查是否已登录并执行登录，登录成功则回调
-     */
-    checkLogin: function (callback = null, widthinit = false) {
-        if (this.globalData.isloging) {
-            if (typeof callback == 'function') this.globalData.loginqueue.push(callback)
-            console.log('已在登录')
-            return;
-        }
-        var self = this;
-        if (!this.globalData.token) {
-            console.log('正在登录')
-            if (typeof callback == 'function') this.globalData.loginqueue.push(callback)
-            this.globalData.isloging = true;
-            wx.login({
-                success: function (lres) {
-                    if (lres.code) {
-                        const code = lres.code
-                        wx.getUserInfo({
-                            withCredentials: true,
-                            success: (res) => {
-                                self.globalData.userInfo = res.userInfo
-
-                                var data = {
-                                    code: code,
-                                    wxid: self.globalData.wxid,
-                                    rawData: res.rawData,
-                                    signature: res.signature
-                                }
-
-                                self.httpPost('auth/wxlogin', data, (json) => {
-                                    self.globalData.isloging = false;
-                                    //console.log(self.globalData)
-                                    if (json.data && json.data.token) {
-                                        console.log('登录成功')
-                                        self.setLogin(json.data)
-
-                                        self.processQueue()
-                                    } else {
-                                        self.error(json.msg || "获取登录信息失败")
-                                    }
-                                }, res => {
-                                    self.globalData.isloging = false;
-                                    self.error("网络错误，登录失败")
-                                })
-
-                            },
-                            fail: res => {
-                                wx.hideLoading()
-                                wx.showModal({
-                                    title: '取消授权提示',
-                                    content: '没有用户授权信息，不能获取用户在应用中的对应数据？',
-                                    cancelText: "重新授权",
-                                    confirmText: "不授权",
-                                    success: (data) => {
-                                        if (data.confirm) {
-                                            console.info("确认不授权")
-                                            self.error("无法自动登录")
-                                        } else if (data.cancel) {
-                                            wx.openSetting({
-                                                success: result => {
-                                                    if (result.authSetting['scope.userInfo'] == true) {
-                                                        self.globalData.isloging = false
-                                                        self.checkLogin(callback, withinit)
-                                                    }
-                                                }
-                                            })
-                                        }
-                                    }
-                                })
-                            }
-                        })
-
-                    } else {
-                        self.globalData.isloging = false;
-                        self.error("获取登录状态失败")
-                    }
-                }
-            })
-        } else {
-            console.log('已登录')
-            //if (typeof callback == 'function') callback()
-            self.refreshToken(callback)
-        }
-    },
-    //success:回调函数  is_force:是否强制刷新
-    refreshToken: function (success, is_force) {
-        if (this.globalData.isloging) {
-            if (typeof success == 'function') this.globalData.loginqueue.push(success)
-            console.log('已在刷新Token')
-            return;
-        }
-        var self = this
-        if (is_force || !this.checkToken()) {
-            console.log((is_force ? '强制' : '') + '刷新 token  AT ' + new Date().toLocaleString())
-            this.globalData.token = ""
-            if (this.globalData.refresh_token) {
-
-                if (typeof success == 'function') this.globalData.loginqueue.push(success)
-                this.globalData.isloging = true;
-
-                this.httpPost('auth/refresh', { refresh_token: this.globalData.refresh_token }, (json) => {
-                    self.globalData.isloging = false;
-                    if (json.code == 1) {
-                        self.setLogin(json.data)
-                        self.processQueue()
-                    } else {
-                        self.error(json.message || "刷新token失败")
-
-                        //重新执行登录 回调已加到队列，不需重复添加
-                        this.checkLogin()
-                    }
-                })
-            } else {
-                this.checkLogin(success)
-            }
-        } else {
-            console.log('不需刷新 token')
-            if (typeof success == 'function') success()
-        }
-    },
-    //检查token是否有效
-    checkToken: function () {
-        if (!this.globalData.token) {
-            return false
-        }
-        var nowTime = Math.ceil(new Date().getTime() / 1000)
-        if (this.globalData.token_time + this.globalData.token_expire - 30 <= nowTime) {
-            console.log(this.globalData)
-            return false
-        }
-
-        return true
-    },
-    setLogin: function (data) {
-        this.globalData.token = data.token;
-        this.globalData.token_time = Math.floor(new Date().getTime() / 1000)
-        this.globalData.refresh_token = data.refresh_token
-        this.globalData.token_expire = data.token_expire
-    },
-    processQueue: function () {
-        var func = null
-        while (func = this.globalData.loginqueue.shift()) {
-            func()
-        }
+    checkLogin(callback = null, widthinit = false) {
+        this.login.checkLogin(callback)
     },
     getUserInfo: function (callback = null) {
         if (!this.globalData.userInfo) {
@@ -182,29 +42,49 @@ App({
             if (typeof callback == 'function') callback(this.globalData.userInfo)
         }
     },
-    
-    getSiteInfo: function (callback = null) {
-        if (!this.globalData.siteinfo) {
-            var self = this;
-            this.httpPost('common/siteinfo', (json) => {
-                if (json.code == 1) {
-                    if (json.data.weblogo) {
-                        json.data.weblogo = this.globalData.imgDir + json.data.weblogo
-                    } else {
-                        json.data.weblogo = "/icons/logo.png"
-                    }
-                    self.globalData.siteinfo = json.data
-                    if (typeof callback == 'function') callback(self.globalData.siteinfo)
+
+    getSiteInfo: function (callback = null, force = false) {
+        if (!this.siteinfoRequest) {
+            this.siteinfoRequest = new TSRequest('common/siteinfo', siteinfo => {
+                if (siteinfo.weblogo) {
+                    siteinfo.weblogo = this.fixImageUrl(siteinfo.weblogo)
                 } else {
-                    setTimeout(() => { self.getSiteInfo(callback) }, 3000)
+                    siteinfo.weblogo = "/icons/logo.png"
                 }
+                return siteinfo
             })
-        } else {
-            if (typeof callback == 'function') callback(this.globalData.siteinfo)
         }
+        this.siteinfoRequest.getData(siteinfo => {
+            this.globalData.profile = siteinfo
+            callback(siteinfo)
+        }, force)
+    },
+    getProfile(callback = null, force = false) {
+        if (!this.profileRequest) {
+            this.profileRequest = new TSRequest('member/profile', profile => {
+                profile.avatar = this.fixImageUrl(profile.avatar)
+                profile.cardno = util.formatNumber(profile.id, 8)
+                return profile
+            })
+        }
+        this.profileRequest.getData(profile => {
+            this.globalData.profile = profile
+            callback(profile)
+        }, force)
     },
     clearProfile: function () {
         this.globalData.profile = null
+    },
+    fixImageUrl (url) {
+        if (!url) return url
+        if (typeof url !== 'string') return url
+        if (url.indexOf('http://') == 0 || url.indexOf('https://') == 0) return url
+        
+        var prefix = this.globalData.imgDir
+        if (url.indexOf('/') !== 0) {
+            prefix += '/'
+        }
+        return prefix + url
     },
     httpGet: function (url, success, error) {
         this.request(url, {}, 'GET', success, error)
@@ -212,6 +92,7 @@ App({
     httpPost: function (url, data, success = null, error = null) {
         if (typeof data == "function") {
             success = data
+            error = success
             data = {}
         }
         this.request(url, data, 'POST', success, error)
@@ -219,12 +100,10 @@ App({
     request: function (url, data, method, success, error) {
         let self = this;
         let queryUrl = url
-        /*if (!data) data = {}
-        if (this.globalData.token)
-            data.token = this.globalData.token*/
-        let header={}
-        if (this.globalData.token)
-            header.token = this.globalData.token
+
+        let header = {}
+        header.token = this.login.getToken()
+        
         wx.request({
             url: this.globalData.server + queryUrl,
             data: data,
@@ -243,11 +122,11 @@ App({
                     self.refreshToken(() => {
                         self.request(url, data, method, success, error)
                     }, true)
-                }else if(res.data.code==99){
+                } else if (res.data.code == 99) {
                     console.log('需要登录 ' + new Date().toLocaleString())
-                    if (self.globalData.token){
+                    if (self.globalData.token) {
                         self.tip('服务器令牌验证出错')
-                    }else{
+                    } else {
                         //self.tip('请先登录')
                         self.checkLogin(() => {
                             self.request(url, data, method, success, error)
@@ -339,14 +218,14 @@ App({
     switchIndex: function (tab) {
         var pages = getCurrentPages();
         if (pages[0].route == 'pages/index/index') {
-            if(pages.length>1){
+            if (pages.length > 1) {
                 wx.navigateBack({
                     delta: pages.length,
                     success: function () {
                         pages[0].changeTab(tab)
                     }
                 })
-            }else{
+            } else {
                 pages[0].changeTab(tab)
             }
         } else {
@@ -366,15 +245,36 @@ App({
         wx.showShareMenu({
             withShareTicket: withTicket
         })
+
+        let profile=null
+        this.getProfile(p=>{
+            profile=p
+        })
+
         page.onShareAppMessage = res => {
             if (res.from === 'button') {
                 // 来自页面内转发按钮
                 console.log(res.target)
             }
+            var route = '/' + page.route
+            let query = []
+            if (page.params) {
+                for (let i in page.params) {
+                    query.push(i + '=' + encodeURIComponent(page.params[i]))
+                }
+            }
+            
+            if (profile && profile.agentcode) {
+                query.push('agent=' + profile.agentcode)
+            }
+            if (query.length > 0) {
+                route += '?' + query.join('&')
+            }
+            console.log('share:', route)
             var data = {
                 title: title ? title : this.globalData.siteinfo.sitename,
                 imageUrl: img ? img : this.globalData.siteinfo.weblogo,
-                path: page.route,
+                path: route,
                 success: function (res) {
                     // 转发成功
                     util.success('转发成功')
@@ -387,19 +287,14 @@ App({
         }
     },
     globalData: {
-        isloging: false,
         tipmsgstay: 1000,
-        loginqueue: [],//缓存登录过程中需要的回调操作
         siteinfo: null,
         userInfo: null,
+        profile: null,
 
-        token: "",
-        token_time: 0,
-        token_expire: 7200,
-        refresh_token: "",
 
-        cart_count:-1,
-        wxid:'OCUgNk',
+        cart_count: -1,
+        wxid: 'OCUgNk',
         imgDir: 'http://scms.test.com',
         limit: 10,//分页条数
         server: "http://scms.test.com/api/"
