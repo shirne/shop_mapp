@@ -20,10 +20,14 @@ Component({
         },
         min: {
             type: Number,
-            value: 0,
+            value: 1,
             observer: function (newVal, oldVal) {
                 // 属性值变化时执行
             }
+        },
+        mintip:{
+            type: String,
+            value: "最少 {number}",
         },
         max: {
             type: Number,
@@ -31,6 +35,10 @@ Component({
             observer: function (newVal, oldVal) {
                 // 属性值变化时执行
             }
+        },
+        maxtip: {
+            type: String,
+            value: "最多 {number}",
         }
     },
 
@@ -42,7 +50,7 @@ Component({
     },
     lifetimes:{
         attached: function () {
-            this.setNumber(this.data.value)
+            this.setNumber(this.data.value,true)
         }
     },
 
@@ -63,14 +71,14 @@ Component({
         onInput(e){
             this.setNumber(e.detail.value)
         },
-        setNumber(val){
+        setNumber(val, isinit){
             val = parseInt(val) || 0;
             if (val < this.data.min){
-                app.tip('最少 ' + this.data.min);
+                if(!isinit)app.tip(this.data.mintip.replace('{number}',this.data.min));
                 val = this.data.min
             }
-            if (this.data.max && val > this.data.max) {
-                app.tip('最多 ' + this.data.max);
+            if (this.data.max>0 && val > this.data.max) {
+                if (!isinit)app.tip(this.data.maxtip.replace('{number}',this.data.max));
                 val = this.data.max
             }
             
@@ -84,7 +92,7 @@ Component({
                 capturePhase: false
             } 
             
-            this.triggerEvent('change', { value: val}, myEventOption)
+            if (!isinit)this.triggerEvent('change', { value: val}, myEventOption)
         }
     }
 })

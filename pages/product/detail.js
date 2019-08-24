@@ -180,6 +180,7 @@ Page({
     },
     countGrow(e) {
         if (this.data.sku == null) {
+            console.log('countGrow')
             app.error("请选择商品规格")
             return
         }
@@ -203,6 +204,7 @@ Page({
     },
     setCount(e) {
         if (this.data.sku == null) {
+            console.log('setCount')
             app.error("请选择商品规格")
             return
         }

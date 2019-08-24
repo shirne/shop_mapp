@@ -109,7 +109,7 @@
                         </view>
                         <view class='plist countbox'>
                             <text class="text-left">购买数量</text>
-                            <number-input value="{{good_count}}" bind:change="setCount" />
+                            <number-input value="{{good_count}}" mintip="最少购买 {number} 件" maxtip="最多购买 {number} 件" bind:change="setCount" />
                         </view>
                     </view>
                     <view class='buttons'>
