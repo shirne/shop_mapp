@@ -280,14 +280,12 @@ Page({
         })
         if (this.data.is_favourite) {
             app.httpPost('member/del_favourite',
-                { ids: [this.data.model.id] },
+                { type: 'product',ids: [this.data.model.id] },
                 (json) => {
                     wx.hideLoading()
                     if (json.code == 1) {
-                        var product = this.data.model
-                        product.is_favourite = false
                         this.setData({
-                            model: product
+                            is_favourite: false
                         })
                         app.success('已移除收藏')
                     }
@@ -298,23 +296,13 @@ Page({
                 (json) => {
                     wx.hideLoading()
                     if (json.code == 1) {
-                        var product = this.data.model
-                        product.is_favourite = true
                         this.setData({
-                            model: product
+                            is_favourite: true
                         })
                         app.success('已加入收藏')
                     }
                 })
         }
-    },
-    viewCart:function(e=null){
-        wx.switchTab({
-            url: '../order/cart',
-            success: function(res) {},
-            fail: function(res) {},
-            complete: function(res) {},
-        })
     },
     emptyEvent:function(e=null){
         if(e){

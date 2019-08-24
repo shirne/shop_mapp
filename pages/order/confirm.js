@@ -254,24 +254,17 @@ Page({
             'from': this.data.buy_from
         }
         this.data.ordering = true
-        trail.makeOrder('order/confirm', param, data => {
+        trail.makeOrder('order/confirm', param, order_id => {
 
-            if (data.pay_amount > 0) {
-                wx.redirectTo({
-                    url: '/pages/order/pay_success?amount=' + data.pay_amount + '&order_id=' + data.order_id,
-                })
-            } else {
-                wx.redirectTo({
-                    url: '/pages/member/order-detail?order_id=' + data.order_id,
-                })
-            }
-        }, data => {
-            if (data.order_id) {
+            wx.redirectTo({
+                url: '/pages/member/order-detail?order_id=' + order_id,
+            })
+        }, order_id => {
+            if (order_id) {
                 wx.redirectTo({
                     url: '/pages/member/order-detail?order_id=' + data.order_id,
                 })
             } else {
-                app.error(data)
                 this.data.ordering = false
             }
         })

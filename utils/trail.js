@@ -58,7 +58,7 @@ const makeOrder = (api, data, success, error) => {
                 if (json.data && json.data.payment) {
                     if (json.data.payment.timeStamp){
                         doPay(json.data.payment, res=>{
-                            success(json.data)
+                            success(json.data.order_id)
                         }, res=>{
                             app.alert('支付失败', res => {
                                 error(json.data)
@@ -70,21 +70,7 @@ const makeOrder = (api, data, success, error) => {
                         })
                     }
                 } else {
-                    app.httpPost('order/wechatpay', { order_id: json.data.order_id}, json=>{
-                        if (json.data.payment && json.data.payment.timeStamp) {
-                            doPay(json.data.payment, res => {
-                                success(json.data)
-                            }, res=>{
-                                app.alert('支付失败', res => {
-                                    error(json.data)
-                                })
-                            })
-                        }else{
-                            app.alert('发起支付失败',res=>{
-                                error(json.data)
-                            })
-                        }
-                    })
+                    payOrder(json.data.order_id, success, error)
                     
                 }
 
@@ -92,6 +78,24 @@ const makeOrder = (api, data, success, error) => {
                 error(json.msg)
             }
         })
+}
+
+const payOrder = (orderid, success, error)=>{
+    app.httpPost('order/wechatpay', { order_id: orderid }, json => {
+        if (json.data.payment && json.data.payment.timeStamp) {
+            doPay(json.data.payment, res => {
+                success(orderid)
+            }, res => {
+                app.alert('支付失败', res => {
+                    error(orderid)
+                })
+            })
+        } else {
+            app.alert(json.msg||'发起支付失败', res => {
+                error(orderid)
+            })
+        }
+    })
 }
 
 const doPay = (payment, success, error)=>{
@@ -342,6 +346,7 @@ const fixMarketPrice = (goods)=>{
 
 module.exports = {
     makeOrder: makeOrder,
+    payOrder: payOrder,
     getCartCount: getCartCount,
     getProfile: getProfile,
     uploadFile: uploadFile,

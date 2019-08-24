@@ -1,0 +1,15 @@
+<template name="orderAction">
+<block wx:if="{{order.status < 0}}">
+    <button class="cu-btn round margin-left-sm line-gray" catchtap="orderAction" data-action="delete" data-id="{{order.order_id}}" data-status="{{order.status}}" role="button">删除订单</button>
+</block>
+<block wx:if="{{order.status==0}}">
+    <button class="cu-btn round margin-left-sm line-gray" catchtap="orderAction" data-action="cancel" data-id="{{order.order_id}}" data-status="{{order.status}}" role="button">取消订单</button>
+    <button class="cu-btn round margin-left-sm line-orange" catchtap="orderAction" data-action="repay" data-id="{{order.order_id}}" data-status="{{order.status}}" role="button">立即付款</button>
+</block>
+<block wx:if="{{order.status>1}}">
+    <button class="cu-btn round margin-left-sm line-gray" catchtap="orderAction" data-action="express" data-id="{{order.order_id}}" data-status="{{order.status}}" role="button">查看物流</button>
+</block>
+<block wx:if="{{order.status>0 && order.status<3}}">
+    <button class="cu-btn round margin-left-sm line-blue" catchtap="orderAction" data-action="confirm" data-id="{{order.order_id}}" data-status="{{order.status}}" role="button">确认收货</button>
+</block>
+</template>

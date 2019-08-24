@@ -1,1 +1,5 @@
 /* pages/member/order-detail.wxss */
+
+.order-status{
+    padding:30rpx;
+}

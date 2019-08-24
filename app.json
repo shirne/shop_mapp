@@ -20,7 +20,8 @@
         "pages/member/recharge",
         "pages/common/pick-address",
         "pages/home/index",
-        "pages/member/sign"
+        "pages/member/sign",
+        "pages/member/order-express"
     ],
     "window": {
         "backgroundTextStyle": "light",

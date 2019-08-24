@@ -23,6 +23,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        if (options.status !== undefined && options.status !== '' && options.status !== null){
+            this.setData({
+                status: options.status
+            })
+        }
         this.loadData();
     },
 
@@ -85,9 +90,16 @@ Page({
         })
         this.loadData()
     },
+    reloadData(){
+        this.data.page--
+        let loaded = this.loadData()
+        if(!loaded){
+            this.data.page++
+        }
+    },
     loadData(){
         //console.log('loadData')
-        if(!this.data.hasmore)return;
+        if(!this.data.hasmore)return false;
         this.setData({
             isloading: true
         })
@@ -109,10 +121,75 @@ Page({
                 }
                 
             }else{
+                newData['orders[' + this.data.page + ']'] = [];
                 app.tip('加载错误')
             }
             //console.log(newData)
             this.setData(newData)
         })
+        return true
+    },
+    orderDetail(e){
+        let data = e.currentTarget.dataset
+        
+        let id = data.id
+        wx.navigateTo({
+            url: 'order-detail?id=' + id
+        })
+    },
+    orderAction(e){
+        let data = e.currentTarget.dataset;
+        let id=data.id,status=data.status
+
+        switch(data.action){
+            case 'delete':
+                wx.showModal({
+                    title: '删除订单',
+                    content: '删除订单后所有数据不可恢复！',
+                    success(res) {
+                        if (res.confirm) {
+                            console.log('用户点击确定')
+                        }
+                    }
+                })
+                break;
+            case 'cancel':
+                wx.showModal({
+                    title: '取消订单',
+                    content: '确认取消此订单吗？',
+                    success(res) {
+                        if (res.confirm) {
+                            console.log('用户点击确定')
+                        }
+                    }
+                })
+                break;
+            case 'repay':
+                wx.showActionSheet({
+                    itemList: ['微信支付'],
+                    success(res) {
+                        if(res.tapIndex === 0){
+                            trail.payOrder(id, order_id => { this.reloadData() }, order_id => { })
+                        }
+                    }
+                })
+                break;
+            case 'express':
+                wx.navigateTo({
+                    url: 'order-express?id='+id
+                })
+                break;
+            case 'confirm':
+                wx.showModal({
+                    title: '确认完成',
+                    content: '请确认已收到货并且货品完整！',
+                    success(res) {
+                        if (res.confirm) {
+                            console.log('用户点击确定')
+                        } 
+                    }
+                })
+                break;
+        }
     }
 })

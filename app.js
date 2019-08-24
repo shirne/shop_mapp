@@ -295,19 +295,46 @@ App({
             title: msg,
         })
     },
-    alert: function(msg, confirm = null, cancel=null){
-        
-        wx.showModal({
-            title: '提示',
+    alert: function (msg, callback = null) {
+        var config = {
+            title: "系统提示",
             content: msg,
-            success(res) {
-                if (res.confirm) {
-                    confirm && confirm(res)
-                } else if (res.cancel) {
-                    cancel && cancel(res)
+            showCancel: false,
+            success: function (res) {
+                if (typeof callback == 'function') {
+                    callback(res)
                 }
             }
-        })
+        }
+        if (typeof msg == 'object') {
+            config = { ...config, ...msg }
+        }
+        wx.showModal(config)
+    },
+    confirm: function (msg, confirm = null, cancel = null, callback = null) {
+        var config = {
+            title: "系统提示",
+            content: msg,
+            showCancel: true,
+            success: function (res) {
+                if (res.confirm) {
+                    if (typeof confirm == 'function') {
+                        confirm(res)
+                    }
+                } else if (res.cancel) {
+                    if (typeof cancel == 'function') {
+                        cancel(res)
+                    }
+                }
+                if (typeof callback == 'function') {
+                    callback(res)
+                }
+            }
+        }
+        if (typeof msg == 'object') {
+            config = { ...config, ...msg }
+        }
+        wx.showModal(config);
     },
     switchIndex: function (tab) {
         var pages = getCurrentPages();

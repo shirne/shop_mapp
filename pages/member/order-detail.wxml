@@ -1,8 +1,108 @@
 <!--pages/member/order-detail.wxml-->
+
+<import src="/pages/tpl/order-action.wxml" />
+
 <scroll-view scroll-y="true">
     <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
         <view slot="backText">返回</view>
         <view slot="content">订单详情</view>
     </cu-custom>
-    
+    <view class="order-status bg-gradual-blue">
+        <text wx:if="{{order.status<0}}" class="text-white">订单已失效</text>
+        <text wx:elif="{{order.status<1}}" class="text-white">待付款</text>
+        <text wx:elif="{{order.status<2}}" class="text-white">买家已付款</text>
+        <text wx:elif="{{order.status<3}}" class="text-white">卖家已发货</text>
+        <text wx:else class="text-white">订单已完成</text>
+    </view>
+
+    <view class="cu-list menu margin-tb shadow">
+        <view class="cu-item" bindtap="gotoExpress">
+            <view class="action">
+                <text class="cuIcon-deliver text-lg text-blue"></text>
+            </view>
+            <view class="content text-sm padding-left-sm">
+                <text wx:if="{{order.status<2}}" class="text-gray">未发货</text>
+                <text wx:elif="{{order.status<3}}" class="text-blue">已发货</text>
+                <text wx:else class="text-blue">已收货</text>
+            </view>
+            <view class="action">
+                <text class="cuIcon-right"></text>
+            </view>
+        </view>
+        <view class="cu-item">
+            <view class="action">
+                <text class="cuIcon-location text-lg text-orange"></text>
+            </view>
+            <view class="content text-sm padding-left-sm">
+                <view>
+                    <text>{{order.recive_name}}</text><text class="margin-left text-gray">{{order.mobile}}</text>
+                </view>
+                <view>
+                <text class="text-gray">{{order.province}} {{order.city}} {{order.area}} {{order.address}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="cu-card bg-white margin-tb shadow">
+        <view class="card-header">
+            <view>产品信息</view>
+        </view>
+        <view class="card-content bg-white">
+            <view class="cu-list menu-avatar">
+                <view wx:for="{{order.products}}" wx:for-item="product" wx:key="id" bindtap="gotoProduct" data-id="{{product.product_id}}" class="flex ">
+                    <view class="cu-avatar radius lg" style="background-image:url({{product.product_image}});"></view>
+                    <view class="flex-sub" style="height:100%;padding:0 20rpx;">
+                        <view class="text-lg">
+                            <text class="text-cut">{{product.product_title}}</text>
+                        </view>
+                        <view wx:if="{{product.sku_specs}}" class="text-gray text-sm flex">
+                            <text class="text-cut">{{product.sku_specs}}</text>
+                        </view>
+                    </view>
+                    <view class="action text-right">
+                        <view class="price">￥{{product.product_price}}</view>
+                        <view>
+                            <text class="cuIcon-close"></text> {{product.count}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="text-right margin-sm">共 {{order.product_count}} 件商品 合计：{{order.payamount}}</view>
+        <view class="text-gray text-right margin-sm">
+            <template is="orderAction" data="{{order:order}}" />
+        </view>
+    </view>
+
+    <view class="cu-card bg-white margin-tb shadow">
+        <view class="card-header">
+            <view>订单信息</view>
+        </view>
+        <view class="card-content bg-white">
+            <view class="flex">
+                <view class="label">订单编号：</view>
+                <text class="flex-sub">{{order.order_no}}</text>
+            </view>
+            <view class="flex">
+                <view class="label">创建时间：</view>
+                <text class="flex-sub">{{order.create_time}}</text>
+            </view>
+            <view class="flex">
+                <view class="label">付款时间：</view>
+                <text class="flex-sub">{{order.pay_time}}</text>
+            </view>
+            <view class="flex">
+                <view class="label">发货时间：</view>
+                <text class="flex-sub">{{order.deliver_time}}</text>
+            </view>
+            <view class="flex">
+                <view class="label">订单备注：</view>
+                <text class="flex-sub">{{order.remark}}</text>
+            </view>
+        </view>
+        <view class="flex text-center solid-top">
+            <view class="flex-sub padding-sm text-orange"><text class="cuIcon-servicefill"></text> 联系客服</view>
+            <view class="flex-sub padding-sm text-blue"><text class="cuIcon-dianhua"></text> 拨打电话</view>
+        </view>
+    </view>
 </scroll-view>
