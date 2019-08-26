@@ -87,34 +87,13 @@ class Login {
     }
 
     getUserInfo(callback = null) {
+        
         wx.getSetting({
             success: res => {
-                
                 if (res.authSetting && res.authSetting['scope.userInfo'] !== undefined) {
                     if (res.authSetting['scope.userInfo']) {
 
-                        wx.login({
-                            success:  (lres)=> {
-                                if (lres.code) {
-                                    const code = lres.code
-
-                                    wx.getUserInfo({
-                                        withCredentials: true,
-                                        success: (res) => {
-                                            callback && callback(res, code)
-                                        },
-                                        fail: res => {
-                                            this.authfail()
-                                        }
-                                    });
-
-
-                                } else {
-                                    self.isloging = false;
-                                    app.error("获取登录状态失败")
-                                }
-                            }
-                        })
+                        this.wxlogin(callback)
                     } else {
                         this.authfail()
                     }
@@ -136,6 +115,37 @@ class Login {
                         success: res => {
                         }
                     })
+                }
+            },
+            fail:res=>{
+                //开发方式登录
+                if (res.errMsg && res.errMsg.indexOf('touristappid')>0){
+                    this.wxlogin(callback)
+                }
+            }
+        })
+    }
+
+    wxlogin(callback=null){
+        wx.login({
+            success: (lres) => {
+                if (lres.code) {
+                    const code = lres.code
+
+                    wx.getUserInfo({
+                        withCredentials: true,
+                        success: (res) => {
+                            callback && callback(res, code)
+                        },
+                        fail: res => {
+                            this.authfail()
+                        }
+                    });
+
+
+                } else {
+                    self.isloging = false;
+                    app.error("获取登录状态失败")
                 }
             }
         })

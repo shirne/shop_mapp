@@ -294,7 +294,7 @@ App({
         agent:'',
 
         cart_count: -1,
-        wxid: 'uYBUC3j6V',
+        wxid: '2',
         imgDir: 'http://scms.test.com',
         limit: 10,//分页条数
         server: "http://scms.test.com/api/"
