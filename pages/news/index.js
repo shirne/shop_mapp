@@ -43,6 +43,11 @@ Component({
          */
         attached: function (options) {
             this.data.isattached = true
+            if (options.cate) {
+                this.setData({
+                    cate_id: parseInt(options.cate)
+                })
+            }
             this.triggerEvent('request', { pulldown: true, reachbottom: true })
             app.getSiteInfo((siteinfo) => {
                 if (this.data.isattached) {
@@ -65,9 +70,10 @@ Component({
         app.httpPost('article/get_cates?pid=news', json => {
             if (json.code == 1) {
                 if (json.data && json.data.length > 0) {
+
                     this.setData({
                         cates: json.data,
-                        cate_id: json.data[0].id
+                        cate_id: this.data.cate_id > 0 ? this.data.cate_id : json.data[0].id
                     })
                 }
                 this.loadData()

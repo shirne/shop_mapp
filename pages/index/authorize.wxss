@@ -1,0 +1,11 @@
+/* pages/index/authorize.wxss */
+
+.avatar{
+    width:180rpx;
+    height:180rpx;
+    margin:0 auto;
+    margin-bottom:20rpx;
+    border-radius: 100%;
+    display: block;
+    overflow: hidden;
+}

@@ -6,7 +6,7 @@
         </view>
     </cu-custom>
     <view class="block ucenter-bg">
-        <view class="block-inner" style="background-image:url(/images/cardbg.png)">
+        <view class="block-inner" >
             <view class="cardno text-gold">No.{{member.cardno}}</view>
                 <view class="flex flex-wrap">
                     <view class="cu-avatar round xl avatar" style="background-image:url({{member.avatar}})">
@@ -24,7 +24,7 @@
                     </view>
                 </view>
             </view>
-            <view class="flex solid-bottom padding justify-end">
+            <view class="flex padding justify-end">
                 <button class="cu-btn round bg-brown">申请分销商</button>
             </view>
         </view>

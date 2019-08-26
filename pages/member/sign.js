@@ -70,7 +70,7 @@ Page({
                         newData['keey_days'] = signdata.keep_days
                     }
                 }
-                
+
                 let cursigndata = this.data.signedDates
                 if (!cursigndata) cursigndata={}
                 if (!cursigndata[signdata.signdate] ){

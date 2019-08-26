@@ -45,62 +45,34 @@ class Login {
                 success: function (lres) {
                     if (lres.code) {
                         const code = lres.code
-                        wx.getUserInfo({
-                            withCredentials: true,
-                            success: (res) => {
-                                self.userInfo = res.userInfo
-
-                                var data = {
-                                    code: code,
-                                    wxid: self.app.globalData.wxid,
-                                    rawData: res.rawData,
-                                    signature: res.signature
-                                }
-                                if(self.agent){
-                                    data.agent = self.agent
-                                }
-
-                                self.app.httpPost('auth/wxlogin', data, (json) => {
-                                    self.isloging = false;
-                                    //console.log(self.globalData)
-                                    if (json.data && json.data.token) {
-                                        console.log('登录成功')
-                                        self.setLogin(json.data)
-
-                                        self.processQueue()
-                                    } else {
-                                        self.tip(json.msg || "获取登录信息失败")
-                                    }
-                                }, res => {
-                                    self.isloging = false;
-                                    self.tip("网络错误，登录失败")
-                                })
-
-                            },
-                            fail: res => {
-                                wx.hideLoading()
-                                wx.showModal({
-                                    title: '取消授权提示',
-                                    content: '没有用户授权信息，不能获取用户在应用中的对应数据？',
-                                    cancelText: "重新授权",
-                                    confirmText: "不授权",
-                                    success: (data) => {
-                                        if (data.confirm) {
-                                            console.info("确认不授权")
-                                            self.tip("无法自动登录")
-                                        } else if (data.cancel) {
-                                            wx.openSetting({
-                                                success: result => {
-                                                    if (result.authSetting['scope.userInfo'] == true) {
-                                                        self.isloging = false
-                                                        self.checkLogin(callback)
-                                                    }
-                                                }
-                                            })
-                                        }
-                                    }
-                                })
+                        
+                        self.getUserInfo(res=>{
+                            self.userInfo = res.userInfo
+                            var data = {
+                                code: code,
+                                wxid: self.app.globalData.wxid,
+                                rawData: res.rawData,
+                                signature: res.signature
                             }
+                            if (self.agent) {
+                                data.agent = self.agent
+                            }
+
+                            self.app.httpPost('auth/wxlogin', data, (json) => {
+                                self.isloging = false;
+                                //console.log(self.globalData)
+                                if (json.data && json.data.token) {
+                                    console.log('登录成功')
+                                    self.setLogin(json.data)
+
+                                    self.processQueue()
+                                } else {
+                                    self.tip(json.msg || "获取登录信息失败")
+                                }
+                            }, res => {
+                                self.isloging = false;
+                                self.tip("网络错误，登录失败")
+                            })
                         })
 
                     } else {
@@ -115,6 +87,69 @@ class Login {
             self.refreshToken(callback)
         }
     }
+
+    getUserInfo(callback=null){
+        wx.getSetting({
+            success: res => {
+                console.log('authSetting:', res.authSetting)
+                if (res.authSetting && res.authSetting['scope.userInfo']!==undefined){
+                    if (res.authSetting['scope.userInfo']){
+                        wx.getUserInfo({
+                            withCredentials: true,
+                            success: (res) => {
+                                callback && callback(res)
+                            },
+                            fail: res => {
+                                this.authfail()
+                            }
+                        });
+                    }else{
+                        this.authfail()
+                    }
+                }else{
+                    wx.navigateTo({
+                        url: '/pages/index/authorize?credit=1',
+                        success: res => {
+                            let pages=getCurrentPages()
+                            let page=pages[pages.length-1]
+                            if(page.addCallback){
+                                page.addCallback(detail=>{
+                                    if (detail){
+                                        callback && callback(detail)
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    authfail(){
+        wx.showModal({
+            title: '取消授权提示',
+            content: '没有用户授权信息，不能获取用户在应用中的对应数据？',
+            cancelText: "重新授权",
+            confirmText: "不授权",
+            success: (data) => {
+                if (data.confirm) {
+                    console.info("确认不授权")
+                    self.tip("无法自动登录")
+                } else if (data.cancel) {
+                    wx.openSetting({
+                        success: result => {
+                            if (result.authSetting['scope.userInfo'] == true) {
+                                self.isloging = false
+                                self.checkLogin(callback)
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    }
+
     //success:回调函数  is_force:是否强制刷新
     refreshToken(success, is_force) {
         if (this.isloging) {

@@ -1,0 +1,17 @@
+<!--pages/index/authorize.wxml-->
+<view class='main-container'>
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">授权登录</view>
+    </cu-custom>
+    <view class='help-head text-center margin'>
+        <view class="avatar">
+        <open-data class="avatar round" type="userAvatarUrl"></open-data>
+        </view>
+        <view>Hi! <open-data type="userNickName"></open-data></view>
+    </view>
+    <view class='buttons text-center' >
+        <button wx:if="{{canIUse}}" class="cu-btn bg-blue" open-type="getUserInfo" bindgetuserinfo='bindReturns'>微信授权登录</button>
+        <view wx:else>请升级微信版本</view>
+    </view>
+</view>

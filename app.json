@@ -21,7 +21,8 @@
         "pages/common/pick-address",
         "pages/home/index",
         "pages/member/sign",
-        "pages/member/order-express"
+        "pages/member/order-express",
+        "pages/index/authorize"
     ],
     "window": {
         "backgroundTextStyle": "light",

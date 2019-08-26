@@ -23,6 +23,11 @@ Component({
          */
         attached: function (options) {
             this.data.isattached = true
+            if(options.cate){
+                this.setData({
+                    cate_id: parseInt(options.cate)
+                })
+            }
             app.getSiteInfo((siteinfo) => {
                 if (this.data.isattached) {
                     this.triggerEvent('sharedata', {
@@ -43,12 +48,17 @@ Component({
     ready: function () {
         app.httpPost('product/get_cates', json => {
             if (json.code == 1) {
-                let cates = trail.fixListImage(json.data, 'icon')
-
-                this.setData({
-                    cates: cates,
-                    cate_id: this.data.cate_id ? this.data.cate_id : json.data[0].id
-                })
+                if (json.data && json.data.length>0){
+                    let cates = trail.fixListImage(json.data, 'icon')
+                    let cate_id=this.data.cate_id
+                    if (this.data.cate_id == 0 ){
+                        cate_id = json.data[0].id
+                    }
+                    this.setData({
+                        cates: cates,
+                        cate_id: cate_id
+                    })
+                }
                 this.loadData()
             }
         })
