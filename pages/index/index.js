@@ -9,13 +9,14 @@ Page({
         needpulldown:false,
         ispulldown:false,
         needreachbottom:false,
-        isreachbottom:false
+        isreachbottom:false,
+        product_cate:0,
+        news_cate:0
     },
     params:{
         tab:'home'
     },
     onLoad(args){
-        //app.initShare(this)
         if (args && args.tab){
             this.setData({'PageCur': args.tab})
         }
@@ -47,6 +48,9 @@ Page({
         }else{
             app.tip('页面错误')
         }
+    },
+    onSetData(e){
+        this.setData(e.detail)
     },
     onRequireShare(e){
         if(e.detail && e.detail.title){

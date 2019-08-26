@@ -1,29 +1,31 @@
 
+let app=null
+
 class Login {
 
-    app = null
-    isloging=false
-    loginqueue= []//缓存登录过程中需要的回调操作
+    isloging = false
+    isauthing=false
+    loginqueue = []//缓存登录过程中需要的回调操作
 
-    userInfo=null
+    userInfo = null
 
     agent = ''
 
-    token= ""
-    token_time= 0
-    token_expire= 7200
-    refresh_token= ""
+    token = ""
+    token_time = 0
+    token_expire = 7200
+    refresh_token = ""
 
-    constructor(app, agent) {
-        this.app = app
+    constructor(appInstanse, agent) {
+        app = appInstanse
         this.agent = agent
     }
 
-    getToken(){
+    getToken() {
         return this.token
     }
 
-    clearLogin(){
+    clearLogin() {
         this.token = ''
     }
 
@@ -36,50 +38,46 @@ class Login {
             console.log('已在登录')
             return;
         }
+        this.doLogin(callback)
+    }
+
+    doLogin(callback = null){
         var self = this;
         if (!this.token) {
-            console.log('正在登录')
+            //console.log('正在登录')
+            wx.showLoading({
+                title: '正在登录...',
+            })
             if (typeof callback == 'function') this.loginqueue.push(callback)
             this.isloging = true;
-            wx.login({
-                success: function (lres) {
-                    if (lres.code) {
-                        const code = lres.code
-                        
-                        self.getUserInfo(res=>{
-                            self.userInfo = res.userInfo
-                            var data = {
-                                code: code,
-                                wxid: self.app.globalData.wxid,
-                                rawData: res.rawData,
-                                signature: res.signature
-                            }
-                            if (self.agent) {
-                                data.agent = self.agent
-                            }
-
-                            self.app.httpPost('auth/wxlogin', data, (json) => {
-                                self.isloging = false;
-                                //console.log(self.globalData)
-                                if (json.data && json.data.token) {
-                                    console.log('登录成功')
-                                    self.setLogin(json.data)
-
-                                    self.processQueue()
-                                } else {
-                                    self.tip(json.msg || "获取登录信息失败")
-                                }
-                            }, res => {
-                                self.isloging = false;
-                                self.tip("网络错误，登录失败")
-                            })
-                        })
-
-                    } else {
-                        self.isloging = false;
-                        this.app.error("获取登录状态失败")
-                    }
+            self.getUserInfo((res, code) => {
+                self.userInfo = res.userInfo
+                var data = {
+                    code: code,
+                    wxid: app.globalData.wxid,
+                    rawData: res.rawData,
+                    signature: res.signature
                 }
+                if (self.agent) {
+                    data.agent = self.agent
+                }
+
+                app.httpPost('auth/wxlogin', data, (json) => {
+                    self.isloging = false;
+                    wx.hideLoading()
+                    
+                    if (json.data && json.data.token) {
+                        
+                        self.setLogin(json.data)
+
+                        self.processQueue()
+                    } else {
+                        self.tip(json.msg || "获取登录信息失败")
+                    }
+                }, res => {
+                    self.isloging = false;
+                    self.tip("网络错误，登录失败")
+                })
             })
         } else {
             console.log('已登录')
@@ -88,37 +86,54 @@ class Login {
         }
     }
 
-    getUserInfo(callback=null){
+    getUserInfo(callback = null) {
         wx.getSetting({
             success: res => {
-                console.log('authSetting:', res.authSetting)
-                if (res.authSetting && res.authSetting['scope.userInfo']!==undefined){
-                    if (res.authSetting['scope.userInfo']){
-                        wx.getUserInfo({
-                            withCredentials: true,
-                            success: (res) => {
-                                callback && callback(res)
-                            },
-                            fail: res => {
-                                this.authfail()
+                
+                if (res.authSetting && res.authSetting['scope.userInfo'] !== undefined) {
+                    if (res.authSetting['scope.userInfo']) {
+
+                        wx.login({
+                            success:  (lres)=> {
+                                if (lres.code) {
+                                    const code = lres.code
+
+                                    wx.getUserInfo({
+                                        withCredentials: true,
+                                        success: (res) => {
+                                            callback && callback(res, code)
+                                        },
+                                        fail: res => {
+                                            this.authfail()
+                                        }
+                                    });
+
+
+                                } else {
+                                    self.isloging = false;
+                                    app.error("获取登录状态失败")
+                                }
                             }
-                        });
-                    }else{
+                        })
+                    } else {
                         this.authfail()
                     }
-                }else{
+                } else {
+                    wx.hideLoading()
+                    if (this.isauthing){
+                        let pages = getCurrentPages()
+                        if(pages && pages.length>0){
+                            let page=pages[pages.length-1]
+                            if (page.route == 'pages/index/authorize'){
+                                return
+                            }
+                        }
+                    }
+                    this.isauthing = true
+                    this.isloging = false
                     wx.navigateTo({
                         url: '/pages/index/authorize?credit=1',
                         success: res => {
-                            let pages=getCurrentPages()
-                            let page=pages[pages.length-1]
-                            if(page.addCallback){
-                                page.addCallback(detail=>{
-                                    if (detail){
-                                        callback && callback(detail)
-                                    }
-                                })
-                            }
                         }
                     })
                 }
@@ -126,7 +141,7 @@ class Login {
         })
     }
 
-    authfail(){
+    authfail() {
         wx.showModal({
             title: '取消授权提示',
             content: '没有用户授权信息，不能获取用户在应用中的对应数据？',
@@ -166,7 +181,7 @@ class Login {
                 if (typeof success == 'function') this.loginqueue.push(success)
                 this.isloging = true;
 
-                this.app.httpPost('auth/refresh', { refresh_token: this.refresh_token }, (json) => {
+                app.httpPost('auth/refresh', { refresh_token: this.refresh_token }, (json) => {
                     self.isloging = false;
                     if (json.code == 1) {
                         self.setLogin(json.data)
@@ -211,7 +226,7 @@ class Login {
             func()
         }
     }
-    tip (msg) {
+    tip(msg) {
         wx.showToast({
             icon: 'none',
             title: msg,

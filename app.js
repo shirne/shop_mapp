@@ -5,31 +5,32 @@ const TSRequest = require("utils/TSRequest.js");
 
 App({
     onLaunch: function (options) {
-        if(options.agent){
-            this.globalData.agent=options.agent
+        if(options.query && options.query.agent){
+            this.globalData.agent = options.query.agent
         }
-        wx.getSystemInfo({
-            success: res => {
-                this.globalData.systemInfo = res
+        let custom = wx.getMenuButtonBoundingClientRect();
+        try{
+        const res = wx.getSystemInfoSync();
+            this.globalData.systemInfo = res
 
-                //基础库版本提示
-                if (util.compareVersion(res.SDKVersion, '2.4.4') < 0) {
-                    wx.showModal({
-                        title: '提示',
-                        content: '当前微信版本过低，部分功能可能无法使用。'
-                    })
-                }
+            //基础库版本提示
+            if (util.compareVersion(res.SDKVersion, '2.4.4') < 0) {
+                wx.showModal({
+                    title: '提示',
+                    content: '当前微信版本过低，部分功能可能无法使用。'
+                })
+            }
 
-                this.globalData.StatusBar = res.statusBarHeight;
-                let custom = wx.getMenuButtonBoundingClientRect();
-                this.globalData.Custom = custom;
-                this.globalData.CustomBar = custom.bottom + custom.top - res.statusBarHeight;
+            this.globalData.StatusBar = res.statusBarHeight;
+        }catch(e){
+            this.globalData.StatusBar = custom.top < 24 ? custom.top*.76 : 20
 
-            },
-        })
+        }
+        this.globalData.Custom = custom;
+        this.globalData.CustomBar = custom.bottom + custom.top - this.globalData.StatusBar;
         this.login = new Login(this, this.globalData.agent)
     },
-    checkLogin(callback = null, widthinit = false) {
+    checkLogin(callback = null) {
         this.login.checkLogin(callback)
     },
     getUserInfo: function (callback = null) {
@@ -116,8 +117,8 @@ App({
             success: function (res) {
                 if (res.data.code == 102) {
                     console.log('登录信息失效 AT ' + new Date().toLocaleString())
-                    self.globalData.token = "";
-                    self.checkLogin(() => {
+                    self.login.clearLogin();
+                    self.login.checkLogin(() => {
                         self.request(url, data, method, success, error)
                     });
                 } else if (res.data.code == 103) {
@@ -291,9 +292,9 @@ App({
         profile: null,
 
         agent:'',
-        
+
         cart_count: -1,
-        wxid: 'OCUgNk',
+        wxid: 'uYBUC3j6V',
         imgDir: 'http://scms.test.com',
         limit: 10,//分页条数
         server: "http://scms.test.com/api/"

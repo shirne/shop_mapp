@@ -23,7 +23,7 @@ Component({
     lifetimes: {
         attached: function () {
             this.data.isattached=true
-            console.log('home')
+            //console.log('home')
             wx.showLoading({
                 title: '',
             })

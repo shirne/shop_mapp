@@ -7,6 +7,19 @@ Component({
     options: {
         addGlobalClass: true,
     },
+    properties:{
+        cate:{
+            type:Number,
+            observe(newval, oldval){
+                if(newval != this.data.cate_id){
+                    this.setData({
+                        cate_id:newval
+                    })
+                    this.loadData()
+                }
+            }
+        }
+    },
     /**
      * 页面的初始数据
      */
@@ -21,13 +34,8 @@ Component({
         /**
          * 生命周期函数--监听页面加载
          */
-        attached: function (options) {
+        attached: function () {
             this.data.isattached = true
-            if(options.cate){
-                this.setData({
-                    cate_id: parseInt(options.cate)
-                })
-            }
             app.getSiteInfo((siteinfo) => {
                 if (this.data.isattached) {
                     this.triggerEvent('sharedata', {
