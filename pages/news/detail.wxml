@@ -15,11 +15,12 @@
     <view class='detail-content'>
         <rich-text nodes="{{model.content}}"></rich-text>
     </view>
-    <view class='buttons'>
+    <view class='buttons padding'>
         <view class='flex'>
             <text decode='true'>&emsp;</text>
         </view>
-        <button open-type='share'>分享</button>
-        <button bindtap='diggUp'>({{model.digg}})点赞</button>
+        <button class="cu-btn round line-blue" open-type='share'><text class="cuIcon-share"></text> 分享</button>
+        <view wx:if="{{digged}}" class="cu-btn round line-blue" bindtap='diggUp'><text class="cuIcon-appreciatefill"></text> 已赞({{model.digg}})</view>
+        <view wx:else class="cu-btn round line-blue" bindtap='diggUp'><text class="cuIcon-appreciate"></text> 点赞({{model.digg}})</view>
     </view>
 </view>

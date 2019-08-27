@@ -11,7 +11,8 @@ Page({
      */
     data: {
         id: 0,
-        digging:false
+        digging:false,
+        digged:false
     },
 
     /**
@@ -32,7 +33,7 @@ Page({
         wx.showLoading({
             title: '',
         })
-        app.httpPost('article/view?id=' + this.data.id, json => {
+        app.httpPost('article/view', { id: this.data.id} , json => {
             if (json.code == 1) {
                 let data=json.data.article
                 data.create_time = util.getLocalTime(data.create_time)
@@ -43,7 +44,8 @@ Page({
                 json.data.images = trail.fixListImage(json.data.images,'image')
                 this.setData({
                     model: data,
-                    images: json.data.images
+                    images: json.data.images,
+                    digged: json.data.digged
                 })
                 wx.setNavigationBarTitle({
                     title: data.title,
@@ -96,27 +98,20 @@ Page({
 
     },
     diggUp: function (e) {
+        if (this.data.digged) {
+            util.tip('您已经点过赞了')
+            return
+        }
         if (this.data.digging)return
         this.data.digging = true
-        var id = this.data.model.id.toString()
-        var ids=wx.getStorageSync('digged')
-        if(ids){
-            if (ids.split(',').indexOf(id)>-1){
-                this.data.digging = false
-                util.tip('您已经点过赞了')
-                return
-            }
-        }
-        app.httpPost('common_ajax.ashx?action=diggup&channel=news&id=' + id,json=>{
+        
+        app.httpPost('article/digg' ,{id:this.data.id,type:'up'},json=>{
             if (json.code==1){
-                var model=this.data.model
-                model.diggup=json.data.diggup
-                this.setData({
-                    model:model
-                })
+                let newdata={}
+                newdata['modal.digg'] = json.data.digg
+                newdata.digged=true
+                this.setData(newdata)
                 util.success('感谢点赞')
-                ids = ids ? (ids + ',' + id) : id
-                wx.setStorageSync('digged', ids)
             }
             this.data.digging = false
         })

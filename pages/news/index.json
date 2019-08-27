@@ -1,4 +1,6 @@
 {
     "component": true,
-    "enablePullDownRefresh": true
+    "usingComponents": {
+        "pull-load": "/components/pull-load/pull-load"
+    }
 }

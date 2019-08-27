@@ -1,0 +1,48 @@
+/* components/pull-load/pull-load.wxss */
+.cwrapper{
+    overflow: hidden;
+}
+.loading{
+    transition: height .5s linear;
+}
+.dotwrapper{
+    display:flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content:center;
+    align-items: center;
+    height: 100%;
+    transition: height .5s linear;
+}
+.dotwrapper .dot{
+    background:#ccc;
+    border-radius: 100%;
+    flex:0 0 auto;
+    
+}
+.loading .dotwrapper .dot{
+    transition: width,height,margin .5s linear;
+    animation-duration: .9s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+    animation-name: scaleout;
+    animation-iteration-count: infinite;
+}
+.dot-2{
+    animation-delay: .3s;
+}
+.dot-3{
+    animation-delay: .6s;
+}
+
+@keyframes scaleout {
+    0% {
+        transform: scale(1)
+    }
+    50% {
+        transform: scale(1.3)
+    }
+    100% {
+        transform: scale(1)
+    }
+}

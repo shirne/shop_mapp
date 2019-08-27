@@ -13,7 +13,8 @@ Component({
     data: {
         favourite_count: 0,
         member: {
-            niakname:'请登录'
+            niakname:'请登录',
+            avatar:'/images/avatar-default.png'
         },
         ordercounts:{},
         issigned:false,
@@ -27,29 +28,50 @@ Component({
      */
     lifetimes:{
         attached: function (options) {
-            console.log('member')
+            //console.log('member')
             app.initShare(null);
             app.getProfile((profile)=>{
                 this.setData({
                     member: profile
                 })
             })
+            this.loadData()
+            
+            
+        },
 
-            app.httpPost('common/batch',{
-                'notice':{},
+        moved: function () { },
+        detached: function () { },
+    },
+    ready: function () {
+
+    },
+    pageLifetimes: {
+        // 组件所在页面的生命周期函数
+        show: function () {
+            this.loadData()
+         },
+        hide: function () { },
+        resize: function () { },
+    },
+
+    methods: {
+        loadData(){
+            app.httpPost('common/batch', {
+                'notice': {},
                 'lastsign': { call: 'member/sign.getlastsign' },
                 'signtotaldays': { call: 'member/sign.totaldays' },
-                'signrecords':{call:'member/sign.totalcredit'},
-                'ordercounts':{call:'member/order.counts'}
-            },json=>{
+                'signrecords': { call: 'member/sign.totalcredit' },
+                'ordercounts': { call: 'member/order.counts' }
+            }, json => {
                 //console.log(json)
-                let newData={}
-                if(json.data.notice){
-                    newData.notice=json.data.notice
+                let newData = {}
+                if (json.data.notice) {
+                    newData.notice = json.data.notice
                 }
-                if (json.data.lastsign){
-                    let lastsign=json.data.lastsign
-                    let curdate = util.formatTime(new Date(),false,'-')
+                if (json.data.lastsign) {
+                    let lastsign = json.data.lastsign
+                    let curdate = util.formatTime(new Date(), false, '-')
                     //console.log(curdate,lastsign.signdate)
                     if (lastsign.signdate == curdate) {
                         newData['issigned'] = true
@@ -68,17 +90,7 @@ Component({
                 newData['ordercounts'] = json.data.ordercounts;
                 this.setData(newData)
             })
-            
         },
-
-        moved: function () { },
-        detached: function () { },
-    },
-    ready: function () {
-
-    },
-
-    methods: {
         gotoOrder: function (e) {
             var status = e.currentTarget.dataset.status
             wx.navigateTo({

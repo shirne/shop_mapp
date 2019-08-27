@@ -8,24 +8,6 @@ Component({
         addGlobalClass: true,
     },
     properties: {
-        ispulldown: {
-            type: Boolean,
-            observer: function (newVal, oldVal) {
-                console.log('ispulldown:', newVal)
-                if (newVal) {
-                    this.reload()
-                }
-            }
-        },
-        isreachbottom: {
-            type: Boolean,
-            observer: function (newVal, oldVal) {
-                console.log('isreachbottom:', newVal)
-                if (newVal) {
-                    this.loadData()
-                }
-            }
-        },
         cate: {
             type: Number,
             observe(newval, oldval) {
@@ -46,7 +28,12 @@ Component({
         page: 1,
         has_more: true,
         isloading: true,
-        isattached: false
+        isattached: false,
+
+        loadok:false,
+        pullend:false,
+        pulldown:0,
+        downY:0
     },
     lifetimes: {
         /**
@@ -54,7 +41,6 @@ Component({
          */
         attached: function () {
             this.data.isattached = true
-            this.triggerEvent('request', { pulldown: true, reachbottom: true })
             app.getSiteInfo((siteinfo) => {
                 if (this.data.isattached) {
                     this.triggerEvent('sharedata', {
@@ -63,6 +49,7 @@ Component({
                     })
                 }
             })
+            this.loadCate()
         },
         moved: function () { },
         detached: function () {
@@ -73,18 +60,7 @@ Component({
      * 生命周期函数--监听页面初次渲染完成
      */
     ready: function () {
-        app.httpPost('article/get_cates?pid=news', json => {
-            if (json.code == 1) {
-                if (json.data && json.data.length > 0) {
-
-                    this.setData({
-                        cates: json.data,
-                        cate_id: this.data.cate_id > 0 ? this.data.cate_id : json.data[0].id
-                    })
-                }
-                this.loadData()
-            }
-        })
+        
     },
     methods: {
         reload() {
@@ -99,9 +75,22 @@ Component({
             })
             this.loadData()
         },
-        loadData: function () {
+        loadCate(){
+            app.httpPost('article/get_cates?pid=news', json => {
+                if (json.code == 1) {
+                    if (json.data && json.data.length > 0) {
+
+                        this.setData({
+                            cates: json.data,
+                            cate_id: this.data.cate_id > 0 ? this.data.cate_id : json.data[0].id
+                        })
+                    }
+                    this.loadData()
+                }
+            })
+        },
+        loadData: function (callback) {
             if (!this.data.has_more) {
-                this.isreachbottom = false
                 return;
             }
             var cid = this.data.cate_id
@@ -116,19 +105,29 @@ Component({
                         has_more: json.data.total_page >= page ? true : false,
                         isloading: false
                     })
-
-                    this.ispulldown = false
-                    this.isreachbottom = false
                 }
-                wx.stopPullDownRefresh()
+                callback && callback(true)
+            }, res=>{
+                callback && callback(false)
             })
         },
 
+        onReachBottom(e){
+
+            if (this.data.isloading) {
+                return;
+            }
+            this.setData({
+                isloading:true
+            })
+            this.loadData()
+        },
 
         /**
          * 页面相关事件处理函数--监听用户下拉动作
          */
-        onPullDownRefresh: function () {
+        onPullDown: function () {
+
             this.setData({
                 page: 1,
                 lists: [],
@@ -137,11 +136,41 @@ Component({
             })
             this.loadData()
         },
-
+        onTouchStart(e){
+            this.setData({
+                downY:e.touches[0].pageY,
+                pullend: false
+            })
+        },
+        onTouchMove(e) {
+            let downY = this.data.downY
+            this.setData({
+                pulldown: e.touches[0].pageY-downY
+            })
+        },
+        onTouchEnd(e) {
+            this.setData({
+                pullend: true,
+                loadok: false
+            })
+        },
+        onLoading(e){
+            this.setData({
+                page: 1,
+                lists: [],
+                has_more: true,
+                isloading: true
+            })
+            this.loadData(res=>{
+                this.setData({
+                    loadok:true
+                })
+            })
+        },
         gotoList: function (e) {
             var id = e.currentTarget.dataset.id
             wx.navigateTo({
-                url: 'list?cate_id=' + id,
+                url: '/pages/news/list?cate_id=' + id,
             })
         },
         changeCategory: function (e) {
@@ -158,7 +187,7 @@ Component({
         gotoDetail: function (e) {
             var id = e.currentTarget.dataset.id
             wx.navigateTo({
-                url: 'detail?id=' + id,
+                url: '/pages/news/detail?id=' + id,
             })
         }
     }

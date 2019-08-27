@@ -6,10 +6,6 @@ Page({
     data: {
         PageCur: 'home',
         cart_count:0,
-        needpulldown:false,
-        ispulldown:false,
-        needreachbottom:false,
-        isreachbottom:false,
         product_cate:0,
         news_cate:0
     },
@@ -58,39 +54,5 @@ Page({
         }else{
             app.initShare(null)
         }
-    },
-    onRequireSupport(e){
-        console.log(e)
-        if(e.detail.pulldown){
-            this.setData({
-                needpulldown:true
-            })
-        }
-        if (e.detail.reachbottom) {
-            this.setData({
-                needreachbottom: true
-            })
-        }
-    },
-
-    /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-    onPullDownRefresh: function () {
-        if(!this.data.needpulldown)return;
-        wx.startPullDownRefresh()
-        this.setData({
-            ispulldown:true
-        })
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-        if (!this.data.needreachbottom) return;
-        this.setData({
-            isreachbottom: true
-        })
     }
 })

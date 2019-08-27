@@ -1,33 +1,39 @@
 <!--pages/news/index.wxml-->
-<scroll-view scroll-y class="scrollPage">
+<scroll-view scroll-y bindscrolltoupper="onPullDown" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" bindscrolltolower="onReachBottom" class="scrollPage">
     <cu-custom bgColor="bg-gradual-pink">
         <view slot="content">
             新闻中心
         </view>
     </cu-custom>
     <scroll-view scroll-x class="bg-white nav">
-    <view class="flex text-center">
-    <block wx:for="{{cates}}" wx:key="key">
-        <view class="cu-item flex-sub {{item.id==cate_id?' text-orange cur':''}}" bindtap="changeCategory" data-id="{{item.id}}">
-            {{item.title}}
-        </view>
-        </block>
+        <view class="flex text-center">
+            <block wx:for="{{cates}}" wx:key="key">
+                <view class="cu-item flex-sub {{item.id==cate_id?' text-orange cur':''}}" bindtap="changeCategory" data-id="{{item.id}}">
+                    {{item.title}}
+                </view>
+            </block>
         </view>
     </scroll-view>
-    <view class='block lists' wx:if="{{lists && lists.length}}">
-        <view class='block-content'>
-            <view wx:for="{{lists}}" wx:key="key" class='newsitem' data-id="{{item.id}}" bindtap='gotoDetail'>
-                <view wx:if="{{item.cover}}" class='imgbox'>
-                    <image class='sm-picture' src="{{item.cover}}" mode='aspectFill'></image>
-                </view>
-                <view class='infobox'>
-                    <text class='infotitle'>{{item.title}}</text>
-                    <text class='infodesc' decode="true">{{item.description?item.description:''}}</text>
-                    <view class='infomation'>
-                        <text>{{item.create_time}}</text>
+    <pull-load loadok="{{loadok}}" pullend="{{pullend}}" pulldown="{{pulldown}}" bindloading="onLoading"></pull-load>
+    <view class='cu-card article' wx:if="{{lists && lists.length}}">
+
+        <view wx:for="{{lists}}" wx:key="key" class='cu-item shadow' data-id="{{item.id}}" bindtap='gotoDetail'>
+
+            <view class='title'>
+                <view class="text-cut">{{item.title}}</view>
+            </view>
+            <view class="content">
+                <image wx:if="{{item.cover}}" class='sm-picture' src="{{item.cover}}" mode='aspectFill'></image>
+                <view class="desc">
+                    <view class="text-content">
+                        <text decode="true">{{item.description?item.description:''}}</text>
+                    </view>
+                    <view>
+                        <text class="text-gray">{{item.create_time}}</text>
                     </view>
                 </view>
             </view>
+
         </view>
     </view>
     <view class="cu-load loading" wx:if="{{isloading}}"></view>

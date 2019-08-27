@@ -1,6 +1,6 @@
 <home wx:if="{{PageCur=='home'}}" bindsetdata="{{onSetData}}" bindsharedata="onRequireShare"></home>
 <product wx:if="{{PageCur=='product'}}" cate="{{product_cate}}" bindsharedata="onRequireShare"></product>
-<news wx:if="{{PageCur=='news'}}" cate="{{news_cate}}" bindsharedata="onRequireShare" ispulldown="{{ispulldown}}" isreachbottom="{{isreachbottom}}" bindrequest="onRequireSupport" bindsharedata="onRequireShare"></news>
+<news wx:if="{{PageCur=='news'}}" cate="{{news_cate}}" bindsharedata="onRequireShare"></news>
 <cart wx:if="{{PageCur=='cart'}}" bindsharedata="onRequireShare"></cart>
 <member wx:if="{{PageCur=='member'}}" bindsharedata="onRequireShare"></member>
 <view class="cu-bar tabbar bg-white shadow foot">

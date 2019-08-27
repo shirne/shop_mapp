@@ -1,5 +1,5 @@
 <!--pages/product/index.wxml-->
-<scroll-view scroll-y class="scrollPage">
+<scroll-view scroll-y bindscrolltolower="onReachBottom" class="scrollPage">
     <cu-custom bgColor="bg-gradual-pink">
         <view slot="content">
             商品中心

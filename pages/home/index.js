@@ -7,6 +7,8 @@ Component({
     options: {
         addGlobalClass: true,
     },
+    properties: {
+    },
     data: {
         userInfo: {},
         hasUserInfo: false,
@@ -23,7 +25,6 @@ Component({
     lifetimes: {
         attached: function () {
             this.data.isattached=true
-            //console.log('home')
             wx.showLoading({
                 title: '',
             })
@@ -35,10 +36,23 @@ Component({
                     })
                 }
             })
+            this.loadData(res=>{
+                wx.hideLoading()
+            })
+        },
+        moved: function () { 
+            console.log('moved')
+        },
+        detached: function () {
+            this.data.isattached = false
+        },
+    },
+    methods: {
+        loadData(callback=null){
             app.httpPost(
                 'common/batch', {
                     'product.get_list': {},
-                    'product.get_cates': { goods_count: 3},
+                    'product.get_cates': { goods_count: 3 },
                     'article.get_list': {},
                     'advs': {
                         flag: 'banner'
@@ -47,8 +61,8 @@ Component({
                         call: 'advs',
                         flag: 'fourmenu'
                     },
-                    'medium_advs':{
-                        call:'advs',
+                    'medium_advs': {
+                        call: 'advs',
                         flag: 'midbanner'
                     }
                 },
@@ -63,7 +77,7 @@ Component({
                         let cates = json.data['product.get_cates']
                         if (cates) {
                             cates = trail.fixListImage(cates, 'icon,products.image')
-                            for(let i=0;i<cates.length;i++){
+                            for (let i = 0; i < cates.length; i++) {
                                 cates[i].products = trail.fixMarketPrice(cates[i].products);
                             }
                         }
@@ -75,13 +89,13 @@ Component({
                         let advs = json.data['advs'], midadvs = json.data['medium_advs'], fourmenu = json.data['four_advs']
                         advs = trail.fixListImage(advs, 'image')
                         midadvs = trail.fixListImage(midadvs, 'image')
-                        
-                        if (fourmenu && fourmenu.length>0){
+
+                        if (fourmenu && fourmenu.length > 0) {
                             fourmenu = trail.fixListImage(fourmenu, 'image')
-                            if (fourmenu.length<4){
-                                fourmenu.push({ image: ''})
-                                fourmenu.push({ image: ''})
-                                fourmenu.push({ image: ''})
+                            if (fourmenu.length < 4) {
+                                fourmenu.push({ image: '' })
+                                fourmenu.push({ image: '' })
+                                fourmenu.push({ image: '' })
                             }
                         }
                         this.setData({
@@ -92,19 +106,13 @@ Component({
                             goods_cates: cates
                         })
                     }
-                    wx.hideLoading()
+                    callback && callback(true)
+                },
+                fail=>{
+                    callback && callback(false)
                 }
             )
         },
-        moved: function () { 
-            console.log('moved')
-        },
-        detached: function () {
-            this.data.isattached = false
-         },
-    },
-    methods: {
-        
         cardSwiper: function (e) {
             this.setData({
                 cardCur: e.detail.current

@@ -44,6 +44,7 @@ Component({
                     })
                 }
             })
+            this.loadCate()
         },
         moved: function () { },
         detached: function () {
@@ -54,25 +55,28 @@ Component({
      * 生命周期函数--监听页面初次渲染完成
      */
     ready: function () {
-        app.httpPost('product/get_cates', json => {
-            if (json.code == 1) {
-                if (json.data && json.data.length>0){
-                    let cates = trail.fixListImage(json.data, 'icon')
-                    let cate_id=this.data.cate_id
-                    if (this.data.cate_id == 0 ){
-                        cate_id = json.data[0].id
-                    }
-                    this.setData({
-                        cates: cates,
-                        cate_id: cate_id
-                    })
-                }
-                this.loadData()
-            }
-        })
+        
     },
     methods: {
-        loadData: function () {
+        loadCate(){
+            app.httpPost('product/get_cates', json => {
+                if (json.code == 1) {
+                    if (json.data && json.data.length > 0) {
+                        let cates = trail.fixListImage(json.data, 'icon')
+                        let cate_id = this.data.cate_id
+                        if (this.data.cate_id == 0) {
+                            cate_id = json.data[0].id
+                        }
+                        this.setData({
+                            cates: cates,
+                            cate_id: cate_id
+                        })
+                    }
+                    this.loadData()
+                }
+            })
+        },
+        loadData () {
             var cid = this.data.cate_id
             app.httpPost('product/get_list', { cate: cid }, json => {
                 if (cid == this.data.cate_id) {
@@ -98,13 +102,22 @@ Component({
                 }
             })
         },
-        gotoList: function (e) {
+        onReachBottom(e) {
+            if (this.data.isloading) {
+                return;
+            }
+            this.setData({
+                isloading: true
+            })
+            this.loadData()
+        },
+        gotoList (e) {
             var id = e.currentTarget.dataset.id
             wx.navigateTo({
                 url: 'list?cate_id=' + id,
             })
         },
-        changeCategory: function (e) {
+        changeCategory (e) {
             var id = e.currentTarget.dataset.id
             this.setData({
                 cate_id: id,
@@ -115,7 +128,7 @@ Component({
             })
             this.loadData()
         },
-        gotoDetail: function (e) {
+        gotoDetail (e) {
             var id = e.currentTarget.dataset.id
             wx.navigateTo({
                 url: '../product/detail?id=' + id,

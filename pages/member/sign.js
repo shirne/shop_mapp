@@ -22,7 +22,8 @@ Page({
         dates: [],
         signed:null,
         member: {
-            niakname: '请登录'
+            niakname: '请登录',
+            avatar: '/images/avatar-default.png'
         }
     },
 

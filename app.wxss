@@ -9,6 +9,11 @@ page {
 button.action{
     background: transparent;
 }
+cu-custom{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
 .scrollPage {
   height: 100vh;
 }
@@ -223,6 +228,9 @@ button.action{
     font-weight: bold;
     color:#333;
 }
+.block-inner .block-ttl {
+    padding: 5rpx 20rpx;
+}
 .block-ttl .fr{
     font-weight:normal;
     color:#999;
@@ -230,6 +238,9 @@ button.action{
 
 .block-content {
     padding: 20rpx;
+}
+.block-content .cu-list.grid.no-border{
+    padding:0;
 }
 
 .goods-block .block-content {
@@ -286,7 +297,7 @@ number-input{
 
 /*富文本样式*/
 .detail-content{
-    
+    padding:0 20rpx;
 }
 rich-text{
     font-size:24rpx;
@@ -296,6 +307,9 @@ rich-text .tag_p{
 }
 rich-text .tag_img{
     max-width: 100%;
+}
+rich-text .tag_p .tag_img{
+    margin-left:-2em;
 }
 
 .secfoot{
