@@ -11,15 +11,15 @@
                     <view class="icon padding-left-sm"><text class="cuIcon-location text-xxl text-red"></text></view>
                     <view class='add-info' wx:if="{{address && address.address_id}}">
                         <view>
-                            <text class='float_right add-mobile'>{{address.mobile}}</text>
                             <text class='add-name'>收货人：{{address.recive_name}}</text>
+                            <text class='add-mobile'>{{address.mobile}}</text>
                         </view>
                         <view class='street-wraper'>
-                            <text class='add-street' decode='true'>收货地址：{{address.area}} {{address.street}}</text>
+                            <text class='add-street' decode='true'>收货地址：{{address.city}} {{address.area}} {{address.street}}</text>
                         </view>
                     </view>
                     <view class='add-empty' wx:else>请选择收货地址</view>
-                    <view class="icon"><text class="cuIcon-right text-xl"></text></view>
+                    <view class="icon margin-right"><text class="cuIcon-right text-xl"></text></view>
                 </view>
             </view>
 
@@ -32,7 +32,7 @@
                             <text wx:for="{{product.spec_data}}" wx:key="title" wx:for-index="spec_id" decode='true'>{{item.title}}:{{product.specs[spec_id]}}&emsp;</text>
                         </view>
                         <view class='pro-price'>
-                            <text class='float_right' wx:if="{{buy_from=='cart'}}">x{{product.count}}</text>
+                            <text class='fr' wx:if="{{buy_from=='cart'}}">x {{product.count}}</text>
                             <text class='price p-price'>￥{{product.product_price}}</text>
                         </view>
                     </view>
@@ -43,7 +43,7 @@
                 <text class='desc' wx:if="{{products[0].limit_count>0}}">(每人限购 {{products[0].limit_count}} 件)</text>
                 <text class='desc red_tips' wx:elif='{{products[0].tip && products[0].tip.need_buy_count>0}}'>{{products[0].tip.need_buy_count}}件立减{{products[0].tip.amount}}元</text>
                 <text class='desc' wx:else></text>
-                <number-input value="{{products[0].count}}" bind:change="setCount" />
+                <number-input value="{{products[0].count}}" data-index="0" bind:change="setCount" />
             </view>
 
             <view class='extrow'>

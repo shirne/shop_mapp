@@ -20,7 +20,12 @@ Component({
         issigned:false,
         sign_keep_days: 0,
         sign_days: 0,
-        signrecords:0
+        signrecords:0,
+
+        loadok: false,
+        pullend: false,
+        pulldown: 0,
+        downY: 0
     },
 
     /**
@@ -56,7 +61,7 @@ Component({
     },
 
     methods: {
-        loadData(){
+        loadData(callback){
             app.httpPost('common/batch', {
                 'notice': {},
                 'lastsign': { call: 'member/sign.getlastsign' },
@@ -89,7 +94,53 @@ Component({
                 newData['sign_days'] = json.data.signtotaldays;
                 newData['ordercounts'] = json.data.ordercounts;
                 this.setData(newData)
+
+                callback && callback()
             })
+        },
+        /**
+         * 页面相关事件处理函数--监听用户下拉动作
+         */
+        onPullDown: function () {
+
+            this.setData({
+                page: 1,
+                lists: [],
+                has_more: true,
+                isloading: true
+            })
+            this.loadData()
+        },
+        onTouchStart(e) {
+            this.setData({
+                downY: e.touches[0].pageY,
+                pullend: false
+            })
+        },
+        onTouchMove(e) {
+            let downY = this.data.downY
+            this.setData({
+                pulldown: e.touches[0].pageY - downY
+            })
+        },
+        onTouchEnd(e) {
+            this.setData({
+                pullend: true,
+                loadok: false
+            })
+        },
+        onLoading(e) {
+            app.getProfile((profile) => {
+                this.setData({
+                    member: profile
+                })
+                this.loadData(res => {
+                    this.setData({
+                        loadok: true
+                    })
+                })
+            },true)
+            
         },
         gotoOrder: function (e) {
             var status = e.currentTarget.dataset.status

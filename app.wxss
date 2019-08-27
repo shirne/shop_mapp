@@ -14,6 +14,13 @@ cu-custom{
     top: 0;
     z-index: 999;
 }
+.cuIcon-blank{
+    background-size:cover;
+}
+.cuIcon-blank::before{
+    content:"\e6d7";
+    color: transparent;
+}
 .scrollPage {
   height: 100vh;
 }

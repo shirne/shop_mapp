@@ -12,7 +12,8 @@ Page({
     data: {
         id: 0,
         digging:false,
-        digged:false
+        digged:false,
+        model:{}
     },
 
     /**
@@ -108,7 +109,7 @@ Page({
         app.httpPost('article/digg' ,{id:this.data.id,type:'up'},json=>{
             if (json.code==1){
                 let newdata={}
-                newdata['modal.digg'] = json.data.digg
+                newdata['model.digg'] = json.data.digg
                 newdata.digged=true
                 this.setData(newdata)
                 util.success('感谢点赞')

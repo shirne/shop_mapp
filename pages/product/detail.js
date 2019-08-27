@@ -52,11 +52,7 @@ Page({
         this.setData({
             screenWidth: sysInfo.windowWidth
         })
-        trail.getCartCount(count=>{
-            this.setData({
-                cart_count: count
-            })
-        })
+        this.updateCartCount()
     },
 
     /**
@@ -156,7 +152,11 @@ Page({
     },
 
     updateCartCount:function(){
-
+        trail.getCartCount(count => {
+            this.setData({
+                cart_count: count
+            })
+        })
     },
     selectOption: function (e) {
         var d = e.currentTarget.dataset
@@ -269,12 +269,30 @@ Page({
             }
             this.hideModal()
             wx.navigateTo({
-                url: '../order/confirm?from=buy&storage=' + this.data.sku.storage + '&getdata=getOrderData',
-                success: function (res) { },
-                fail: function (res) { },
-                complete: function (res) { },
+                url: '../order/confirm?from=buy&storage=' + this.data.sku.storage + '&data=cartdata',
+                success:  (res) =>{
+                    if (res.eventChannel) {
+                        res.eventChannel.emit('acceptDataFromOpenerPage', this.getOrderData())
+                    } else {
+                        app.globalData['cartdata'] = this.getOrderData()
+                    }
+                 }
             })
         }
+    },
+    getOrderData: function () {
+        var product = this.data.model
+        var cart = {}
+        cart.sku_id = this.data.sku.sku_id
+        cart.product_price = this.data.sku.price
+        cart.product_image = product.image
+        cart.count = this.data.good_count > 1 ? this.data.good_count : 1
+        cart.product_id = product.id
+        cart.product_title = product.title
+        //cart.promotion = this.data.promotions,
+        //cart.max_buy = product.max_buy
+
+        return [cart]
     },
     setFavourite: function (e) {
         wx.showLoading({

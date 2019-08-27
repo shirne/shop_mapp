@@ -9,7 +9,8 @@
         <view class="flex text-center">
             <block wx:for="{{cates}}" wx:key="key">
                 <view class="cu-item flex-sub {{item.id==cate_id?' text-orange cur':''}}" bindtap="changeCategory" data-id="{{item.id}}">
-                    <text class="cuIcon-camerafill"></text> {{item.title}}
+
+                    <text class="cuIcon-blank text-lg" style="background-image:url({{item.icon}})"></text> {{item.title}}
                 </view>
             </block>
         </view>

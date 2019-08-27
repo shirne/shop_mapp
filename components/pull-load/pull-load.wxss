@@ -1,9 +1,10 @@
 /* components/pull-load/pull-load.wxss */
+
 .cwrapper{
     overflow: hidden;
 }
 .loading{
-    transition: height .5s linear;
+    transition: height .5s ease-in;
 }
 .dotwrapper{
     display:flex;
@@ -12,7 +13,7 @@
     justify-content:center;
     align-items: center;
     height: 100%;
-    transition: height .5s linear;
+    transition: height .5s ease-in;
 }
 .dotwrapper .dot{
     background:#ccc;
@@ -21,7 +22,7 @@
     
 }
 .loading .dotwrapper .dot{
-    transition: width,height,margin .5s linear;
+    transition: all .5s ease-in;
     animation-duration: .9s;
     animation-timing-function: ease-out;
     animation-fill-mode: both;

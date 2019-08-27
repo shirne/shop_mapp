@@ -1,5 +1,5 @@
 <!--components/pull-load/pull-load.wxml-->
-<view class="cwrapper {{isloading?'loading':''}}" style="height:{{pullTop}}rpx">
+<view class="cwrapper {{isloading?'loading':''}}" style="height:{{pullTop}}rpx;{{bgstring}}">
     <view class="dotwrapper">
         <view wx:for="{{[1,2,3]}}" wx:key="item" wx:for-item="dot" class="dot dot-{{dot}}" style="width:{{dotsize}}rpx;height:{{dotsize}}rpx;margin:{{dotsize}}rpx"></view>
     </view>

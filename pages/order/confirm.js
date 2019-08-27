@@ -257,14 +257,19 @@ Page({
         trail.makeOrder('order/confirm', param, order_id => {
 
             wx.redirectTo({
-                url: '/pages/member/order-detail?order_id=' + order_id,
+                url: '/pages/member/order-detail?id=' + order_id,
             })
-        }, order_id => {
+        }, (order_id,errmsg) => {
             if (order_id) {
                 wx.redirectTo({
-                    url: '/pages/member/order-detail?order_id=' + data.order_id,
+                    url: '/pages/member/order-detail?id=' + order_id,
                 })
             } else {
+                if(errmsg){
+                    app.error(errmsg)
+                }else{
+                    app.error('下单失败')
+                }
                 this.data.ordering = false
             }
         })

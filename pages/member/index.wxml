@@ -5,6 +5,8 @@
             会员中心
         </view>
     </cu-custom>
+    <scroll-view scroll-y bindscrolltoupper="onPullDown" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" class="scrollPage">
+    <pull-load bgcolor="#333" loadok="{{loadok}}" pullend="{{pullend}}" pulldown="{{pulldown}}" bindloading="onLoading"></pull-load>
     <view class="block ucenter-bg">
         <view class="block-inner" >
             <view class="cardno text-gold">No.{{member.cardno}}</view>
@@ -162,4 +164,5 @@
         </view>
     </view>
     <view class='cu-tabbar-height'></view>
+    </scroll-view>
 </view>

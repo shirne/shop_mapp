@@ -25,6 +25,12 @@ Component({
             observer(newval, oldval) {
                 //clearInterval(this.data.timer)
                 //clearInterval(this.data.loadingtimer)
+
+                if (this.data.isloading) {
+                    this.setData({
+                        isloading: false
+                    })
+                }
                 this.updatePullTop(newval)
             }
         },
@@ -35,6 +41,22 @@ Component({
         restoretime: {
             type:Number,
             value: 800
+        },
+        bgcolor:{
+            type:String,
+            observer(newval, oldval) {
+                this.setData({
+                    bgstring: newval?('background-color:'+newval):''
+                })
+            }
+        },
+        bgimg: {
+            type: String,
+            observer(newval, oldval) {
+                this.setData({
+                    bgstring: newval ? ('background-image:url(' + newval+')') : ''
+                })
+            }
         }
     },
 
@@ -49,7 +71,8 @@ Component({
         loadingidx: 0,
         loadingtimer:0,
         timer: 0,
-        timestamp: 0
+        timestamp: 0,
+        bgstring:''
     },
 
     lifetimes:{
@@ -63,15 +86,18 @@ Component({
     methods: {
         updatePullTop(newval){
             if (newval > 0) {
-                if (this.data.isloading) {
-                    this.setData({
-                        isloading: false
-                    })
+                let pulltop = newval;
+                if (newval > this.data.maxheight) {
+                    let over = newval - this.data.maxheight
+                    let ratio = 1 - this.data.maxheight / (this.data.maxheight + over)
+                    pulltop = this.data.maxheight + this.data.maxheight * ratio;
+                    
                 }
-                if (newval > this.data.maxheight) newval = this.data.maxheight;
-                let dotsize= Math.round(newval * .2)
+                
+                let dotsize = Math.round(pulltop * 15)*.01
+
                 this.setData({
-                    pullTop: newval,
+                    pullTop: pulltop,
                     dotsize: dotsize
                 })
             }
@@ -84,19 +110,29 @@ Component({
             }
         },
         startLoading(){
-            this.triggerEvent('loading',{});
+            setTimeout(() => {
+                this.triggerEvent('loading',{});
+            }, 500)
+
+            if (this.data.pullTop > this.data.maxheight) {
+                this.updatePullTop(this.data.maxheight)
+            }
+
             this.setData({
                 isloading:true
             })
         },
         endLoading(){
+            if(this.data.pullTop<=0)return;
             if(this.data.isloading){
                 this.triggerEvent('loadend', {});
             }
+            
             this.setData({
-                pullTop:0,
+                pullTop: 0,
                 dotsize: 0
             })
+            
         }
     }
 })

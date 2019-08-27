@@ -189,6 +189,11 @@ Page({
         app.httpPost('member.sign/dosign',{mood:''},json=>{
             app.tip(json.msg)
             if(json.code == 1){
+                app.getProfile((profile) => {
+                    this.setData({
+                        member: profile
+                    })
+                },true)
                 this.getLastSign()
             }
         })

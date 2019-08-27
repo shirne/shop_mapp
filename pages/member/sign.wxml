@@ -18,7 +18,7 @@
             </view>
             </view>
             <view class="padding-xs"><text>{{member.nickname?member.nickname:member.username}}</text></view>
-            <view class="padding-xs"><text class="cuIcon-choiceness"></text> 积分: {{member.credit}}</view>
+            <view class="padding-xs"><text class="cuIcon-choiceness"></text> 积分: {{member.credit*.01}}</view>
             <view class="padding-xs">
                 <view wx:if="{{signed}}" class="text-orange">已签到</view>
                 <button wx:else class="cu-btn round line-blue" role="button" bindtap="dosign">立即签到</button>

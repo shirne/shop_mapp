@@ -1,4 +1,7 @@
 /* pages/member/index.wxss */
+pull-load{
+    background:#333;
+}
 .ucenter-bg{
     background:linear-gradient(#333333,#f4f4f4);
     padding-top:20rpx;

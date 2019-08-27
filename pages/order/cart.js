@@ -56,6 +56,14 @@ Component({
                 app.httpPost('cart/getall', (json) => {
                     if (json.code == 1 && json.data) {
                         var carts = this.fixDataImage(json.data)
+                        if (carts){
+                            carts.forEach(item=>{
+                                item.storage = parseInt(item.storage)
+                                item.weight = parseInt(item.weight)
+                                item.product_price = parseFloat(item.product_price)
+                                item.cart_product_price = parseFloat(item.cart_product_price)
+                            })
+                        }
                         this.setData({
                             carts: carts,
                             isloading: false

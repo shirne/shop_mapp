@@ -1,3 +1,6 @@
 {
-    "component": true
+    "component": true,
+    "usingComponents": {
+        "pull-load": "/components/pull-load/pull-load"
+    }
 }

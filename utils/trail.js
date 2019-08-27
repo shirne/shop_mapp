@@ -42,12 +42,12 @@ const makeOrder = (api, data, success, error) => {
                             success(json.data.order_id)
                         }, res=>{
                             app.alert('支付失败', res => {
-                                error(json.data)
+                                error(json.data.order_id)
                             })
                         })
                     }else{
                         app.alert('发起支付失败', res => {
-                            error(json.data)
+                            error(json.data.order_id)
                         })
                     }
                 } else {
@@ -56,13 +56,13 @@ const makeOrder = (api, data, success, error) => {
                 }
 
             } else {
-                error(json.msg)
+                error(0,json.msg)
             }
         })
 }
 
 const payOrder = (orderid, success, error)=>{
-    app.httpPost('order/wechatpay', { order_id: orderid }, json => {
+    app.httpPost('order/wechatpay', { order_id: orderid, payid : app.globalData.wxid}, json => {
         if (json.data.payment && json.data.payment.timeStamp) {
             doPay(json.data.payment, res => {
                 success(orderid)
@@ -319,6 +319,103 @@ const fixMarketPrice = (goods)=>{
     return goods;
 }
 
+const reasons=[
+    "我不想要了",
+    "重复下单",
+    "信息填写错误重新拍",
+    "没有礼品/优惠",
+    "卖家缺货",
+    "其它原因"
+]
+
+const refundReasons=[
+    "15天无理由退货",
+    "发货不全/配件不全",
+    "收到商品时有破损/污渍/变形",
+    "商品质量问题",
+    "未按约定时间发货",
+    "商家发错货"
+]
+
+const orderAction=(action, id, status, success)=>{
+    switch (action) {
+        case 'delete':
+            wx.showModal({
+                title: '删除订单',
+                content: '删除订单后所有数据不可恢复！',
+                success(res) {
+                    if (res.confirm) {
+                        app.httpPost('member.order/delete', { id: id }, json => {
+                            if(json.code==1){
+                                app.success(json.msg)
+                                success && success()
+                            }else{
+                                app.error(json.msg)
+                            }
+                        })
+                    }
+                }
+            })
+            break;
+        case 'cancel':
+            let items = trail.reasons
+            wx.showActionSheet({
+                itemList: items,
+                success: (res) => {
+                    let reason = items[res.tapIndex]
+                    if (reason) {
+                        app.httpPost('member.order/cancel', { id: id, reason: reason }, json => {
+                            if (json.code == 1) {
+                                app.success(json.msg)
+                                success && success()
+                            } else {
+                                app.error(json.msg)
+                            }
+                        })
+                    }
+                }
+            })
+            break;
+        case 'repay':
+            wx.showActionSheet({
+                itemList: ['微信支付'],
+                success: (res) => {
+                    if (res.tapIndex === 0) {
+                        trail.payOrder(id, order_id => { 
+                            success && success()
+                         }, order_id => {
+
+                        })
+                    }
+                }
+            })
+            break;
+        case 'express':
+            wx.navigateTo({
+                url: 'order-express?id=' + id
+            })
+            break;
+        case 'confirm':
+            wx.showModal({
+                title: '确认完成',
+                content: '请确认已收到货并且货品完整！',
+                success: (res) => {
+                    if (res.confirm) {
+                        app.httpPost('member.order/confirm', { id: id }, json => {
+                            if (json.code == 1) {
+                                app.success(json.msg)
+                                success && success()
+                            } else {
+                                app.error(json.msg)
+                            }
+                        })
+                    }
+                }
+            })
+            break;
+    }
+}
+
 module.exports = {
     makeOrder: makeOrder,
     payOrder: payOrder,
@@ -331,5 +428,8 @@ module.exports = {
     fixImageUrl: fixImageUrl,
     fixContent: fixContent,
     fixTag: fixTag,
-    fixMarketPrice: fixMarketPrice
+    fixMarketPrice: fixMarketPrice,
+    reasons: reasons,
+    refundReasons: refundReasons,
+    orderAction: orderAction
 }
