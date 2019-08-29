@@ -68,7 +68,7 @@ Page({
                 
                 this.product=product
                 this.setData({
-                    model: model,
+                    model: product.product,
                     //product:product,
                     is_favourite:json.data.is_favourite,
                     albums: albums,

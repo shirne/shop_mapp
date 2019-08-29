@@ -54,7 +54,7 @@
         </view>
     </view>
 
-    <view class='detail-content margin-top-sm'>
+    <view class='image-content margin-top-sm'>
         <rich-text nodes="{{model.content}}"></rich-text>
     </view>
 

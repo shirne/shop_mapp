@@ -86,6 +86,9 @@ const doPay = (payment, success, error)=>{
         ...payment,
         'success': function (res) {
             if (res.errMsg == 'requestPayment:ok') {
+                setTimeout(()=>{
+                    app.getProfile(null,true)
+                },500)
                 success(res)
             }
         },
@@ -358,11 +361,10 @@ const orderAction=(action, id, status, success)=>{
             })
             break;
         case 'cancel':
-            let items = trail.reasons
             wx.showActionSheet({
-                itemList: items,
+                itemList: reasons,
                 success: (res) => {
-                    let reason = items[res.tapIndex]
+                    let reason = reasons[res.tapIndex]
                     if (reason) {
                         app.httpPost('member.order/cancel', { id: id, reason: reason }, json => {
                             if (json.code == 1) {

@@ -43,13 +43,7 @@ Page({
     onShow: function () {
         var self = this
         app.checkLogin(() => {
-            app.httpPost('member.address/index', {}, (json) => {
-                if (json.code == 1) {
-                    self.setData({
-                        addresses: json.data
-                    })
-                }
-            })
+            self.loadData()
         })
     },
 
@@ -87,6 +81,16 @@ Page({
     onShareAppMessage: function () {
 
     },
+    loadData(){
+
+        app.httpPost('member.address/index', {}, (json) => {
+            if (json.code == 1) {
+                this.setData({
+                    addresses: json.data
+                })
+            }
+        })
+    },
     manageAddress: function () {
         wx.navigateTo({
             url: '/pages/member/address',
@@ -98,7 +102,7 @@ Page({
             selectedid: id
         })
         var self = this
-        util.confirm('使用此地址作为您的服务地址？', () => {
+        util.confirm('使用此地址作为您的收货地址？', () => {
 
             self.onComplete(null)
         })
@@ -123,6 +127,38 @@ Page({
         }
         wx.navigateBack({
 
+        })
+    },
+    importAddress(e){
+        var self = this
+        wx.chooseAddress({
+            success: (res) => {
+                var address = {}
+                address.recive_name = res.userName
+                //address.recive_name = res.postalCode
+                address.province = res.provinceName
+                address.city = res.cityName
+                address.area = res.countyName
+                address.address = res.detailInfo
+                //address.recive_name = res.nationalCode
+                address.mobile = res.telNumber
+                //address.id = 0
+
+                wx.showLoading({
+                    title: '正在提交'
+                })
+                app.httpPost('member.address/save',
+                    { address: address, id: 0 },
+                    (json) => {
+                        wx.hideLoading()
+                        if (json.code == 1) {
+                            app.success('保存成功')
+                            self.loadData()
+                        } else {
+                            app.error(json.msg)
+                        }
+                    })
+            }
         })
     }
 })

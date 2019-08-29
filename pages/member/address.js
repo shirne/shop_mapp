@@ -124,7 +124,7 @@ Page({
         var self = this
         app.confirm('您是否确认删除该地址？', () => {
             app.httpPost('member.address/delete', { id: id }, (data) => {
-                if (data.status == 0) {
+                if (data.code == 1) {
                     app.success('删除成功')
                     var deleted = self.data.deleted
                     deleted[id] = true
@@ -142,7 +142,6 @@ Page({
         var self = this
         wx.chooseAddress({
             success: (res) => {
-                console.log(res)
                 var address = {}
                 address.recive_name = res.userName
                 //address.recive_name = res.postalCode

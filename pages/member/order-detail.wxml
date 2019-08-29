@@ -101,8 +101,8 @@
             </view>
         </view>
         <view class="flex text-center solid-top">
-            <view class="flex-sub padding-sm text-orange"><text class="cuIcon-servicefill"></text> 联系客服</view>
-            <view class="flex-sub padding-sm text-blue"><text class="cuIcon-dianhua"></text> 拨打电话</view>
+            <button class="not-button flex-sub padding-sm text-orange" open-type="contact"><text class="cuIcon-servicefill"></text> 联系客服</button>
+            <view class="flex-sub padding-sm text-blue" bindtap="callphone"><text class="cuIcon-dianhua"></text> 拨打电话</view>
         </view>
     </view>
 </scroll-view>

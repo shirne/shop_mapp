@@ -1,4 +1,6 @@
 // pages/member/order-express.js
+const app=getApp()
+
 Page({
 
     /**
@@ -17,9 +19,7 @@ Page({
         if (!order_id) {
             app.error('参数错误')
             setTimeout(() => {
-                wx.navigateBack({
-
-                })
+                wx.navigateBack({ })
             }, 600)
         } else {
             this.setData({

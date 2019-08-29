@@ -15,7 +15,7 @@
                             <text class='add-mobile'>{{address.mobile}}</text>
                         </view>
                         <view class='street-wraper'>
-                            <text class='add-street' decode='true'>收货地址：{{address.city}} {{address.area}} {{address.street}}</text>
+                            <text class='add-street' decode='true'>收货地址：{{address.city}} {{address.area}} {{address.address}}</text>
                         </view>
                     </view>
                     <view class='add-empty' wx:else>请选择收货地址</view>

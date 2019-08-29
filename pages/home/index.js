@@ -18,6 +18,7 @@ Component({
         interval: 5000,
         duration: 1000,
         cardCur: 0,
+        keyword:'',
         goods_cates: null,
         hot_news: null,
         isattached:false
@@ -136,6 +137,14 @@ Component({
         gotoNews: function (e) {
             wx.navigateTo({
                 url: '../news/detail?id=' + e.currentTarget.dataset.id,
+            })
+        },
+        setKeyword(e){
+            this.data.keyword = e.detail.value
+        },
+        doSearch:function(e){
+            wx.navigateTo({
+                url: '../index/search?keyword=' + this.data.keyword,
             })
         }
     }

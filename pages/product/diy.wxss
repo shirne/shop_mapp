@@ -1,0 +1,10 @@
+/* pages/product/diy.wxss */
+
+.price{
+    color:#b00;
+    font-weight: bold;
+}
+.price::first-letter{
+    font-size:22rpx;
+    font-weight: normal;
+}

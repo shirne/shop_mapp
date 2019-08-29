@@ -9,7 +9,7 @@
     <pull-load bgcolor="#333" loadok="{{loadok}}" pullend="{{pullend}}" pulldown="{{pulldown}}" bindloading="onLoading"></pull-load>
     <view class="block ucenter-bg">
         <view class="block-inner" >
-            <view class="cardno text-gold">No.{{member.cardno}}</view>
+            <view class="cardno text-golddark">No.{{member.cardno}}</view>
                 <view class="flex flex-wrap">
                     <view class="cu-avatar round xl avatar" style="background-image:url({{member.avatar}})">
                     <view wx:if="{{member.gender == 1}}" class="cu-tag badge cuIcon-male bg-blue"></view>
@@ -26,8 +26,9 @@
                     </view>
                 </view>
             </view>
-            <view class="flex padding justify-end">
-                <button class="cu-btn round bg-brown">申请分销商</button>
+            <view class="flex padding margin-top justify-end">
+                <button wx:if="{{member.is_agent > 0}}" class="cu-btn round line-brown" data-url="/pages/team/index" bindtap="gotoUrl">我的团队</button>
+                <button wx:else class="cu-btn round bg-brown" data-url="/pages/product/diy?types=4" bindtap="gotoUrl">申请分销商</button>
             </view>
         </view>
     </view>

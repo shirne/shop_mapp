@@ -1,0 +1,7 @@
+<!--pages/team/cash-logs.wxml-->
+<scroll-view>
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">提现记录</view>
+    </cu-custom>
+</scroll-view>

@@ -111,5 +111,17 @@ Page({
                 this.loadData()
             }
         })
+    },
+    callphone(){
+        app.getSiteInfo(siteinfo=>{
+            if(siteinfo.telephone){
+                wx.makePhoneCall({
+                    phoneNumber: siteinfo.telephone
+                })
+            }else{
+                app.alert('未设置电话，请联系客服')
+            }
+        })
+        
     }
 })

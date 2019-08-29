@@ -22,7 +22,17 @@
         "pages/home/index",
         "pages/member/sign",
         "pages/member/order-express",
-        "pages/index/authorize"
+        "pages/index/authorize",
+        "pages/product/diy",
+        "pages/index/search",
+        "pages/team/index",
+        "pages/team/offlines",
+        "pages/team/orders",
+        "pages/team/rewards",
+        "pages/team/cash",
+        "pages/team/cash-logs",
+        "pages/team/share",
+        "pages/team/ranks"
     ],
     "window": {
         "backgroundTextStyle": "light",

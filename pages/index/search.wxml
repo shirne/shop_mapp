@@ -1,0 +1,20 @@
+<!--pages/index/search.wxml-->
+<view class='container'>
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">全站搜索</view>
+    </cu-custom>
+    <view class="cu-bar search bg-white">
+        <view class="search-form round">
+            <text class="cuIcon-search"></text>
+            <input type="text" placeholder="搜索产品，文章" value="{{keyword}}" confirm-type="search"></input>
+        </view>
+        <view class="action">
+            <button class="cu-btn bg-green shadow-blur round">搜索</button>
+        </view>
+    </view>
+    <scroll-view scroll-y bindscrolltoupper="onPullDown" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" bindscrolltolower="onReachBottom">
+        <pull-load loadok="{{loadok}}" pullend="{{pullend}}" pulldown="{{pulldown}}" bindloading="onLoading"></pull-load>
+
+    </scroll-view>
+</view>

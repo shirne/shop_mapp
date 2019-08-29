@@ -1,0 +1,15 @@
+/* pages/team/index.wxss */
+pull-load{
+}
+.ucenter-bg{
+    padding-top:20rpx;
+}
+
+.ucenter-bg  .avatar{
+    margin-left:20rpx;
+}
+.ucenter-bg .cardno{
+    position: absolute;
+    top:20rpx;
+    right:20rpx;
+}

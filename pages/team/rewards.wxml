@@ -1,0 +1,7 @@
+<!--pages/team/rewards.wxml-->
+<scroll-view>
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">奖励记录</view>
+    </cu-custom>
+</scroll-view>

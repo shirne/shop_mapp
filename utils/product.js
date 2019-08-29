@@ -1,4 +1,5 @@
 let util = require("util.js");
+const html = require("HtmlToNodes.js");
 let trail = require("trail.js");
 
 class Product
@@ -12,7 +13,7 @@ class Product
         })
 
         product.image = trail.fixImageUrl(product.image)
-        product.content = trail.fixContent(product.content)
+        product.content = html.HtmlToNodes(product.content, trail.fixTag)
         skus = trail.fixListImage(skus, 'image')
 
         this.product=product

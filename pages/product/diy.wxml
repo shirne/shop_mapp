@@ -1,0 +1,41 @@
+<!--pages/product/diy.wxml-->
+<scroll-view>
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">分销商礼包</view>
+    </cu-custom>
+
+    <view class="cu-card case ">
+        <block wx:if="{{products && products.length}}">
+        <view wx:for="{{products}}" wx:key="product.id" wx:for-item="product" class="cu-item shadow">
+            <view class="image">
+                <image src="{{product.image}}" mode="widthFix"></image>
+                <view class="cu-tag bg-blue">{{product.level_name}}</view>
+                <view class="cu-bar bg-shadeBottom">
+                    <text class="text-cut">{{product.vice_title}}</text>
+                </view>
+            </view>
+            <view class="cu-list menu-avatar">
+                <view class="cu-item">
+                    <view class="flex-sub padding-left-sm">
+                    <view class="text-lg">{{product.title}}</view>
+                    <view class="price">￥{{product.min_price}}</view>
+                    </view>
+                    <view class="text-gray text-sm">
+                        <view class="buybox">
+                            <button class="cu-btn bg-blue" bindtap="buynow" data-id="{{product.id}}">立即购买礼包</button>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        </block>
+        <view class="loading" wx:elif="{{isloading}}">
+            加载中...
+        </view>
+        <view class="emptytip" wx:else>
+            暂时没有礼包
+        </view>
+
+    </view>
+</scroll-view>

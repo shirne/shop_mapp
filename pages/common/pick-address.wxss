@@ -1,7 +1,9 @@
 /* pages/common/pick-address.wxss */
+
 .address-item{
-  padding:40rpx 20rpx;
-  border-bottom:1rpx #f0f0f2 solid
+  padding:20rpx;
+  border-bottom:1rpx #f0f0f2 solid;
+  background: #fff;
 }
 .address-item .name{
     font-weight:bold;

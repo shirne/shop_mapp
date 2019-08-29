@@ -30,6 +30,11 @@ App({
         this.globalData.CustomBar = custom.bottom + custom.top - this.globalData.StatusBar;
         this.login = new Login(this, this.globalData.agent)
     },
+    onPageNotFound(res) {
+        wx.redirectTo({
+            url: '/pages/index/index'
+        })
+    },
     checkLogin(callback = null) {
         this.login.checkLogin(callback)
     },
@@ -73,7 +78,7 @@ App({
         }
         this.profileRequest.getData(profile => {
             this.globalData.profile = profile
-            callback(profile)
+            callback && callback(profile)
         }, force)
     },
     clearProfile: function () {
@@ -240,14 +245,18 @@ App({
             wx.hideShareMenu({})
             return
         }
-        console.log("share:", page.route)
+        //console.log("share:", page.route)
         wx.showShareMenu({
             withShareTicket: withTicket
         })
 
-        let profile=null
+        let profile={}
         this.getProfile(p=>{
             profile=p
+        })
+        let siteinfo = {}
+        this.getSiteInfo(s => {
+            siteinfo = s
         })
 
         page.onShareAppMessage = res => {
@@ -271,8 +280,8 @@ App({
             }
             console.log('share:', route)
             var data = {
-                title: title ? title : this.globalData.siteinfo.sitename,
-                imageUrl: img ? img : this.globalData.siteinfo.weblogo,
+                title: title ? title : siteinfo.sitename,
+                imageUrl: img ? img : siteinfo.weblogo,
                 path: route,
                 success: function (res) {
                     // 转发成功

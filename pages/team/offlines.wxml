@@ -1,0 +1,7 @@
+<!--pages/team/offlines.wxml-->
+<scroll-view>
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="content">我的客户</view>
+    </cu-custom>
+</scroll-view>

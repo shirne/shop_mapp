@@ -91,11 +91,12 @@ Page({
         this.loadData()
     },
     reloadData(){
-        this.data.page--
-        let loaded = this.loadData()
-        if(!loaded){
-            this.data.page++
-        }
+        let newData = { }
+        newData['orders[' + this.data.page + ']'] = []
+        this.setData(newData)
+        if(this.data.hasmore)this.data.page--
+        else this.data.hasmore=true
+        this.loadData()
     },
     loadData(){
         //console.log('loadData')
