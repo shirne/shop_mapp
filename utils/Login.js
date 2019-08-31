@@ -16,9 +16,44 @@ class Login {
     token_expire = 7200
     refresh_token = ""
 
+    store_key ='login_token'
+
     constructor(appInstanse, agent) {
         app = appInstanse
         this.agent = agent
+    }
+
+    restoreToken(){
+        try {
+            var value = wx.getStorageSync(this.store_key)
+            if (value) {
+                let data = JSON.parse(value)
+                if(data && data.token && data.refresh_token){
+                    console.log('从缓存恢复登录数据')
+                    this.token = data.token
+                    this.token_time = data.token_time
+                    this.token_expire = data.token_expire
+                    this.refresh_token = data.refresh_token
+                }
+            }
+        } catch (e) {
+            // Do something when catch error
+        }
+
+    }
+
+    saveToken(){
+        if(this.token){
+            wx.setStorage({
+                key: this.store_key,
+                data: JSON.stringify({
+                    token :this.token,
+                    token_time: this.token_time,
+                    token_expire: this.token_expire,
+                    refresh_token: this.refresh_token
+                })
+            })
+        }
     }
 
     getToken() {
@@ -27,6 +62,7 @@ class Login {
 
     clearLogin() {
         this.token = ''
+        wx.clearStorage()
     }
 
     /**
@@ -38,7 +74,11 @@ class Login {
             console.log('已在登录')
             return;
         }
-        this.doLogin(callback)
+        if(this.checkToken()){
+            if (typeof callback == 'function') callback()
+        }else{
+            this.doLogin(callback)
+        }
     }
 
     doLogin(callback = null){
@@ -61,7 +101,7 @@ class Login {
                 if (self.agent) {
                     data.agent = self.agent
                 }
-
+                console.log('执行登录操作')
                 app.httpPost('auth/wxlogin', data, (json) => {
                     self.isloging = false;
                     wx.hideLoading()
@@ -214,7 +254,8 @@ class Login {
     //检查token是否有效
     checkToken() {
         if (!this.token) {
-            return false
+            this.restoreToken()
+            if (!this.token) return false
         }
         var nowTime = Math.ceil(new Date().getTime() / 1000)
         if (this.token_time + this.token_expire - 30 <= nowTime) {
@@ -229,6 +270,7 @@ class Login {
         this.token_time = Math.floor(new Date().getTime() / 1000)
         this.refresh_token = data.refresh_token
         this.token_expire = data.token_expire
+        this.saveToken()
     }
     processQueue() {
         var func = null
