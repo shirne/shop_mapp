@@ -85,17 +85,17 @@
             </view>
             <view class="flex">
                 <view class="label">创建时间：</view>
-                <text class="flex-sub">{{order.create_time}}</text>
+                <text class="flex-sub">{{order.create_date}}</text>
             </view>
             <view class="flex">
-                <view class="label">付款时间：</view>
-                <text class="flex-sub">{{order.pay_time}}</text>
+                <view class="label" wx:if="{{order.pay_time>0}}">付款时间：</view>
+                <text class="flex-sub">{{order.pay_date}}</text>
             </view>
             <view class="flex">
-                <view class="label">发货时间：</view>
-                <text class="flex-sub">{{order.deliver_time}}</text>
+                <view class="label" wx:if="{{order.deliver_time>0}}">发货时间：</view>
+                <text class="flex-sub">{{order.deliver_date}}</text>
             </view>
-            <view class="flex">
+            <view class="flex" wx:if="{{order.remark}}">
                 <view class="label">订单备注：</view>
                 <text class="flex-sub">{{order.remark}}</text>
             </view>

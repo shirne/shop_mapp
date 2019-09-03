@@ -1,0 +1,11 @@
+/* components/infinite-page/infinite-page.wxss */
+:host{
+    flex:1 1 50%;
+    height: 50%;
+}
+.infinite-page{
+    height:100%;
+}
+.loading{
+    text-align: center;
+}

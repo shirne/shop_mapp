@@ -5,8 +5,7 @@
             会员中心
         </view>
     </cu-custom>
-    <scroll-view scroll-y bindscrolltoupper="onPullDown" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" class="scrollPage">
-    <pull-load bgcolor="#333" loadok="{{loadok}}" pullend="{{pullend}}" pulldown="{{pulldown}}" bindloading="onLoading"></pull-load>
+    <infinite-page loadingbg="#333" loadend="{{!isloading}}" bindreload="onLoading" >
     <view class="block ucenter-bg">
         <view class="block-inner" >
             <view class="cardno text-golddark">No.{{member.cardno}}</view>
@@ -19,7 +18,7 @@
                 <view class="margin-left-sm padding-top-sm">
                     <view>
                         <text class="text-lg text-bold">{{member.nickname?member.nickname:member.username}}</text>
-                        <text class="text-sm text-gray">VIP</text>
+                        <text class="margin-left-xs"><text class="cuIcon-vip"></text></text>
                     </view>
                     <view class="margin-top-xs">
                         <text>红润酒业，助力您的发展</text>
@@ -165,5 +164,5 @@
         </view>
     </view>
     <view class='cu-tabbar-height'></view>
-    </scroll-view>
+    </infinite-page>
 </view>

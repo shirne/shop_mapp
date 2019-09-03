@@ -84,7 +84,6 @@ Page({
         })
     },
     changeMonth(e){
-        //console.log(e)
         let month=e.target.dataset.month
         if(month){
             this.setDate(month)
@@ -109,11 +108,11 @@ Page({
         })
     },
     setDate(date) {
-        //console.log(date)
+        
         if (!(date instanceof Date)) {
             date = util.string2date(date);
         }
-        //console.log(date)
+        
         if (!util.isValidDate(date)){
             app.tip('日期错误')
             return
@@ -144,11 +143,9 @@ Page({
             let curYear = date.getFullYear()
             let curMonth = date.getMonth()
             let dateCount = util.daysOfMonth(curYear, curMonth)
-            //console.log('curdate:',curYear, curMonth,dateCount)
             for (let i = 1; i <= dateCount; i++) {
                 dates[row].push(new DateObj(new Date(curYear, curMonth, i), { isThisMonth: true }).toObject())
                 if (dates[row].length >= 7) {
-                    //console.log(row)
                     row++
                     dates[row] = []
                 }
@@ -163,10 +160,8 @@ Page({
             newData.nextmonth = nextYear + '-' + util.formatNumber(nextMonth+1)
             if (lastRowCount > 0) {
                 if (lastRowCount < 7) {
-                    
                     let firstDay = nextDate.getDay()
                     for (let i = 1; i <= 7 - firstDay; i++) {
-                        console.log(i)
                         dates[row].push(new DateObj(new Date(nextYear, nextMonth, i), { isThisMonth: false }).toObject())
                     }
                 }

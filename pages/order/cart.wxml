@@ -34,6 +34,7 @@
                     <view class='info-price'>
                         <text class="fr count">✕{{cart.count}}</text>
                         <text class='fl price other-price'>￥{{cart.product_price}}</text>
+                        <text class="fl cu-tag radius sm margin-left-sm" wx:if="{{cart.price_desc}}"> {{cart.price_desc}}</text>
                     </view>
                 </view>
                 <view class='editbtn'>

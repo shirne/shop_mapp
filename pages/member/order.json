@@ -1,1 +1,6 @@
-{}
+{
+    "disableScroll": true,
+    "usingComponents": {
+        "infinite-page": "/components/infinite-page/infinite-page"
+    }
+}

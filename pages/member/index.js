@@ -21,11 +21,7 @@ Component({
         sign_keep_days: 0,
         sign_days: 0,
         signrecords:0,
-
-        loadok: false,
-        pullend: false,
-        pulldown: 0,
-        downY: 0
+        isloading:true
     },
 
     /**
@@ -42,15 +38,12 @@ Component({
             })
             this.loadData()
             
-            
         },
 
         moved: function () { },
         detached: function () { },
     },
-    ready: function () {
-
-    },
+    
     pageLifetimes: {
         // 组件所在页面的生命周期函数
         show: function () {
@@ -70,7 +63,7 @@ Component({
                 'ordercounts': { call: 'member/order.counts' }
             }, json => {
                 //console.log(json)
-                let newData = {}
+                let newData = { isloading:false}
                 if (json.data.notice) {
                     newData.notice = json.data.notice
                 }
@@ -98,47 +91,15 @@ Component({
                 callback && callback()
             })
         },
-        /**
-         * 页面相关事件处理函数--监听用户下拉动作
-         */
-        onPullDown: function () {
-
-            this.setData({
-                page: 1,
-                lists: [],
-                has_more: true,
-                isloading: true
-            })
-            this.loadData()
-        },
-        onTouchStart(e) {
-            this.setData({
-                downY: e.touches[0].pageY,
-                pullend: false
-            })
-        },
-        onTouchMove(e) {
-            let downY = this.data.downY
-            this.setData({
-                pulldown: e.touches[0].pageY - downY
-            })
-        },
-        onTouchEnd(e) {
-            this.setData({
-                pullend: true,
-                loadok: false
-            })
-        },
         onLoading(e) {
+            this.setData({
+                isloading:true
+            })
             app.getProfile((profile) => {
                 this.setData({
                     member: profile
                 })
-                this.loadData(res => {
-                    this.setData({
-                        loadok: true
-                    })
-                })
+                this.loadData()
             },true)
             
         },

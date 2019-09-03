@@ -4,7 +4,7 @@ let trail = require("trail.js");
 
 class Product
 {
-    constructor(product={},skus=[])
+    constructor(product={},skus=[],level={})
     {
         skus.forEach(sku => {
             sku.cost_price = parseFloat(sku.cost_price)
@@ -16,8 +16,13 @@ class Product
         product.content = html.HtmlToNodes(product.content, trail.fixTag)
         skus = trail.fixListImage(skus, 'image')
 
+        let vproduct=trail.fixProductSkuPrice({
+            is_discount:product.is_discount,
+            skus:skus
+        },level?level:{})
+
         this.product=product
-        this.skus=skus
+        this.skus = vproduct.skus
     }
 
     getProduct(){
@@ -42,6 +47,10 @@ class Product
         return prices.max_price > prices.min_price ? 
             (prices.min_price + '~' + prices.max_price) : 
             prices.min_price
+    }
+
+    getPriceDescText(){
+        return this.skus.length?this.skus[0].price_desc:''
     }
 
     getPrice(){

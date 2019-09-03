@@ -1,6 +1,6 @@
 {
     "component": true,
     "usingComponents": {
-        "pull-load": "/components/pull-load/pull-load"
+        "infinite-page": "/components/infinite-page/infinite-page"
     }
 }

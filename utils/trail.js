@@ -201,6 +201,51 @@ const uploadHandle= (data, tempFilePaths, success, error = null)=> {
         })
     })
 }
+
+const fixProductListPrice = (list,level,issku=true)=>{
+    if(list && list.length>0){
+        if(issku){
+            list.forEach(product=>{
+                return fixProductSkuPrice(product,level)
+            })
+        }else{
+            list.forEach(product => {
+                return fixProductPrice(product, level)
+            })
+        }
+    }
+    return list
+}
+
+const fixProductSkuPrice = (product, level) => {
+    if(product.skus && product.skus.length>0){
+        product.skus.forEach(sku=>{
+            if (sku.ext_price && sku.ext_price[level.level_id] !== undefined && sku.ext_price[level.level_id] !== null){
+                sku.orig_price = sku.price
+                sku.price = parseFloat(sku.ext_price[level.level_id])
+                sku.price_desc = level.level_name + '价'
+            } else if (product.is_discount == 1 && level.discount < 100) {
+                sku.orig_price = sku.price
+                sku.price = Math.round(sku.price * level.discount)*0.1
+                sku.price_desc = (level.discount * .1) + '折'
+            }
+            return sku
+        })
+    }
+    return product
+}
+
+const fixProductPrice=(product, level)=>{
+    if (level.diy_price==1 && product.ext_price && product.ext_price[level.level_id]){
+        product.orig_price=product.price
+        product.price = parseFloat(product.ext_price[level.level_id])
+        product.price_desc = level.level_name+'价'
+    }else if(product.is_discount==1 && level.discount<100){
+        product.price_desc = (level.discount*.1)+'折'
+    }
+    return product
+}
+
 const fixListDate = (lists, format="Y-m-d",key = "create_time") => {
     if (!lists || !lists.length) return lists
     for (var i = 0; i < lists.length; i++) {
@@ -425,6 +470,9 @@ module.exports = {
     uploadFile: uploadFile,
     fixListDate: fixListDate,
     fixDate: fixDate,
+    fixProductListPrice: fixProductListPrice,
+    fixProductPrice: fixProductPrice,
+    fixProductSkuPrice: fixProductSkuPrice,
     fixListImage: fixListImage,
     fixImage: fixImage,
     fixImageUrl: fixImageUrl,

@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+    "onReachBottomDistance":50,
+    "disableScroll":true,
+  "usingComponents": {
+      "infinite-page": "/components/infinite-page/infinite-page"
+  }
 }

@@ -26,6 +26,7 @@ Component({
     data: {
         cate_id: 0,
         isloading: true,
+        totalcount:0,
         page: 1,
         has_more: true,
         isattached: false
@@ -88,6 +89,7 @@ Component({
                         this.setData({
                             lists: lists,
                             page: json.data.page + 1,
+                            totalcount:json.data.total,
                             has_more: json.data.page < json.data.total_page,
                             isloading: false
                         })
@@ -102,12 +104,21 @@ Component({
                 }
             })
         },
-        onReachBottom(e) {
+        loadmoreData(e) {
             if (this.data.isloading) {
                 return;
             }
             this.setData({
                 isloading: true
+            })
+            this.loadData()
+        },
+        reloadData(e){
+            this.setData({
+                lists: [],
+                isloading: true,
+                page: 1,
+                has_more: true
             })
             this.loadData()
         },

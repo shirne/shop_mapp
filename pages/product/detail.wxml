@@ -24,12 +24,13 @@
         <view class='prod-title'>{{model.title}}</view>
         <view class="price-box">
             <text class='price'>￥{{price}}</text>
+            <view class="text-desc"><text class="cu-tag radius sm margin-left-sm" wx:if="{{price_desc}}"> {{price_desc}}</text></view>
         </view>
         <view class="expinfos">
             <view class="market-price">市场价：
                 <text>￥{{market_price}}</text>
             </view>
-            <view class='express'>快递：免费</view>
+            <view class='express'>快递：{{postage}}</view>
             <view class='sales'>销量 {{model.sale}}</view>
         </view>
     </view>

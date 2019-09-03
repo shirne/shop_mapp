@@ -1,12 +1,12 @@
 /* pages/home/index.wxss */
 
 .card-swiper swiper-item{
-    width: calc(100% - 40rpx) !important;
-    left: 20rpx;
+    width: calc(100% - 60rpx) !important;
+    left: 30rpx;
     padding: 30rpx 0rpx 30rpx;
 }
 .card-swiper swiper-item .swiper-item{
-    transform: scale(.98);
+    transform: scale(.95);
 }
 
 .cates .block-inner{

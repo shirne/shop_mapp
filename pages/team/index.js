@@ -1,4 +1,6 @@
 // pages/team/index.js
+const util = require("../../utils/util.js");
+const trail = require("../../utils/trail.js");
 const app = getApp()
 
 Page({
@@ -11,16 +13,12 @@ Page({
         total_award: 0,
         order_count_7:0,
         rewards_7:0,
+        isloading:true,
         member: {
             niakname: '请登录',
             avatar: '/images/avatar-default.png',
             reward: 0
-        },
-
-        loadok: false,
-        pullend: false,
-        pulldown: 0,
-        downY: 0
+        }
     },
 
     /**
@@ -29,11 +27,25 @@ Page({
     onLoad: function (options) {
         app.initShare(null);
         app.getProfile((profile) => {
+            if(profile.is_agent==0){
+                app.alert('您还不是代理商，请先升级',res=>{
+                    let pages=getCurrentPages()
+                    if(pages.length>1){
+                        wx.navigateBack({})
+                    }else{
+                        wx.reLaunch({
+                            url: '/pages/index/index?tab=member',
+                        })
+                    }
+                });
+                return false;
+            }
             this.setData({
                 member: profile
             })
+
+            this.loadData()
         })
-        this.loadData()
     },
 
     /**
@@ -64,61 +76,21 @@ Page({
 
     },
 
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
-    },
     loadData(){
-        
-    },
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDown: function () {
+        app.httpPost('member.agent/generic', json => {
 
-        this.setData({
-            page: 1,
-            lists: [],
-            has_more: true,
-            isloading: true
-        })
-        this.loadData()
-    },
-    onTouchStart(e) {
-        this.setData({
-            downY: e.touches[0].pageY,
-            pullend: false
-        })
-    },
-    onTouchMove(e) {
-        let downY = this.data.downY
-        this.setData({
-            pulldown: e.touches[0].pageY - downY
-        })
-    },
-    onTouchEnd(e) {
-        this.setData({
-            pullend: true,
-            loadok: false
+            this.setData({
+                isloading: false,
+                total_award: util.formatMoney(json.data.total_award*.01),
+                order_count_7: json.data.order_count,
+                rewards_7: util.formatMoney(json.data.amount_future*.01),
+            })
         })
     },
     onLoading(e) {
+        this.setData({
+            isloading:true
+        })
         app.getProfile((profile) => {
             this.setData({
                 member: profile

@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "onReachBottomDistance": 50,
+"usingComponents": {
+    "infinite-page": "/components/infinite-page/infinite-page"
+}
 }

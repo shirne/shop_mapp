@@ -1,8 +1,39 @@
 <!--pages/member/order-express.wxml-->
-<scroll-view scroll-y="true">
+<view class="container">
     <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
         <view slot="backText">返回</view>
         <view slot="content">物流信息</view>
     </cu-custom>
     
-</scroll-view>
+    <view class="flex bg-white solid-bottom padding">
+        <view class="cu-avatar xl radius margin-right" style="background-image:url({{product.image}})">
+        </view>
+        <view class="flex-sub">
+        <view class="margin-bottom-sm text-bold">{{product.title}}</view>
+        <view wx:if="{{express_code}}" class="margin-bottom-sm">{{express}}[{{express_code}}]</view>
+        <view wx:if="{{express_no}}">{{express_no}}</view>
+        </view>
+    </view>
+
+    <view wx:if="{{traces && traces.length}}" class="cu-timeline">
+        <block wx:for="{{traces}}" wx:key wx:for-key="index" wx:for-item="trace">
+        <view class="cu-time">
+            <view wx:if="{{trace.date}}">{{trace.date}}</view>
+            <view>{{trace.time}}</view>
+        </view>
+        <view class="cu-item text-{{index>0?'grey':'blue'}}">
+            <view class="bg-{{index>0?'grey':'blue'}} content">
+                {{trace.AcceptStation}}
+            </view>
+        </view>
+        </block>
+    </view>
+    <view wx:else class="emptytip">
+        <view>
+            <text class="cuIcon-deliver text-xsl"></text>
+        </view>
+        <view>
+            <text class="text-gray">暂无物流信息</text>
+        </view>
+    </view>
+</view>

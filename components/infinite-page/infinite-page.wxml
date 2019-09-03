@@ -1,0 +1,6 @@
+<!--components/infinite-page/infinite-page.wxml-->
+<scroll-view class="infinite-page" scroll-y  bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" bindscrolltoupper="startPull" bindscroll="onScroll" bindscrolltolower="onLoadMore" >
+    <pull-load bgcolor="{{loadingbg}}" loadok="{{loadok}}" pullend="{{pullend}}" pulldown="{{pulldown}}" bindloading="onLoading"></pull-load>
+    <slot></slot>
+    <view class="cu-load loading" wx:if="{{loading}}">加载中...</view>
+</scroll-view>

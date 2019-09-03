@@ -1,7 +1,82 @@
 <!--pages/team/orders.wxml-->
-<scroll-view>
+<import src="/pages/tpl/order-status.wxml" />
+<view class="scrollPage">
     <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
         <view slot="backText">返回</view>
         <view slot="content">客户订单</view>
     </cu-custom>
-</scroll-view>
+    <view class="bg-white nav">
+        <view class="flex text-center">
+            <view class="cu-item flex-sub{{status===''?' text-orange cur':''}}" bindtap="changeStatus" data-status="">全部</view>
+            <view class="cu-item flex-sub{{status==='0'?' text-orange cur':''}}" bindtap="changeStatus" data-status="0">
+                <view class='cu-tag badge' wx:if="{{ordercounts[0]}}">{{ordercounts[0]>99?'...':ordercounts[0]}}</view>
+                待付款
+            </view>
+            <view class="cu-item flex-sub{{status==='1'?' text-orange cur':''}}" bindtap="changeStatus" data-status="1">
+                <view class='cu-tag badge' wx:if="{{ordercounts[1]}}">{{ordercounts[1]>99?'...':ordercounts[1]}}</view>
+                已支付
+            </view>
+            <view class="cu-item flex-sub{{status==='2'?' text-orange cur':''}}" bindtap="changeStatus" data-status="2">
+                <view class='cu-tag badge' wx:if="{{ordercounts[2]}}">{{ordercounts[2]>99?'...':ordercounts[2]}}</view>
+                待收货
+            </view>
+            <view class="cu-item flex-sub{{status==='4'?' text-orange cur':''}}" bindtap="changeStatus" data-status="4">已完成</view>
+        </view>
+    </view>
+    <infinite-page loadend="{{!isloading}}" bindreload="reloadData" bindloadmore="loadmoreData" >
+    <view class="cu-card orderlist">
+        <block wx:for="{{orders}}" wx:key="key" wx:for-item="blocks">
+            <view wx:for="{{blocks}}" wx:key="id" wx:for-item="order" class="cu-item shadow">
+                <view class="card-header">
+                    <view class="flex">
+                        <view class="cu-avatar round margin-right-sm" style="background-image:url({{order.avatar}})"></view>
+                        <view class="content flex-sub">
+                            <view>{{order.nickname}}</view>
+                            <view class="text-sm text-gray">{{order.order_no}}</view>
+                        </view>
+                        <view class="text-gray text-sm text-right">
+                            <template is="orderStatus" data="{{status:order.status}}" />
+                        </view>
+                    </view>
+                </view>
+                <view class="card-content bg-white">
+                    <view class="cu-list menu-avatar">
+                        <view wx:for="{{order.products}}" wx:for-item="product" wx:key="id" class="flex ">
+                            <view class="cu-avatar radius lg" style="background-image:url({{product.product_image}});"></view>
+                            <view class="flex-sub" style="height:100%;padding:0 20rpx;">
+                                <view class="text-lg">
+                                    <text class="text-cut">{{product.product_title}}</text>
+                                </view>
+                                <view wx:if="{{product.sku_specs}}" class="text-gray text-sm flex">
+                                    <text class="text-cut">{{product.sku_specs}}</text>
+                                </view>
+                            </view>
+                            <view class="action text-right">
+                                <view class="price">￥{{product.product_price}}</view>
+                                <view>
+                                    <text class="cuIcon-close"></text> {{product.count}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="flex padding-sm solid-top">
+                    <text class="text-gray">{{order.create_date}}</text>
+                    <view class="flex-sub text-right">共 {{order.product_count}} 件商品 合计：{{order.payamount}}</view>
+                </view>
+                <view class="text-right margin-sm">预计佣金：{{order.commision}}</view>
+            </view>
+        </block>
+    </view>
+    <block wx:if="{{!isloading}}">
+        <view wx:if="{{totalcount>0}}" class="cu-load over text-gray"></view>
+        <view wx:else class="emptytip">
+            <view>
+                <text class="cuIcon-form text-xsl"></text>
+            </view>
+            <view>
+                <text class="text-gray">没有相关的订单</text>
+            </view>
+        </view>
+    </block>
+    </infinite-page>
+</view>

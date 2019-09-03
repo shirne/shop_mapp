@@ -1,7 +1,58 @@
 <!--pages/team/rewards.wxml-->
-<scroll-view>
+<view class="scrollPage">
     <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
         <view slot="backText">返回</view>
-        <view slot="content">奖励记录</view>
+        <view slot="content">佣金明细</view>
     </cu-custom>
-</scroll-view>
+
+    <scroll-view scroll-x class="bg-white nav">
+        <view class="flex text-center">
+            <view class="cu-item flex-sub {{''===status?'text-orange cur':''}}" bindtap="tabSelect" data-status="">
+                全部
+            </view>
+            <view class="cu-item flex-sub {{'1'===status?'text-orange cur':''}}" bindtap="tabSelect" data-status="1">
+                已发放
+            </view>
+            <view class="cu-item flex-sub {{'0'===status?'text-orange cur':''}}" bindtap="tabSelect" data-status="0">
+                待发放
+            </view>
+            <view class="cu-item flex-sub {{'-1'===status?'text-orange cur':''}}" bindtap="tabSelect" data-status="-1">
+                已撤销
+            </view>
+        </view>
+    </scroll-view>
+    <infinite-page loadend="{{!isloading}}" bindreload="reloadData" bindloadmore="loadmoreData">
+        <view class='cu-card' wx:if="{{logs && logs.length>0}}">
+            <view class="cu-list menu-avatar list-radius">
+                <block wx:for="{{logs}}" wx:key="{{key}}" wx:for-item="lists">
+                    <view wx:for="{{lists}}" wx:key="{{log.id}}" wx:for-item="log" class="cu-item">
+                        <view class="cu-avatar round lg" style="background-image:url({{log.avatar}});"></view>
+                        <view class="content">
+                            <view class="text-grey">
+                                <text wx:if="{{log.nickname}}">{{log.nickname}}</text>
+                                <text wx:else>{{log.username}}</text>
+                            </view>
+                            <view class="text-gray text-sm">
+                                {{log.remark}}
+                            </view>
+                        </view>
+                        <view class="action">
+                            <view class="text-red text-lg">+ {{log.amount*.01}} <text class="cuIcon-"></text></view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </view>
+        <block wx:if="{{!isloading}}">
+            <view wx:if="{{totalcount>0}}" class="cu-load over text-gray"></view>
+            <view wx:else class="emptytip">
+                <view>
+                    <text class="cuIcon-text text-xsl"></text>
+                </view>
+                <view>
+                    <text class="text-gray">没有相关的记录</text>
+                </view>
+            </view>
+        </block>
+    </infinite-page>
+</view>

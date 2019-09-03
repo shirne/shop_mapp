@@ -1,5 +1,5 @@
 <!--pages/product/index.wxml-->
-<scroll-view scroll-y bindscrolltolower="onReachBottom" class="scrollPage">
+<view class="scrollPage">
     <cu-custom bgColor="bg-gradual-pink">
         <view slot="content">
             商品中心
@@ -9,16 +9,16 @@
         <view class="flex text-center">
             <block wx:for="{{cates}}" wx:key="key">
                 <view class="cu-item flex-sub {{item.id==cate_id?' text-orange cur':''}}" bindtap="changeCategory" data-id="{{item.id}}">
-
                     <text class="cuIcon-blank text-lg" style="background-image:url({{item.icon}})"></text> {{item.title}}
                 </view>
             </block>
         </view>
     </scroll-view>
+    <infinite-page loadend="{{!isloading}}" bindreload="reloadData" bindloadmore="loadmoreData">
     <view class='block goods-block'>
-        <view class="block-inner">
+        <view wx:if="{{lists && lists.length}}" class="block-inner">
             <view class='block-content'>
-                <view class="grid col-3" wx:if="{{lists && lists.length}}">
+                <view class="grid col-3" >
                     <block wx:for="{{lists}}" wx:key="key">
                         <view wx:if="{{item.id}}" data-id="{{item.id}}" bindtap="gotoDetail">
                             <view class='imgitem'>
@@ -36,14 +36,20 @@
                         </view>
                     </block>
                 </view>
-                <view class="loading" wx:elif="{{isloading}}">
-                    加载中...
-                </view>
-                <view class="emptytip" wx:else>
-                    该类目暂无商品
-                </view>
             </view>
         </view>
     </view>
+    <block wx:if="{{!isloading}}">
+        <view wx:if="{{totalcount>0}}" class="cu-load over text-gray"></view>
+        <view wx:else class="emptytip">
+            <view>
+                <text class="cuIcon-text text-xsl"></text>
+            </view>
+            <view>
+                <text class="text-gray">产品资料整理中</text>
+            </view>
+        </view>
+    </block>
+    </infinite-page>
     <view class='cu-tabbar-height'></view>
-</scroll-view>
+</view>

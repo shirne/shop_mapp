@@ -55,6 +55,8 @@ swiper-item image{
 }
 .price-box{
     padding-left:20rpx;
+    display:flex;
+    flex-direction: row;
 }
 .price-box .price{
     color:#b00;
@@ -64,6 +66,9 @@ swiper-item image{
 }
 .price-box .price::first-letter{
     font-size:20rpx;
+}
+.proce-box .text-desc{
+    flex:1;
 }
 .expinfos{
     display:flex;

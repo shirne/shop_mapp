@@ -1,5 +1,7 @@
 // pages/member/order-express.js
-const app=getApp()
+const util = require("../../utils/util.js");
+const trail = require("../../utils/trail.js");
+const app = getApp()
 
 Page({
 
@@ -8,7 +10,11 @@ Page({
      */
     data: {
         id: 0,
-        express: {}
+        traces: null,
+        product:{},
+        express: "",
+        express_code: "",
+        express_no: ""
     },
 
     /**
@@ -57,13 +63,6 @@ Page({
 
     },
 
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
     loadData() {
         wx.showLoading({
             title: '',
@@ -71,12 +70,32 @@ Page({
         app.httpPost('member.order/express', { id: this.data.id }, json => {
             wx.hideLoading()
 
-            let express = json.data
-            if (express.product) {
-                express.product['image'] = trail.fixImage(express.product['image'])
+            let data = json.data
+            if (data.product && data.product.image) {
+                data.product['image'] = trail.fixImageUrl(data.product['image'])
+            }
+            if (data.traces && data.traces.length>0){
+                let firstdate = data.traces[0].AcceptTime
+                let lastdate = data.traces[data.traces.length-1].AcceptTime
+                let curDate = util.string2date(firstdate)
+                if (curDate < util.string2date(lastdate)){
+                    data.traces = data.traces.reverse()
+                }
+
+                let curDateStr = ''
+
+                for(let i=0;i<data.traces.length;i++){
+                    let sdate = util.string2date(data.traces[i].AcceptTime)
+                    let sdatestr = util.formatTime(sdate, false)
+                    data.traces[i].time = util.dateFormat('H:i', sdate)
+                    if (sdatestr != curDateStr){
+                        curDateStr = sdatestr
+                        data.traces[i].date = util.dateFormat('m-d', sdate)
+                    }
+                }
             }
 
-            this.setData({ express: express })
+            this.setData(data)
         })
     }
 })

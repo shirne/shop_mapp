@@ -4,8 +4,7 @@
         <view slot="backText">返回</view>
         <view slot="content">我的团队</view>
     </cu-custom>
-    <scroll-view scroll-y bindscrolltoupper="onPullDown" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" class="scrollPage">
-    <pull-load bgcolor="#333" loadok="{{loadok}}" pullend="{{pullend}}" pulldown="{{pulldown}}" bindloading="onLoading"></pull-load>
+    <infinite-page loadend="{{!isloading}}" bindreload="onLoading" >
     <view class="block ucenter-bg">
         <view class="block-inner" >
             <view class="cardno text-golddark">No.{{member.cardno}}</view>
@@ -18,7 +17,7 @@
                 <view class="margin-left-sm padding-top-sm">
                     <view>
                         <text class="text-lg text-golddark">{{member.nickname?member.nickname:member.username}}</text>
-                        <text class="text-sm text-gray">VIP</text>
+                        <text class="margin-left-xs"><text class="cuIcon-vip"></text></text>
                     </view>
                     <view class="margin-top-xs text-golddark">
                         <text>累计收入：{{total_award}}</text>
@@ -28,7 +27,7 @@
             <view class="flex padding margin-top text-golddark text-center">
             
                 <view class="flex-sub">
-                    <view class="amount text-bold">{{member.reward*.01}}</view>
+                    <view class="amount text-bold">{{member.reward_formated}}</view>
                     <view class="desc text-gold">可提现</view>
                 </view>
                 <view class="flex-sub">
@@ -92,7 +91,5 @@
             <view wx:else class="emptytip padding-tb">暂无公告</view>
         </view>
     </view>
-    <view class='cu-tabbar-height'></view>
-    </scroll-view>
-    
+    </infinite-page>
 </view>

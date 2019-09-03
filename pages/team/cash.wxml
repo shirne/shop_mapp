@@ -1,7 +1,24 @@
 <!--pages/team/cash.wxml-->
-<scroll-view>
+<view>
     <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
         <view slot="backText">返回</view>
         <view slot="content">我要提现</view>
     </cu-custom>
-</scroll-view>
+    <form>
+        <view class="cu-form-group margin-top">
+            <view class="title">提现金额</view>
+            <input placeholder="请填写提现金额"></input>
+        </view>
+        <view class="cu-form-group margin-top">
+            <view class="title">提现方式</view>
+            <picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
+                <view class="picker">
+                    {{index?picker[index]:'请选择'}}
+                </view>
+            </picker>
+        </view>
+        <view class="padding">
+            <button class="cu-btn block bg-blue margin-tb-sm lg" role="button">申请提现</button>
+        </view>
+    </form>
+</view>

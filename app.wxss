@@ -6,13 +6,21 @@
 page {
     background:#f4f4f4;
 }
-button.action{
-    background: transparent;
+.scrollPage {
+  height: 100vh;
+}
+view.scrollPage{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
 }
 cu-custom{
     position: sticky;
     top: 0;
     z-index: 999;
+}
+button.action{
+    background: transparent;
 }
 button.not-button{
     background: transparent;
@@ -23,6 +31,7 @@ button.not-button{
 button.not-button::after{
     border: 0;
 }
+
 .cuIcon-blank{
     background-size:cover;
 }
@@ -30,9 +39,7 @@ button.not-button::after{
     content:"\e6d7";
     color: transparent;
 }
-.scrollPage {
-  height: 100vh;
-}
+
 .dbline{
     line-height:1.1em;
 }
@@ -52,6 +59,13 @@ button.not-button::after{
     font-size:50rpx;
 }
 
+.cu-list.grid>.cu-item text.item-title{
+    margin-top:20rpx;
+}
+.list-radius{
+    margin:20rpx;
+    border-radius:10rpx;
+}
 .icon-hasbg .cu-item{
     position:relative;
 }

@@ -1,5 +1,5 @@
 <!--pages/news/index.wxml-->
-<scroll-view scroll-y bindscrolltoupper="onPullDown" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" bindscrolltolower="onReachBottom" class="scrollPage">
+<view class="scrollPage">
     <cu-custom bgColor="bg-gradual-pink">
         <view slot="content">
             新闻中心
@@ -14,7 +14,7 @@
             </block>
         </view>
     </scroll-view>
-    <pull-load loadok="{{loadok}}" pullend="{{pullend}}" pulldown="{{pulldown}}" bindloading="onLoading"></pull-load>
+    <infinite-page loadend="{{!isloading}}" bindreload="reloadData" bindloadmore="loadmoreData">
     <view class='cu-card article' wx:if="{{lists && lists.length}}">
 
         <view wx:for="{{lists}}" wx:key="key" class='cu-item shadow' data-id="{{item.id}}" bindtap='gotoDetail'>
@@ -36,9 +36,17 @@
 
         </view>
     </view>
-    <view class="cu-load loading" wx:if="{{isloading}}"></view>
-    <view class="emptytip" wx:elif="{{!hasmore}}">
-        <view>没有更多动态了</view>
-    </view>
+    <block wx:if="{{!isloading}}">
+        <view wx:if="{{totalcount>0}}" class="cu-load over text-gray"></view>
+        <view wx:else class="emptytip">
+            <view>
+                <text class="cuIcon-text text-xsl"></text>
+            </view>
+            <view>
+                <text class="text-gray">没有更多动态了</text>
+            </view>
+        </view>
+    </block>
+    </infinite-page>
     <view class='cu-tabbar-height'></view>
-</scroll-view>
+</view>

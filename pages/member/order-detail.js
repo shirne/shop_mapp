@@ -21,9 +21,7 @@ Page({
         if(!order_id){
             app.error('参数错误')
             setTimeout(()=>{
-                wx.navigateBack({
-                    
-                })
+                wx.navigateBack({ })
             },600)
         }else{
             this.setData({
@@ -61,12 +59,6 @@ Page({
 
     },
 
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
     gotoProduct(e){
         let data=e.currentTarget.dataset
         wx.navigateTo({
@@ -91,6 +83,10 @@ Page({
             wx.hideLoading()
 
             let order = json.data
+            order.create_date = util.formatTime(util.timestamp2date(order.create_time))
+            order.pay_date = util.formatTime(util.timestamp2date(order.pay_time))
+            order.deliver_date = util.formatTime(util.timestamp2date(order.deliver_time))
+            order.confirm_date = util.formatTime(util.timestamp2date(order.confirm_time))
             if(order.products){
                 order.products = trail.fixListImage(order.products, 'product_image')
             }

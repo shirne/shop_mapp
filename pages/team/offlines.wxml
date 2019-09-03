@@ -1,7 +1,50 @@
 <!--pages/team/offlines.wxml-->
-<scroll-view>
+<view class="scrollPage">
     <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
         <view slot="backText">返回</view>
         <view slot="content">我的客户</view>
     </cu-custom>
-</scroll-view>
+    <scroll-view scroll-x wx:if="{{levels && levels>1}}" class="bg-white nav">
+        <view class="flex text-center">
+            <view class="cu-item flex-sub {{index+1==level?'text-orange cur':''}}" wx:for="{{levels}}" wx:key bindtap="tabSelect" data-id="{{index+1}}">
+                {{index+1}}级客户
+            </view>
+        </view>
+    </scroll-view>
+    <infinite-page loadend="{{!isloading}}" bindreload="reloadData" bindloadmore="loadmoreData">
+        <view class='cu-card' wx:if="{{users && users.length>0}}">
+            <view class="cu-list menu-avatar list-radius">
+                <block wx:for="{{users}}" wx:key="{{key}}" wx:for-item="lists">
+                    <view wx:for="{{lists}}" wx:key="{{user.id}}" wx:for-item="user" class="cu-item">
+                        <view class="cu-avatar round lg" style="background-image:url({{user.avatar}});"></view>
+                        <view class="content">
+                            <view class="text-grey">
+                                <text wx:if="{{user.nickname}}">{{user.nickname}}</text>
+                                <text wx:else>{{user.username}}</text>
+                            </view>
+                            <view class="text-gray text-sm">
+                                {{user.level_name}}
+                            </view>
+                        </view>
+                        <view class="action">
+                            <view class="text-grey text-xs">推广人数</view>
+                            <view class="cu-tag round bg-grey sm">{{user.soncount}}</view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </view>
+        
+        <block wx:if="{{!isloading}}">
+            <view wx:if="{{totalcount>0}}" class="cu-load over text-gray"></view>
+            <view wx:else class="emptytip">
+                <view>
+                    <text class="cuIcon-friend text-xsl"></text>
+                </view>
+                <view>
+                    <text class="text-gray">没有相关的客户</text>
+                </view>
+            </view>
+        </block>
+    </infinite-page>
+</view>

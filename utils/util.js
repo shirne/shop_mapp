@@ -1,4 +1,5 @@
 const formatTime = (date, withTime = true, spliter = '/') => {
+    date=transDate(date)
     if (!isValidDate(date)) return ' - '
     const year = date.getFullYear()
     const month = date.getMonth() + 1
@@ -19,10 +20,24 @@ const formatTime = (date, withTime = true, spliter = '/') => {
     return datestr
 }
 
-const formatNumber = (n, len) => {
-    if (!len) len = 2;
+const formatNumber = (n, len=2) => {
     let l = n.toString().length;
     return l >= len ? n : (new Array(len - l + 1).join('0') + n)
+}
+
+const force_number = (number)=>{
+    if(typeof number === typeof 'a'){
+        number = parseFloat(number)
+    }
+    if (typeof number !== typeof 0.1 && typeof number !== typeof 1){
+        return 0
+    }
+    return isNaN(number)?0:number
+}
+
+const formatMoney = (n, len=2) => {
+    let result = Math.round(n * Math.pow(10, len)) * Math.pow(10, -len)
+    return result.toFixed(len)
 }
 
 const transDate = date => {
@@ -72,7 +87,7 @@ const daysOfMonth = (year, month) => {
 }
 
 const dateFormat = (format, timestamp) => {
-    let a, jsdate = timestamp2date(timestamp);
+    let a, jsdate = transDate(timestamp);
     let pad = function (n, c) {
         if ((n = n + "").length < c) {
             return new Array(++c - n.length).join("0") + n;
@@ -507,7 +522,9 @@ const actionSheet = (actions, callback) => {
 
 module.exports = {
     formatTime: formatTime,
+    forceNumber: force_number,
     formatNumber: formatNumber,
+    formatMoney: formatMoney,
     isValidDate: isValidDate,
     timestamp2date: timestamp2date,
     string2date: string2date,

@@ -17,9 +17,11 @@ Page({
         currentIndex: 1,
         screenWidth: 500,
 
+        member:{},
         //product:null,
         id: 0,
         model: null,
+        postage:'免运费',
         hasProp:false,
         is_favourite:0,
         albums: null,
@@ -47,11 +49,11 @@ Page({
                 id: parseInt(options.id)
             })
         }
-        var sysInfo = wx.getSystemInfoSync()
-        //console.log(sysInfo)
-        this.setData({
-            screenWidth: sysInfo.windowWidth
-        })
+        if (app.globalData.systemInfo){
+            this.setData({
+                screenWidth: app.globalData.systemInfo.windowWidth
+            })
+        }
         this.updateCartCount()
     },
 
@@ -59,16 +61,24 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
+        app.getProfile(profile=>{
+            this.setData({member:profile})
+            this.loadData()
+        })
+    },
+    loadData(){
         app.httpPost('product/view', { id: this.data.id }, json => {
             if (json.code == 1) {
                 let model = json.data.product
                 let albums = trail.fixListImage(json.data.images, 'image')
-                let skus = json.data.skus
-                let product = new Product(model, skus)
+                
+                let product = new Product(model, json.data.skus,this.data.member.level)
                 
                 this.product=product
+                let skus = product.getSkus()
                 this.setData({
-                    model: product.product,
+                    model: product.getProduct(),
+                    postage: json.data.postage,
                     //product:product,
                     is_favourite:json.data.is_favourite,
                     albums: albums,
@@ -93,6 +103,7 @@ Page({
         let product=this.product
         this.setData({
             price: product.getPriceText(),
+            price_desc: product.getPriceDescText(),
             market_price: product.getMarketPriceText()
         })
     },

@@ -35,6 +35,7 @@
                             <text class='fr' wx:if="{{buy_from=='cart'}}">x {{product.count}}</text>
                             <text class='price p-price'>￥{{product.product_price}}</text>
                         </view>
+                        <view wx:if="{{product.deprecated}}" class="text-red margin-top-sm text-sm">暂不支持配送到{{address.city}}</view>
                     </view>
                 </view>
             </view>
@@ -49,7 +50,7 @@
             <view class='extrow'>
                 <text class='label'>配送方式</text>
                 <text class='desc'></text>
-                <text class='value'>{{express.fee > 0 ? ("快递 ￥"+express.fee) : express.title}}</text>
+                <text class='value'>{{totalPostage > 0 ? ("快递 ￥"+totalPostage) : postageText}}</text>
                 <view class="icon"><text class="cuIcon-right text-lg"></text></view>
             </view>
             <view class='extrow'>

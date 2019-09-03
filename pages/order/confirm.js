@@ -91,6 +91,9 @@ Page({
         
     },
     prepare(){
+        wx.showLoading({
+            title: '',
+        })
         app.checkLogin(() => {
             var data = {}
             data.products = []
@@ -100,16 +103,19 @@ Page({
                     count: product.count
                 })
             })
+
+            if(this.data.address && this.data.address_id)data.address= this.data.address
             app.httpPost('order/prepare', data, json => {
                 wx.hideLoading()
                 if (json.code == 1) {
                     var products = this.data.products
-
+                    
                     this.setData({
                         products: products,
                         address: json.data.address,
                         express: json.data.express
                     }, () => {
+                        wx.hideLoading()
                         this.calcolation()
                     })
                 } else {
@@ -148,20 +154,6 @@ Page({
     },
 
     /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
@@ -177,6 +169,7 @@ Page({
         this.setData({
             address: address
         })
+        this.prepare()
     },
     emptyEvent: function () {
 
@@ -215,12 +208,101 @@ Page({
     },
     calcolation: function () {
         var total_price = 0
-        this.data.products.forEach(product => {
-            total_price += (Math.round((product.product_price * product.count) * 100) / 100)
+        let expresses=this.data.express.postages
+        let postage={fee:0,posareas:{}}
+        let poscalc={}
+
+        let newData = {}
+        this.data.products.forEach((product,idx) => {
+            let postage_id = product.postage_id
+            let pamount = (Math.round((product.product_price * product.count) * 100) / 100)
+            if (postage_id>0){
+                if (expresses[postage_id] && expresses[postage_id].length>0){
+                    if (!poscalc[postage_id]){
+                        poscalc[postage_id] = {
+                            total:0,
+                            amount:0,
+                            areas:{}
+                        }
+
+                        expresses[postage_id].forEach(positem => {
+                            poscalc[postage_id].areas[positem.id] = positem
+                        })
+                    }
+                    poscalc[postage_id].amount += pamount
+                    var calc_type = expresses[postage_id][0].calc_type
+                    if (calc_type==2){
+                        poscalc[postage_id].total += this.calc_size(product.size)
+                    }else if(calc_type==1){
+                        poscalc[postage_id].total += product.count
+                    }else{
+                        poscalc[postage_id].total += product.weight*product.count
+                    }
+                    product.deprecated = 0
+                }else{
+                    product.deprecated=1
+                    newData['products['+idx+'].deprecated']=1
+                }
+            }
+            if(!product.deprecated){
+                total_price += pamount
+            }
         })
+
+        this.setData(newData)
+        let total_postage=0
+        let text='免运费'
+        let area_ids={}
+        for (var pid in poscalc){
+            let curfee=-1
+            for(var aid in poscalc[pid].areas){
+                let area = poscalc[pid].areas[aid]
+                if (area.free_limit > 0 && poscalc[pid].amount >= area.free_limit){
+                    curfee=0
+                    text = '免费包邮'
+                }else{
+                    let fee = util.forceNumber(area.first_fee)
+                    if (poscalc[pid].total > area.first && area.extend > 0 && area.extend_fee > 0){
+                        let count = poscalc[pid].total - area.first
+                        while(count>0){
+                            fee += area.extend_fee
+                            count -= area.extend
+                            if(area.ceiling>0 && area.ceiling<fee){
+                                fee = area.ceiling
+                                break;
+                            }
+                        }
+                    }
+                    if(curfee <0 || curfee > fee){
+                        curfee=fee
+                        area_ids[pid]=aid
+                    }
+                }
+            }
+            poscalc.fee = curfee
+            total_postage += curfee
+        }
+        total_price = Math.round(total_price * 100) / 100
+        total_postage = Math.round(total_postage*100)/100
         this.setData({
-            totalPrice: total_price.toFixed(2),
+            total_price: total_price,
+            totalPrice: (total_price + total_postage).toFixed(2),
+            total_postage: total_postage,
+            totalPostage: total_postage.toFixed(2),
+            area_ids:area_ids,
+            postageText: text
         })
+    },
+    calc_size(size){
+        if(!size){
+            return 0;
+        }
+        if(typeof size == typeof 's'){
+            size = size.split(',')
+        }
+        if(size.length<3)return 0;
+        let result = size[0]*size[1]*size[2]
+        return isNaN(result)?0:result
     },
 	/**
 	 * 提交订单
@@ -240,17 +322,26 @@ Page({
         //console.log(e)
         var products = []
         this.data.products.forEach((product, index) => {
-            products.push({
-                sku_id: product.sku_id,
-                count: product.count
-            })
+            if(!product.deprecated){
+                let areaid=0
+                if (product.postage_id > 0 && this.data.area_ids[product.postage_id]){
+                    areaid = this.data.area_ids[product.postage_id]
+                }
+                products.push({
+                    sku_id: product.sku_id,
+                    postage_id: product.postage_id,
+                    postage_area_id: areaid,
+                    count: product.count
+                })
+            }
         })
         const param = {
             address_id: this.data.address.address_id,
             form_id: e.detail.formId,
             products: products,
             remark: this.data.memo,
-            total_price: this.data.totalPrice, //用于价格比较
+            total_postage: this.data.total_postage,
+            total_price: this.data.total_price, //用于价格比较
             'from': this.data.buy_from
         }
         this.data.ordering = true

@@ -10,7 +10,7 @@ App({
         }
         let custom = wx.getMenuButtonBoundingClientRect();
         try{
-        const res = wx.getSystemInfoSync();
+            const res = wx.getSystemInfoSync();
             this.globalData.systemInfo = res
 
             //基础库版本提示
@@ -73,6 +73,9 @@ App({
             this.profileRequest = new TSRequest('member/profile', profile => {
                 profile.avatar = this.fixImageUrl(profile.avatar)
                 profile.cardno = util.formatNumber(profile.id, 8)
+                profile.money_formated = (profile.money*.01).toFixed(2)
+                profile.credit_formated = (profile.credit*.01).toFixed(2)
+                profile.reward_formated = (profile.reward * .01).toFixed(2)
                 return profile
             })
         }

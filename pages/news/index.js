@@ -26,14 +26,10 @@ Component({
     data: {
         lists: [],
         page: 1,
+        totalcount:0,
         has_more: true,
         isloading: true,
         isattached: false,
-
-        loadok:false,
-        pullend:false,
-        pulldown:0,
-        downY:0
     },
     lifetimes: {
         /**
@@ -63,7 +59,7 @@ Component({
         
     },
     methods: {
-        reload() {
+        reloadData() {
             if (this.data.isloading) {
                 return;
             }
@@ -102,6 +98,7 @@ Component({
                     this.setData({
                         lists: this.data.lists.concat(json.data.lists),
                         page: page + 1,
+                        totalcount: json.data.total,
                         has_more: json.data.total_page >= page ? true : false,
                         isloading: false
                     })
@@ -112,27 +109,13 @@ Component({
             })
         },
 
-        onReachBottom(e){
+        loadmoreData(e){
 
             if (this.data.isloading) {
                 return;
             }
             this.setData({
                 isloading:true
-            })
-            this.loadData()
-        },
-
-        /**
-         * 页面相关事件处理函数--监听用户下拉动作
-         */
-        onPullDown: function () {
-
-            this.setData({
-                page: 1,
-                lists: [],
-                has_more: true,
-                isloading: true
             })
             this.loadData()
         },
@@ -152,19 +135,6 @@ Component({
             this.setData({
                 pullend: true,
                 loadok: false
-            })
-        },
-        onLoading(e){
-            this.setData({
-                page: 1,
-                lists: [],
-                has_more: true,
-                isloading: true
-            })
-            this.loadData(res=>{
-                this.setData({
-                    loadok:true
-                })
             })
         },
         gotoList: function (e) {

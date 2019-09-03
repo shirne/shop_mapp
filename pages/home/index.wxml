@@ -78,7 +78,7 @@
             </view>
         </view>
 
-        <view class="block" style="padding:0 20rpx;">
+        <view class="block" style="padding:0 30rpx;">
             <swiper class="screen-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
                 <swiper-item wx:for="{{midbanners}}" wx:key>
                     <image src="{{item.image}}" mode="aspectFill"></image>

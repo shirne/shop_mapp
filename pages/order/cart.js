@@ -14,6 +14,7 @@ Component({
     data: {
         cart_count: 0,
         carts: [],
+        member:{},
 
         product: {},
         sku: {},
@@ -45,14 +46,17 @@ Component({
      * 生命周期函数--监听页面加载
      */
     attached: function (options) {
-        console.log('cart')
+        //console.log('cart')
         app.initShare(null)
         this.loadData();
     },
     methods: {
         loadData: function () {
 
-            app.checkLogin(() => {
+            app.getProfile(profile => {
+                this.setData({
+                    member:profile
+                })
                 app.httpPost('cart/getall', (json) => {
                     if (json.code == 1 && json.data) {
                         var carts = this.fixDataImage(json.data)
@@ -60,6 +64,8 @@ Component({
                             carts.forEach(item=>{
                                 item.storage = parseInt(item.storage)
                                 item.weight = parseInt(item.weight)
+                                item = trail.fixProductPrice(item, profile.level)
+                                item.product_price = item.price
                                 item.product_price = parseFloat(item.product_price)
                                 item.cart_product_price = parseFloat(item.cart_product_price)
                             })
