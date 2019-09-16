@@ -22,18 +22,22 @@
             <view class="cu-list menu-avatar list-radius">
                 <block wx:for="{{logs}}" wx:key="{{key}}" wx:for-item="lists">
                     <view wx:for="{{lists}}" wx:key="{{log.id}}" wx:for-item="log" class="cu-item">
-                        <view class="cu-avatar round lg" style="background-image:url({{log.avatar}});"></view>
+                        <view class="cu-avatar round lg" style="background-image:url({{profile.avatar}});"></view> 
                         <view class="content">
                             <view class="text-grey">
-                                <text wx:if="{{log.nickname}}">{{log.nickname}}</text>
-                                <text wx:else>{{log.username}}</text>
+                                <text wx:if="{{log.cashtype=='wechat'}}">微信零钱</text>
+                                <text wx:elif="{{log.cashtype=='alipay'}}">支付宝余额</text>
+                                <text wx:else>银行卡</text>
                             </view>
                             <view class="text-gray text-sm">
-                                {{log.remark}}
+                                {{log.create_time}}
                             </view>
+                            <view wx:if="{{log.status<1 && log.reson}}">{{log.reson}}</view>
                         </view>
-                        <view class="action">
-                            <view class="text-red text-lg">+ {{log.amount*.01}} <text class="cuIcon-"></text></view>
+                        <view class="action text-right" style="width:auto">
+                            <view class="text-red text-lg">￥{{log.amount*.01}} </view>
+                            <view class="text-sm text-gray">手续费：￥{{log.cash_fee*.01}} </view> 
+                            <view class="text-sm text-gray">实际到账：￥{{log.real_amount*.01}}</view>
                         </view>
                     </view>
                 </block>

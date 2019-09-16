@@ -1,7 +1,48 @@
 <!--pages/team/ranks.wxml-->
-<scroll-view>
+<view class="scrollPage">
     <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
         <view slot="backText">返回</view>
         <view slot="content">佣金排名</view>
     </cu-custom>
-</scroll-view>
+    <scroll-view scroll-x wx:if="{{modes}}" class="bg-white nav">
+        <view class="flex text-center">
+            <view class="cu-item flex-sub {{index==mode?'text-orange cur':''}}" wx:for="{{modes}}" wx:key bindtap="changeMode" data-mode="{{index}}">
+                {{item}}
+            </view>
+        </view>
+    </scroll-view>
+    <infinite-page loadend="{{!isloading}}" bindreload="loadData" >
+        <view class='cu-card' wx:if="{{ranks && ranks.length>0}}">
+            <view class="cu-list menu-avatar list-radius">
+                <view wx:for="{{ranks}}" wx:key="{{rank.id}}" wx:for-item="rank" class="cu-item">
+                    <view class="cu-avatar round lg" style="background-image:url({{rank.user.avatar}});"></view>
+                    <view class="content">
+                        <view class="text-grey">
+                            <text wx:if="{{rank.user.nickname}}">{{rank.user.nickname}}</text>
+                            <text wx:else>{{rank.user.username}}</text>
+                        </view>
+                        <view class="text-gray text-sm">
+                            <text class="cuIcon-recharge"></text> {{rank.total_amount*.01}}
+                        </view>
+                    </view>
+                    <view class="action rankid">
+                        <text wx:if="{{index==0}}" class="text-red text-xxl text-bold">{{index+1}}</text>
+                        <text wx:elif="{{index==1}}" class="text-red text-xxl">{{index+1}}</text>
+                        <text wx:elif="{{index==2}}" class="text-red text-xl">{{index+1}}</text>
+                        <text wx:else class="text-red text-lg">{{index+1}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <block wx:if="{{!isloading}}">
+            <view wx:if="{{!ranks || ranks.length<1}}" class="emptytip">
+                <view>
+                    <text class="cuIcon-crown text-xsl"></text>
+                </view>
+                <view>
+                    <text class="text-gray">还没有排名哦，赶快抢占吧</text>
+                </view>
+            </view>
+        </block>
+    </infinite-page>
+</view>

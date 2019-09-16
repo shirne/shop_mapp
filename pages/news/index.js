@@ -111,7 +111,7 @@ Component({
 
         loadmoreData(e){
 
-            if (this.data.isloading) {
+            if (this.data.isloading || !this.data.has_more) {
                 return;
             }
             this.setData({

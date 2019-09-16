@@ -11,11 +11,13 @@
 
 .cates .block-inner{
     margin-top:0;
+    padding-bottom:0;
 }
 .cates .item{
     text-align: center;
     font-size:32rpx;
     padding:0 40rpx;
+    margin-bottom:20rpx;
 }
 .cates .squareimg{
     padding-top:100%;
@@ -24,7 +26,7 @@
     background-position: cneter center;
     background-repeat:no-repeat;
     background-color:#f4f4f4;
-    margin-bottom:20rpx;
+    margin-bottom:15rpx;
 }
 
 .screen-swiper swiper-item{

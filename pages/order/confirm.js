@@ -153,12 +153,6 @@ Page({
 
     },
 
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
-    },
     pickAddress: function (e) {
         var id = e.currentTarget.dataset.addressid
         wx.navigateTo({

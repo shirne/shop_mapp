@@ -4,21 +4,67 @@
         <view slot="backText">返回</view>
         <view slot="content">我要提现</view>
     </cu-custom>
-    <form>
+    <form bindsubmit='submitForm' report-submit="true">
         <view class="cu-form-group margin-top">
             <view class="title">提现金额</view>
-            <input placeholder="请填写提现金额"></input>
+            <input type="digit" placeholder="请填写提现金额" focus="{{true}}" name="amount" value="{{inputamount}}" bindinput="setAmount" ></input>
+        </view>
+        <view class="padding">
+            <view>可提现金额： ￥{{balance}}</view>
+            <view class="text-gray">{{cashtip}}</view>
         </view>
         <view class="cu-form-group margin-top">
             <view class="title">提现方式</view>
-            <picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
+            <picker bindchange="pickerChange" range-key="title"  value="{{index}}" range="{{picker}}">
                 <view class="picker">
-                    {{index?picker[index]:'请选择'}}
+                    {{picker[index].title}}
                 </view>
             </picker>
         </view>
+        
+        <view wx:if="{{cashtype=='wechat'}}">
+            <view>收款账户 </view>
+            <view wx:if="{{wechatlimit}}">{{wechatlimit}}</view>
+        </view>
+        <view wx:if="{{cashtype=='alipay'}}" class="cu-form-group margin-top">
+            <view class="title">支付宝账户</view>
+            <input placeholder="请填写支付宝账户" bindinput="setAlipay" ></input>
+        </view>
+        <block  wx:if="{{cashtype=='unioncard'}}">
+            <view class="cu-form-group margin-top">
+                <view class="title">收款账户</view>
+                <picker bindchange="pickerCardChange" range-key="bank" value="{{cardidx}}" range="{{cards}}">
+                    <view class="picker">
+                        {{cards?cards[cardidx].bank:'请选择'}}
+                    </view>
+                </picker>
+            </view>
+            <block wx:if="{{cardid==0}}">
+            <view class="cu-form-group margin-top">
+                <view class="title">银行名称</view>
+                <picker bindchange="bankChange" value="{{bankidx}}" range="{{banklist}}">
+                    <view class="picker">
+                        {{banklist?banklist[bankidx]:'请选择'}}
+                    </view>
+                </picker>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">开户行</view>
+                <input placeholder="请填写开户行" bindinput="setBankname" ></input>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">银行户名</view>
+                <input placeholder="请填写开户名称" bindinput="setCardname"></input>
+            </view>
+             <view class="cu-form-group">
+                <view class="title">银行卡号</view>
+                <input placeholder="请填写银行卡号" bindinput="setCardno"></input>
+            </view>
+            </block>
+        </block>
         <view class="padding">
-            <button class="cu-btn block bg-blue margin-tb-sm lg" role="button">申请提现</button>
+            <view>{{tiptext}}</view>
+            <button class="cu-btn block bg-blue margin-tb-sm lg" formType='submit' loading="{{loading}}" disabled="{{!enabled}}" >申请提现</button>
         </view>
     </form>
 </view>

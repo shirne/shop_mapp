@@ -16,9 +16,9 @@
     <view class='block goods-block' wx:if="{{lists && lists.length>0}}">
         <view class="block-inner">
             <view class='block-content '>
-                <view class="grid col-3">
+                <view class="grid col-2">
                 <block wx:for="{{lists}}" wx:key="key">
-                    <view wx:if="{{item.id}}"  data-id="{{item.id}}" bindtap='gotoDetail'>
+                    <view  data-id="{{item.id}}" bindtap='gotoDetail'>
                         <view class='imgitem'>
                         <view wx:if="{{item.image}}" class='imgbox'>
                             <image class='sm-picture' src="{{item.image}}" mode='aspectFill'></image>
@@ -32,7 +32,6 @@
                         </view>
                         </view>
                     </view>
-                    <view wx:else class='imgitem emptyitem'></view>
                 </block>
                 </view>
             </view>

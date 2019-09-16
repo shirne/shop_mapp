@@ -1,4 +1,7 @@
 const app = getApp();
+
+app.addDebug('custom-load')
+
 Component({
     /**
      * 组件的一些选项
@@ -41,6 +44,7 @@ Component({
 
     lifetimes: {
         attached: function () {
+            
             this.data.origIsCustom = this.data.isCustom
         },
     },

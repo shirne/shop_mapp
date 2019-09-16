@@ -94,10 +94,12 @@ swiper-item image{
     min-height:300rpx;
     padding-bottom:100rpx;
 }
-
-.prod-view-info{display:flex;flex-direction: row;align-items:center;height:220rpx;}
-.prod-view-info .vimgbox{width:200rpx;height:200rpx;margin:0 20rpx;}
-.prod-view-info .vimgbox image{width:200rpx;height:200rpx;}
+.cu-dialog{background:transparent}
+.cu-dialog .cu-dialog-content{background-color:#f8f8f8;}
+.prod-view-info{display:flex;flex-direction: row;align-items:center;height:120rpx;position: relative}
+.prod-view-info .action-close{position: absolute;right:0;top:0;}
+.prod-view-info .vimgbox{width:200rpx;height:100rpx;margin:0 20rpx;position: relative}
+.prod-view-info .vimgbox image{width:200rpx;height:200rpx;position:absolute;top:-100rpx;left:0;}
 .prod-view-info .infobox{flex:1;}
 .prod-view-info .infobox .price{font-weight:bold;display:block;}
 .prod-view-info .infobox .price::first-letter{font-size:20rpx;font-weight:normal}
@@ -120,9 +122,12 @@ swiper-item image{
 
 .panel .phead{text-align: center;font-size:32rpx;font-weight:bold;padding:20rpx;}
 .panel .pcontent{flex:1;height:50%;margin-bottom:20rpx;overflow: scroll;padding:20rpx;}
-.panel .buttons{width:100%;margin:0 auto;padding-top:10rpx;border-top:1rpx #eee solid;text-align:center;}
+.panel .buttons{width:100%;margin:0 auto;text-align:center;}
 .panel .buttons button{width:90%;margin:0 auto;border-radius:60rpx;}
-.panel .buttons .btngroup{width:90%;margin:0 auto;}
-.panel .buttons .btngroup button{width:100%;}
+.panel .buttons .btngroup{
+    width:90%;margin:0 auto;display: flex;
+flex-direction: row;
+}
+.panel .buttons .btngroup button{width:50%;border:#eee solid 1px}
 .panel .buttons .btngroup button:first-child{border-radius:60rpx 0 0 60rpx;}
 .panel .buttons .btngroup button:last-child{border-radius:0 60rpx 60rpx 0;}

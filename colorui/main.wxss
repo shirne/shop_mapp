@@ -3433,78 +3433,78 @@ scroll-view.cu-steps .cu-item {
 }
 
 .bg-red {
-	background-color: var(--red);
-	color: var(--white);
+	background-color: var(--red) !important;
+	color: var(--white) !important;
 }
 
 .bg-orange {
-	background-color: var(--orange);
-	color: var(--white);
+	background-color: var(--orange) !important;
+	color: var(--white) !important;
 }
 
 .bg-yellow {
-	background-color: var(--yellow);
-	color: var(--black);
+	background-color: var(--yellow) !important;
+	color: var(--black) !important;
 }
 
 .bg-olive {
-	background-color: var(--olive);
-	color: var(--white);
+	background-color: var(--olive) !important;
+	color: var(--white) !important;
 }
 
 .bg-green {
-	background-color: var(--green);
-	color: var(--white);
+	background-color: var(--green) !important;
+	color: var(--white) !important;
 }
 
 .bg-cyan {
-	background-color: var(--cyan);
-	color: var(--white);
+	background-color: var(--cyan) !important;
+	color: var(--white) !important;
 }
 
 .bg-blue {
-	background-color: var(--blue);
-	color: var(--white);
+	background-color: var(--blue) !important;
+	color: var(--white) !important;
 }
 
 .bg-purple {
-	background-color: var(--purple);
-	color: var(--white);
+	background-color: var(--purple) !important;
+	color: var(--white) !important;
 }
 
 .bg-mauve {
-	background-color: var(--mauve);
-	color: var(--white);
+	background-color: var(--mauve) !important;
+	color: var(--white) !important;
 }
 
 .bg-pink {
-	background-color: var(--pink);
-	color: var(--white);
+	background-color: var(--pink) !important;
+	color: var(--white) !important;
 }
 
 .bg-brown {
-	background-color: var(--brown);
-	color: var(--white);
+	background-color: var(--brown) !important;
+	color: var(--white) !important;
 }
 
 .bg-grey {
-	background-color: var(--grey);
-	color: var(--white);
+	background-color: var(--grey) !important;
+	color: var(--white) !important;
 }
 
 .bg-gray {
-	background-color: #f0f0f0;
-	color: var(--black);
+	background-color: #f0f0f0 !important;
+	color: var(--black) !important;
 }
 
 .bg-black {
-	background-color: var(--black);
-	color: var(--white);
+	background-color: var(--black) !important;
+	color: var(--white) !important;
 }
 
 .bg-white {
-	background-color: var(--white);
-	color: var(--darkGray);
+	background-color: var(--white) !important;
+	color: var(--darkGray) !important;
 }
 
 .bg-shadeTop {

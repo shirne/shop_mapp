@@ -14,6 +14,9 @@ Page({
         order_count_7:0,
         rewards_7:0,
         isloading:true,
+        notice:{
+
+        },
         member: {
             niakname: '请登录',
             avatar: '/images/avatar-default.png',
@@ -44,6 +47,7 @@ Page({
                 member: profile
             })
 
+            this.loadNotice()
             this.loadData()
         })
     },
@@ -75,7 +79,15 @@ Page({
     onUnload: function () {
 
     },
-
+    loadNotice(){
+        app.httpPost('common/notice', json => {
+            if(json.code==1){
+            this.setData({
+                notice: json.data,
+            })
+            }
+        })
+    },
     loadData(){
         app.httpPost('member.agent/generic', json => {
 

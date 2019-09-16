@@ -42,7 +42,11 @@ const formatMoney = (n, len=2) => {
 
 const transDate = date => {
     if (typeof date == typeof 'a') {
-        date = string2date(date)
+        if(parseInt(date) == date){
+            date = timestamp2date(date)
+        }else{
+            date = string2date(date)
+        }
     } else if (typeof date == typeof 1) {
         date = timestamp2date(date)
     }

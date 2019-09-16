@@ -77,14 +77,16 @@
     </view>
     <view class="cu-modal bottom-modal {{ismask?'show':''}}" >
         <view class="cu-dialog">
-            <view class="cu-bar bg-white">
-                <view class="action text-green" bindtap="confirmModal">确定</view>
+            <view wx:if='{{maskfor=="attr"}}' class="cu-bar bg-white">
+                <view class="action text-green" bindtap="confirmModal"></view>
                 <view wx:if="{{modal_title}}">{{modal_title}}</view>
-                <view class="action text-blue" bindtap="hideModal">取消</view>
+                <view class="action text-blue" bindtap="hideModal"></view>
             </view>
-            <view class="padding-sm">
-                <view class='panel{{maskfor=="spec"?" panelopen":""}}' >
+            <view wx:else class="cu-bar transheader"></view>
+            <view class="cu-dialog-content padding-sm">
+                <view wx:if="{{maskfor=='spec'}}" class='panel' >
                     <view class='prod-view-info'>
+                        <view class="action-close" bindtap="hideModal"><text class="cuIcon-roundclose text-xl"></text></view>
                         <view class='vimgbox'>
                             <image src="{{sku.image?sku.image:model.image}}" class='picture'></image>
                         </view>
@@ -117,25 +119,27 @@
                         <button wx:if="{{product.max_buy==0}}" type='gray' class='btn-large buynow_nostorage' bindtap='sellouthandle'>限量销售</button>
                         <button wx:elif="{{sku && sku.storage<1}}" type='gray' class='btn-large'>暂时缺货</button>
                         <block wx:else>
-                            <button wx:if="{{opt_from=='buy'}}" type='primary' class='btn-large' catch:tap="sureBuy">确定</button>
-                            <button wx:elif="{{opt_from=='cart'}}" type='primary' class='btn-large' catch:tap="sureAddCart">确定</button>
+                            <button wx:if="{{opt_from=='buy'}}" class='cu-btn lg bg-red' catch:tap="sureBuy">确定</button>
+                            <button wx:elif="{{opt_from=='cart'}}" class='cu-btn lg bg-orange' catch:tap="sureAddCart">确定</button>
                             <view wx:else class="btngroup">
-                                <button class='btn-large cartbtn' catch:tap="sureAddCart" wx:if='{{product.max_buy == null}}'>加入购物车</button>
-                                <button class='btn-large orderbtn' catch:tap="sureBuy" wx:if='{{product.max_buy>0}}'>立即购买</button>
-                                <button class='btn-large orderbtn' style='background-color:#e8e8e8;color:#9b9b9b;' wx:else>立即购买</button>
+                                <button class='cu-btn lg bg-red cartbtn' catch:tap="sureAddCart" wx:if='{{product.max_buy == null}}'>加入购物车</button>
+                                <button class='cu-btn lg bg-orange orderbtn' catch:tap="sureBuy" disabled='{{good_count<1}}'>立即购买</button>
 
                             </view>
                         </block>
                     </view>
                 </view>
-                <view class='panel{{maskfor=="attr"?" panelopen":""}}' >
-                    <view class='cu-list menu attrlist' wx:if="{{hasProp}}">
+                <view wx:elif="{{maskfor=='attr'}}" class='panel' >
+                    <view class='cu-list margin-bottom menu attrlist' wx:if="{{hasProp}}">
                         <view class='cu-item attritem' wx:for="{{model.prop_data}}" wx:key="this" wx:for-index="key">
                             <view class='content text-left'><text>{{key}}</text></view>
                             <view class='action'><text>{{item}}</text></view>
                         </view>
                     </view>
                     <view wx:else class="emptytip">暂无更多参数</view>
+                    <view class='buttons'>
+                    <button class='cu-btn lg bg-orange' catch:tap="hideModal">完成</button>
+                    </view>
                 </view>
             </view>
         </view>

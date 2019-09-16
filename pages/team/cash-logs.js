@@ -26,6 +26,11 @@ Page({
                 status: options.status
             })
         }
+        app.getProfile(profile=>{
+            this.setData({
+                profile:profile
+            })
+        })
         this.loadData();
     },
 
@@ -66,7 +71,7 @@ Page({
         this.setData({
             status: status,
             hasmore: true,
-            orders: [[]],
+            logs: [[]],
             page: 1
         })
         this.loadData()
@@ -74,7 +79,7 @@ Page({
     reloadData() {
         this.setData({
             hasmore: true,
-            orders: [[]],
+            logs: [[]],
             page: 1
         })
         this.loadData()
@@ -94,7 +99,7 @@ Page({
                 //newData['ordercounts'] = json.data.counts
                 newData['totalcount'] = json.data.total
                 if (json.data && json.data.cashes && json.data.cashes.length > 0) {
-                    newData['logs[' + this.data.page + ']'] = json.data.cashes
+                    newData['logs[' + this.data.page + ']'] = trail.fixListDate(json.data.cashes, 'Y-m-d H:i:s','create_time,payment_time,fail_time')
                     if (this.data.page < json.data.total_page) {
                         newData['hasmore'] = true;
                         this.data.page++

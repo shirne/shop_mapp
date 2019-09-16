@@ -18,9 +18,11 @@ class Login {
 
     store_key ='login_token'
 
-    constructor(appInstanse, agent) {
+    debuginfo=''
+    constructor(appInstanse, agent, debug='') {
         app = appInstanse
         this.agent = agent
+        this.debuginfo=debug
     }
 
     restoreToken(){
@@ -96,10 +98,15 @@ class Login {
                     code: code,
                     wxid: app.globalData.wxid,
                     rawData: res.rawData,
-                    signature: res.signature
+                    signature: res.signature,
+                    scene:app.globalData.scene
                 }
                 if (self.agent) {
                     data.agent = self.agent
+                }
+                
+                if(self.debuginfo){
+                    data.debug = self.debuginfo
                 }
                 console.log('执行登录操作')
                 app.httpPost('auth/wxlogin', data, (json) => {
@@ -231,7 +238,7 @@ class Login {
                 if (typeof success == 'function') this.loginqueue.push(success)
                 this.isloging = true;
 
-                app.httpPost('auth/refresh', { refresh_token: this.refresh_token }, (json) => {
+                app.httpPost('auth/refresh', { refresh_token: this.refresh_token, scene: app.globalData.scene }, (json) => {
                     self.isloging = false;
                     if (json.code == 1) {
                         self.setLogin(json.data)
@@ -259,7 +266,7 @@ class Login {
         }
         var nowTime = Math.ceil(new Date().getTime() / 1000)
         if (this.token_time + this.token_expire - 30 <= nowTime) {
-            console.log(this)
+            //console.log(this)
             return false
         }
 

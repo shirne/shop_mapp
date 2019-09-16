@@ -18,7 +18,7 @@
     <view class='block goods-block'>
         <view wx:if="{{lists && lists.length}}" class="block-inner">
             <view class='block-content'>
-                <view class="grid col-3" >
+                <view class="grid col-2" >
                     <block wx:for="{{lists}}" wx:key="key">
                         <view wx:if="{{item.id}}" data-id="{{item.id}}" bindtap="gotoDetail">
                             <view class='imgitem'>
@@ -39,7 +39,7 @@
             </view>
         </view>
     </view>
-    <block wx:if="{{!isloading}}">
+    <block wx:if="{{!isloading && !has_more}}">
         <view wx:if="{{totalcount>0}}" class="cu-load over text-gray"></view>
         <view wx:else class="emptytip">
             <view>

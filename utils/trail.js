@@ -219,26 +219,48 @@ const fixProductListPrice = (list,level,issku=true)=>{
 
 const fixProductSkuPrice = (product, level) => {
     if(product.skus && product.skus.length>0){
+        let min_price=-1,max_price=-1,price_desc=''
         product.skus.forEach(sku=>{
             if (sku.ext_price && sku.ext_price[level.level_id] !== undefined && sku.ext_price[level.level_id] !== null){
                 sku.orig_price = sku.price
-                sku.price = parseFloat(sku.ext_price[level.level_id])
+                sku.price = util.forceNumber(sku.ext_price[level.level_id])
                 sku.price_desc = level.level_name + '价'
             } else if (product.is_discount == 1 && level.discount < 100) {
                 sku.orig_price = sku.price
                 sku.price = Math.round(sku.price * level.discount)*0.1
                 sku.price_desc = (level.discount * .1) + '折'
             }
+
+            if (min_price<0){
+                min_price = sku.price
+                max_price = sku.price
+                price_desc = sku.price_desc 
+            } else if (min_price > sku.price){
+                min_price = sku.price
+                price_desc = sku.price_desc 
+            } else if (max_price < sku.price) {
+                max_price = sku.price
+                price_desc = sku.price_desc 
+            }
             return sku
         })
+        if ((min_price >= 0 && min_price != product.min_price) ||
+            (max_price >= 0 && max_price != product.max_price)
+         ){
+            product.orig_min_price=product.min_price
+            product.orig_max_price=product.max_price
+            product.min_price = min_price
+            product.max_price = max_price
+            product.price_desc = price_desc
+        }
     }
     return product
 }
 
 const fixProductPrice=(product, level)=>{
-    if (level.diy_price==1 && product.ext_price && product.ext_price[level.level_id]){
+    if (level.diy_price == 1 && product.ext_price && product.ext_price[level.level_id] !== null && product.ext_price[level.level_id] !== undefined){
         product.orig_price=product.price
-        product.price = parseFloat(product.ext_price[level.level_id])
+        product.price = util.forceNumber(product.ext_price[level.level_id])
         product.price_desc = level.level_name+'价'
     }else if(product.is_discount==1 && level.discount<100){
         product.price_desc = (level.discount*.1)+'折'
@@ -269,20 +291,20 @@ const fixDate = (obj, format = "Y-m-d", key = "create_time") => {
 
     return obj
 }
-const fixListImage = (lists, key = "avatar") => {
+const fixListImage = (lists, key = "avatar", size = null) => {
     if (!lists || !lists.length) return lists
     for (var i = 0; i < lists.length; i++) {
-        lists[i] = fixImage(lists[i], key)
+        lists[i] = fixImage(lists[i], key, size)
     }
     return lists
 }
-const fixImage=(obj, key)=>{
+const fixImage = (obj, key, size = null)=>{
     if(!obj )return obj
     if (key.indexOf(',') > 0) {
         key.split(',').forEach((k) => {
             k = k.trim()
             if (k) {
-                obj = fixImage(obj, k)
+                obj = fixImage(obj, k,size)
             }
         })
         return obj
@@ -293,9 +315,9 @@ const fixImage=(obj, key)=>{
         let nk = parts.join('.')
         if (obj[k]){
             if (obj[k] instanceof Array) {
-                obj[k] = fixListImage(obj[k], nk)
+                obj[k] = fixListImage(obj[k], nk,size)
             } else {
-                obj[k] = fixImage(obj[k], nk)
+                obj[k] = fixImage(obj[k], nk,size)
             }
         }
         return obj
@@ -303,16 +325,16 @@ const fixImage=(obj, key)=>{
     
     if (obj[key] instanceof Array){
         obj[key] = obj[key].map(img=>{
-            return fixImageUrl(img)
+            return fixImageUrl(img,size)
         })
     }else{
-        obj[key] = fixImageUrl(obj[key])
+        obj[key] = fixImageUrl(obj[key],size)
     }
     return obj
 }
 
-const fixImageUrl = (url) => {
-    return app.fixImageUrl(url)
+const fixImageUrl = (url, size = null) => {
+    return app.fixImageUrl(url,size)
 }
 
 const fixContent = (content)=>{
@@ -358,11 +380,19 @@ const fixTag = (node, pnode) => {
         }
     }
 }
-const fixMarketPrice = (goods)=>{
+const fixProductList = (goods,level=null)=>{
     if (goods && goods.length) {
-        for (let i = 0; i < goods.length; i++) {
-            goods[i].market_price = Math.round(goods[i].market_price) || 0
-        }
+        goods.forEach(good=>{
+            good.image = fixImageUrl(good.image, 400)
+
+            good.market_price = Math.round(good.market_price) || 0
+
+            if (level && good.skus && good.skus.length > 0) {
+                good = fixProductSkuPrice(good, level)
+            }
+            
+            return good
+        })
     }
     return goods;
 }
@@ -470,6 +500,7 @@ module.exports = {
     uploadFile: uploadFile,
     fixListDate: fixListDate,
     fixDate: fixDate,
+    fixProductList: fixProductList,
     fixProductListPrice: fixProductListPrice,
     fixProductPrice: fixProductPrice,
     fixProductSkuPrice: fixProductSkuPrice,
@@ -478,7 +509,6 @@ module.exports = {
     fixImageUrl: fixImageUrl,
     fixContent: fixContent,
     fixTag: fixTag,
-    fixMarketPrice: fixMarketPrice,
     reasons: reasons,
     refundReasons: refundReasons,
     orderAction: orderAction

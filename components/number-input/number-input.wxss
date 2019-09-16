@@ -5,12 +5,14 @@
     flex-direction: row;
     align-items: center;
     border:1rpx #ddd solid;
-    height: 60rpx;
+    height: 48rpx;
+    background:#fff;
 }
 .input-group input{
     flex:1 1 auto;
-    height:60rpx;
-    line-height: 60rpx;
+    height:48rpx;
+    line-height: 48rpx;
+    min-height:20rpx;
     overflow: hidden;
     border:0;
     border-left:1rpx #ddd solid;
@@ -19,7 +21,7 @@
     text-align: center;
 }
 .input-group .input-group-addon{
-    width:60rpx;
+    width:48rpx;
     height:100%;
     flex:0 0 auto;
     position:relative;
@@ -58,4 +60,12 @@
 .input-group .input-group-addon.disabled:before,
 .input-group .input-group-addon.disabled:after{
     background-color:#ddd;
+}
+
+.input-group.lg{
+    height: 60rpx;
+}
+.input-group.lg input{
+    height: 60rpx;
+    line-height: 60rpx;
 }

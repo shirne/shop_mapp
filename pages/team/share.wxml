@@ -1,7 +1,20 @@
 <!--pages/team/share.wxml-->
-<scroll-view>
-    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-        <view slot="backText">返回</view>
-        <view slot="content">我要分享</view>
-    </cu-custom>
-</scroll-view>
+<view class="container">
+    <view class="bgset" ></view>
+    <view class="scrollPage">
+        <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+            <view slot="backText">返回</view>
+            <view slot="content">我要推广</view>
+        </cu-custom>
+        <view class="sharebody">
+            <view class="qrcode">
+                <image wx:if="{{qrcode}}" src="{{qrcode}}" mode="aspectFill" ></image>
+                <text wx:else class="cu-load loading text-gray text-xl"></text>
+            </view>
+            <view class="flex actions padding">
+                <view class="flex-sub text-center"><button class="cu-btn bg-cyan" open-type="share" role="button"><text class="cuIcon-link margin-right-sm"></text> 分享链接</button></view>
+                <view class="flex-sub text-center"><button class="cu-btn bg-green" role="button" bindtap="saveImage"><text class="cuIcon-scan margin-right-sm"></text> 保存图片</button></view>
+            </view>
+        </view>
+    </view>
+</view>

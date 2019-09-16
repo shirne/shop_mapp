@@ -1,1 +1,5 @@
 /* pages/team/ranks.wxss */
+
+.rankid text{
+    font-style: italic;
+}

@@ -34,8 +34,7 @@ Component({
         isloading: true,
 
         //弹出遮罩层控制
-        ismask: false,
-        isclosing: false,
+        ismask: false
 
     },
 
@@ -65,7 +64,7 @@ Component({
                                 item.storage = parseInt(item.storage)
                                 item.weight = parseInt(item.weight)
                                 item = trail.fixProductPrice(item, profile.level)
-                                item.product_price = item.price
+                                if(item.price)item.product_price = item.price
                                 item.product_price = parseFloat(item.product_price)
                                 item.cart_product_price = parseFloat(item.cart_product_price)
                             })
@@ -114,7 +113,7 @@ Component({
             util.shopTab(url)
         },
         itemChecked: function (e) {
-            console.log(e)
+            //console.log(e)
             var carts = this.data.carts
             var ischecked = e.detail.checked
             var cart_id = e.detail.value
@@ -133,7 +132,7 @@ Component({
             var carts = this.data.carts
             var id = e.currentTarget.dataset.id
             for (var i = 0; i < carts.length; i++) {
-                if (carts[i].id == id) {
+                if (carts[i].sku_id == id) {
                     carts[i].editMode = true
                     break;
                 }
@@ -196,7 +195,7 @@ Component({
             var carts = this.data.carts
             var id = e.currentTarget.dataset.id
             for (var i = 0; i < carts.length; i++) {
-                if (carts[i].id == id) {
+                if (carts[i].sku_id == id) {
                     carts[i].editMode = false
 
                     app.httpPost('cart/update',
@@ -216,21 +215,15 @@ Component({
                 carts: carts
             })
         },
-        openMask: function (e) {
+        openModal: function (e) {
             this.setData({
                 ismask: true
             })
         },
-        closeMask: function (e) {
+        hideModal: function (e) {
             this.setData({
-                ismask: false,
-                isclosing: true
+                ismask: false
             })
-            setTimeout(() => {
-                this.setData({
-                    isclosing: false
-                })
-            }, 500);
         },
         showSpec: function (e) {
             wx.showLoading({
@@ -252,7 +245,7 @@ Component({
                         current: d.index,
                         sku: product.searchSku(d.specs)
                     })
-                    this.openMask(null)
+                    this.openModal(null)
                 } else {
                     util.error('数据错误')
                 }
@@ -294,7 +287,7 @@ Component({
                     carts: carts
                 })
             }
-            this.closeMask(null)
+            this.hideModal(null)
             this.calcolation()
         },
         delCart: function (e) {

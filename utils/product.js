@@ -12,6 +12,10 @@ class Product
             sku.price = parseFloat(sku.price)
         })
 
+        if (product.spec_data && !product.spec_data.length){
+            product.spec_data=null
+        }
+
         product.image = trail.fixImageUrl(product.image)
         product.content = html.HtmlToNodes(product.content, trail.fixTag)
         skus = trail.fixListImage(skus, 'image')
@@ -50,7 +54,12 @@ class Product
     }
 
     getPriceDescText(){
-        return this.skus.length?this.skus[0].price_desc:''
+        if (this.skus && this.skus.length>0){
+            if (this.skus[0].price_desc){
+                return this.skus[0].price_desc
+            }
+        }
+        return ''
     }
 
     getPrice(){

@@ -39,6 +39,10 @@ Component({
         maxtip: {
             type: String,
             value: "最多 {number}",
+        },
+        size:{
+            type:String,
+            value:''
         }
     },
 

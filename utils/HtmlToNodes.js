@@ -199,14 +199,17 @@ function HtmlToNodes(content,onPush=null){
     let startTag = /<(\w+)((?:\s+[\w\-]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/g,
 		endTag = /<\/(\w+)[^>]*>/g
         
-    content = content.replace(/&emsp;/ig,'　')
 
-    let length=content.length
     let index=0,match=null,ematch=null
     let rootNode=createNode('div',null),cursor=[rootNode],cursorIndex=0
     let dropLayer=0
     let callback=typeof onPush=='function'
 
+    if (!content) return rootNode.children
+
+    content = content.replace(/&emsp;/ig, '　')
+    let length = content.length
+    
     match=startTag.exec(content) 
     ematch=endTag.exec(content)
     while( match || ematch ){

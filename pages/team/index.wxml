@@ -61,7 +61,7 @@
                     </view>
                     <view class='cu-item tool-item' bindtap="gotoUrl" data-url="share">
                         <view class="cuIcon-share text-gold"></view>
-                        <text class='item-title'>我的推广</text>
+                        <text class='item-title'>我要推广</text>
                     </view>
                     <view class='cu-item tool-item' bindtap="gotoUrl" data-url="cash">
                         <view class="cuIcon-vipcard text-gold"></view>

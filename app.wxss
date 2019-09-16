@@ -9,6 +9,11 @@ page {
 .scrollPage {
   height: 100vh;
 }
+.checkbox-wrapper:before{
+    content:"" !important;
+    width:0 !important;
+    height:0 !important;
+}
 view.scrollPage{
     display: flex;
     flex-direction: column;
@@ -81,19 +86,6 @@ button.not-button::after{
     margin-left:-40rpx;
     top:15rpx;
 }
-/*.icon-hasbg .cu-item:after{
-    content:"";
-    display:block;
-    width:80rpx;
-    height:40rpx;
-    border-radius: 100%;
-    background-image:radial-gradient(ellipse,rgba(0,0,0,.1),rgba(0,0,0,0));
-    position: absolute;
-    left:50%;
-    margin-left:-40rpx;
-    top:75rpx;
-    overflow: hidden;
-}*/
 
 .bg-light-gold{
     background-color:#f5f1eb;
@@ -105,12 +97,6 @@ button.not-button::after{
     color:#805033 !important;
 }
 
-.cu-modal .panel{
-    display:none;
-}
-.cu-modal .panelopen{
-    display:block;
-}
 
 .card-header{
     padding:10rpx 20rpx;
@@ -122,102 +108,6 @@ button.not-button::after{
     padding:20rpx;
 }
 
-.nav-list {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0px 40rpx 0px;
-  justify-content: space-between;
-}
-
-.nav-li {
-  padding: 30rpx;
-  border-radius: 12rpx;
-  width: 45%;
-  margin: 0 2.5% 40rpx;
-  background-image: url(images/bg/cardBg.png);
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  z-index: 1;
-}
-
-.nav-li::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  background-color: inherit;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  bottom: -10%;
-  border-radius: 10rpx;
-  opacity: 0.2;
-  transform: scale(0.9, 0.9);
-}
-
-.nav-li.cur {
-  color: #fff;
-  background: rgb(94, 185, 94);
-  box-shadow: 4rpx 4rpx 6rpx rgba(94, 185, 94, 0.4);
-}
-
-.nav-title {
-  font-size: 32rpx;
-  font-weight: 300;
-}
-
-.nav-title::first-letter {
-  font-size: 40rpx;
-  margin-right: 4rpx;
-}
-
-.nav-name {
-  font-size: 28rpx;
-  text-transform: Capitalize;
-  margin-top: 20rpx;
-  position: relative;
-}
-
-.nav-name::before {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 40rpx;
-  height: 6rpx;
-  background: #fff;
-  bottom: 0;
-  right: 0;
-  opacity: 0.5;
-}
-
-.nav-name::after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 100rpx;
-  height: 1px;
-  background: #fff;
-  bottom: 0;
-  right: 40rpx;
-  opacity: 0.3;
-}
-
-.nav-name::first-letter {
-  font-weight: bold;
-  font-size: 36rpx;
-  margin-right: 1px;
-}
-
-.nav-li text {
-  position: absolute;
-  right: 30rpx;
-  top: 30rpx;
-  font-size: 52rpx;
-  width: 60rpx;
-  height: 60rpx;
-  text-align: center;
-  line-height: 60rpx;
-}
 
 .text-light {
   font-weight: 300;
@@ -263,6 +153,7 @@ button.not-button::after{
 }
 .block-inner .block-ttl {
     padding: 5rpx 20rpx;
+    margin-bottom:30rpx;
 }
 .block-ttl .fr{
     font-weight:normal;
@@ -275,16 +166,16 @@ button.not-button::after{
 .block-content .cu-list.grid.no-border{
     padding:0;
 }
-
 .goods-block .block-content {
-    padding: 0 0 0 20rpx;
+    padding: 0 0 0 30rpx;
 }
 .goods-block .imgitem{
-    margin-right:20rpx;
+    margin-right:30rpx;
+    margin-bottom:30rpx;
     width:calc(33.33%-20rpx);
 }
 .goods-block .ttlbox {
-    height:2.5em;
+    height:2.6em;
     line-height:1.2em;
     padding-top:.3em;
     overflow: hidden;
@@ -325,7 +216,7 @@ button.not-button::after{
 
 
 number-input{
-    width:230rpx;
+    width:200rpx;
 }
 
 /*富文本样式*/

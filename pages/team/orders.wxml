@@ -67,7 +67,7 @@
             </view>
         </block>
     </view>
-    <block wx:if="{{!isloading}}">
+    <block wx:if="{{!isloading && !hasmore}}">
         <view wx:if="{{totalcount>0}}" class="cu-load over text-gray"></view>
         <view wx:else class="emptytip">
             <view>

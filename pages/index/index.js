@@ -34,11 +34,7 @@ Page({
         var alltabs = ['home', 'product','news','cart','member'];
         if(alltabs.indexOf(tab)>-1){
             this.setData({
-                PageCur: tab,
-                needpulldown: false,
-                ispulldown: false,
-                needreachbottom: false,
-                isreachbottom: false
+                PageCur: tab
             })
             this.params.tab = tab
         }else{

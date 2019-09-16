@@ -12,6 +12,7 @@ Component({
     data: {
         userInfo: {},
         hasUserInfo: false,
+        profile:{},
         banners: null,
         midbanners:[],
         autoplay: true,
@@ -37,8 +38,13 @@ Component({
                     })
                 }
             })
-            this.loadData(res=>{
-                wx.hideLoading()
+            app.getProfile(profile=>{
+                this.setData({
+                    profile:profile
+                })
+                this.loadData(res => {
+                    wx.hideLoading()
+                })
             })
         },
         moved: function () { 
@@ -52,8 +58,8 @@ Component({
         loadData(callback=null){
             app.httpPost(
                 'common/batch', {
-                    'product.get_list': {},
-                    'product.get_cates': { goods_count: 3 },
+                    'product.get_list': { withsku: 1, type: 4, pagesize:4},
+                    'product.get_cates': { goods_count: 4,withsku:1 },
                     'article.get_list': {},
                     'advs': {
                         flag: 'banner'
@@ -71,15 +77,13 @@ Component({
                     if (json.code == 1) {
                         let goods = json.data['product.get_list']
                         if (goods) {
-                            goods = goods['lists']
-                            goods = trail.fixListImage(goods, 'image')
-                            goods = trail.fixMarketPrice(goods);
+                            goods = trail.fixProductList(goods['lists'], this.data.profile.level);
                         }
                         let cates = json.data['product.get_cates']
                         if (cates) {
-                            cates = trail.fixListImage(cates, 'icon,products.image')
+                            cates = trail.fixListImage(cates, 'icon,products.image',400)
                             for (let i = 0; i < cates.length; i++) {
-                                cates[i].products = trail.fixMarketPrice(cates[i].products);
+                                cates[i].products = trail.fixProductList(cates[i].products, this.data.profile.level);
                             }
                         }
                         let articles = json.data['article.get_list']['lists']
@@ -88,11 +92,11 @@ Component({
                             articles = trail.fixListImage(articles, 'cover')
                         }
                         let advs = json.data['advs'], midadvs = json.data['medium_advs'], fourmenu = json.data['four_advs']
-                        advs = trail.fixListImage(advs, 'image')
-                        midadvs = trail.fixListImage(midadvs, 'image')
+                        advs = trail.fixListImage(advs, 'image',[800,418])
+                        midadvs = trail.fixListImage(midadvs, 'image', [800, 418])
 
                         if (fourmenu && fourmenu.length > 0) {
-                            fourmenu = trail.fixListImage(fourmenu, 'image')
+                            fourmenu = trail.fixListImage(fourmenu, 'image', [400,0])
                             if (fourmenu.length < 4) {
                                 fourmenu.push({ image: '' })
                                 fourmenu.push({ image: '' })
@@ -118,6 +122,29 @@ Component({
             this.setData({
                 cardCur: e.detail.current
             })
+        },
+        gotoUrl:function(e){
+            var url = e.currentTarget.dataset.url
+            if(url){
+                if(url.indexOf('http://')==0 || url.indexOf('https://')==0){
+                    wx.navigateTo({
+                        url: '/pages/common/h5?url=' + url,
+                    })
+                }else{
+                    if(url.indexOf('pages/')==0){
+                        url = '/'+url
+                    }
+                    if (url.indexOf('/') !== 0) {
+                        url = '/' + url
+                    }
+                    if (url.indexOf('/pages/') == -1) {
+                        url = '/pages' + url
+                    }
+                    wx.navigateTo({
+                        url: url,
+                    })
+                }
+            }
         },
         gotoProductList: function (e) {
             wx.navigateTo({

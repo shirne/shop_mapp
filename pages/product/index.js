@@ -25,6 +25,7 @@ Component({
      */
     data: {
         cate_id: 0,
+        lists:[],
         isloading: true,
         totalcount:0,
         page: 1,
@@ -73,21 +74,25 @@ Component({
                             cate_id: cate_id
                         })
                     }
-                    this.loadData()
+                    app.getProfile(profile => {
+                        this.setData({
+                            profile: profile
+                        })
+                        this.loadData()
+                    })
                 }
             })
         },
         loadData () {
             var cid = this.data.cate_id
-            app.httpPost('product/get_list', { cate: cid }, json => {
+            app.httpPost('product/get_list', { cate: cid,pagesize:6,page:this.data.page }, json => {
                 if (cid == this.data.cate_id) {
                     if (json.code == 1) {
                         let lists = json.data.lists
-                        lists = trail.fixListImage(lists, 'image')
-                        lists = trail.fixMarketPrice(lists);
+                        lists = trail.fixProductList(lists,this.data.profile.level);
 
                         this.setData({
-                            lists: lists,
+                            lists: this.data.lists.concat(lists),
                             page: json.data.page + 1,
                             totalcount:json.data.total,
                             has_more: json.data.page < json.data.total_page,
@@ -95,9 +100,6 @@ Component({
                         })
                     } else {
                         this.setData({
-                            lists: [],
-                            page: 1,
-                            has_more: false,
                             isloading: false
                         })
                     }
@@ -108,6 +110,7 @@ Component({
             if (this.data.isloading) {
                 return;
             }
+            if(!this.data.has_more)return;
             this.setData({
                 isloading: true
             })

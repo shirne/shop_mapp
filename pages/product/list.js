@@ -41,7 +41,12 @@ Page({
                 })
             }
         })
-        this.loadData()
+        app.getProfile(profile => {
+            this.setData({
+                profile: profile
+            })
+            this.loadData()
+        })
     },
     getCateId:function(){
         return this.data.cate_id ? this.data.cate_id : this.data.top_id
@@ -53,8 +58,7 @@ Page({
         app.httpPost('product/get_list?cate=' + cid+'&page='+page, json => {
             if (json.code == 1 && cid == this.getCateId()) {
                 let products=json.data.lists
-                products = trail.fixListImage(products,'image')
-                products = trail.fixMarketPrice(products)
+                products = trail.fixProductList(products,this.data.profile.level)
                 if (products.length % 2 == 1) products.push({})
                 this.setData({
                     lists: this.data.lists.concat(products),
@@ -100,12 +104,6 @@ Page({
         }
     },
 
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
-    },
     changeCategory: function (e) {
         var id = e.currentTarget.dataset.id
         this.setData({

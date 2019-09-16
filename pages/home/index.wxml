@@ -16,7 +16,7 @@
     </view>
     <view class="container">
         <swiper wx:if="{{banners && banners.length}}" class="card-swiper" indicator-dots="{{false}}" circular="{{true}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="cardSwiper">
-            <swiper-item wx:for="{{banners}}" wx:key class="{{cardCur==index?'cur':''}}">
+            <swiper-item wx:for="{{banners}}" wx:key class="{{cardCur==index?'cur':''}}" bindtap="gotoUrl" data-url="{{item.url}}">
                 <view class="swiper-item">
                     <image src="{{item.image}}" mode="aspectFill" ></image>
                 </view>
@@ -40,12 +40,12 @@
         </view>
         <view class="block fourmenu" wx:if="{{fourmenu && fourmenu.length>0}}">
             <view class="flex fwrapper">
-                <view class="flex-sub margin-right-sm fimage-item fleftbig" style="background-image:url({{fourmenu[0].image}})"></view>
+                <view class="flex-sub margin-right-sm fimage-item fleftbig" style="background-image:url({{fourmenu[0].image}})"  bindtap="gotoUrl" data-url="{{fourmenu[0].url}}"></view>
                 <view class="flex-sub">
-                    <view class="fimage-item margin-bottom-sm ftopbig" style="background-image:url({{fourmenu[1].image}})"></view>
+                    <view class="fimage-item margin-bottom-sm ftopbig" style="background-image:url({{fourmenu[1].image}})"  bindtap="gotoUrl" data-url="{{fourmenu[1].url}}"></view>
                     <view class="flex">
-                        <view class="flex-sub margin-right-xs fimage-item fsmall" style="background-image:url({{fourmenu[2].image}})"></view>
-                        <view class="flex-sub margin-left-xs fimage-item fsmall" style="background-image:url({{fourmenu[3].image}})"></view>
+                        <view class="flex-sub margin-right-xs fimage-item fsmall" style="background-image:url({{fourmenu[2].image}})"  bindtap="gotoUrl" data-url="{{fourmenu[2].url}}"></view>
+                        <view class="flex-sub margin-left-xs fimage-item fsmall" style="background-image:url({{fourmenu[3].image}})"  bindtap="gotoUrl" data-url="{{fourmenu[3].url}}"></view>
                     </view>
                 </view>
             </view>
@@ -56,7 +56,7 @@
                     <text>推荐礼包</text>
                 </view>
                 <view class='block-content'>
-                    <view class="grid col-3">
+                    <view class="grid col-2">
                         <block wx:for="{{goods}}" wx:key="key">
                             <view wx:if="{{item.id}}" data-id="{{item.id}}" bindtap="gotoProduct">
                                 <view class='imgitem'>
@@ -80,7 +80,7 @@
 
         <view class="block" style="padding:0 30rpx;">
             <swiper class="screen-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
-                <swiper-item wx:for="{{midbanners}}" wx:key>
+                <swiper-item wx:for="{{midbanners}}" wx:key  bindtap="gotoUrl" data-url="{{item.url}}">
                     <image src="{{item.image}}" mode="aspectFill"></image>
                 </swiper-item>
             </swiper>
@@ -93,7 +93,7 @@
                         <text>{{item.title}}</text>
                     </view>
                     <view class='block-content'>
-                        <view class="grid col-3">
+                        <view class="grid col-2">
                             <block wx:for="{{item.products}}" wx:key="key">
                                 <view wx:if="{{item.id}}" data-id="{{item.id}}" bindtap="gotoProduct">
                                     <view class='imgitem'>

@@ -54,34 +54,12 @@ Page({
 
     },
 
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
-    },
-
     loadData(){
 
         app.httpPost('product/get_list', {type:this.data.types,withsku:1} , json => {
             if (json.code == 1 ) {
                 let products = json.data.lists
-                products = trail.fixListImage(products, 'image')
-                products = trail.fixMarketPrice(products)
+                products = trail.fixProductList(products)
                 this.setData({
                     products: products,
                     isloading: false
