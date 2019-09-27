@@ -6,7 +6,6 @@ page{
     display:flex;
     flex-direction: column;
     width:100%;
-    background:#3498db;
     padding-bottom:40rpx;
 }
 .logobox image{
@@ -20,4 +19,11 @@ page{
 
 .arrow-list{
     margin-top:20rpx;
+}
+.cu-list .cu-item .action{
+    width:40%;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

@@ -80,7 +80,7 @@ Page({
 
     diggUp: function (e) {
         if (this.data.digged) {
-            util.tip('您已经点过赞了')
+            app.tip('您已经点过赞了')
             return
         }
         if (this.data.digging)return
@@ -92,7 +92,9 @@ Page({
                 newdata['model.digg'] = json.data.digg
                 newdata.digged=true
                 this.setData(newdata)
-                util.success('感谢点赞')
+                app.success('感谢点赞')
+            }else{
+                app.error(json.msg)
             }
             this.data.digging = false
         })

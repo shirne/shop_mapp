@@ -6,6 +6,10 @@
 page {
     background:#f4f4f4;
 }
+.transparent{
+    background:transparent;
+    color:#fff;
+}
 .scrollPage {
   height: 100vh;
 }
@@ -48,6 +52,9 @@ button.not-button::after{
 .dbline{
     line-height:1.1em;
 }
+.cu-list .cu-item .content{
+    white-space: nowrap;
+}
 .cu-list .cu-item .content .icon-xs:before{
     font-size:24rpx;
 }
@@ -63,6 +70,7 @@ button.not-button::after{
 .cu-list .cu-item .content>.flex .icon-xxl:before{
     font-size:50rpx;
 }
+
 
 .cu-list.grid>.cu-item text.item-title{
     margin-top:20rpx;
@@ -195,6 +203,12 @@ button.not-button::after{
     font-size:22rpx;
     color: #999;
     text-decoration: line-through;
+}
+
+.goods-block .comminfo{
+    float:right;
+    font-size:22rpx;
+    color: #999;
 }
 
 .imgbox{

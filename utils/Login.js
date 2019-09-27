@@ -4,6 +4,7 @@ let app=null
 class Login {
 
     isloging = false
+    loggin=false
     isauthing=false
     loginqueue = []//缓存登录过程中需要的回调操作
 
@@ -87,9 +88,9 @@ class Login {
         var self = this;
         if (!this.token) {
             //console.log('正在登录')
-            wx.showLoading({
+            /*wx.showLoading({
                 title: '正在登录...',
-            })
+            })*/
             if (typeof callback == 'function') this.loginqueue.push(callback)
             this.isloging = true;
             self.getUserInfo((res, code) => {
@@ -114,7 +115,7 @@ class Login {
                     wx.hideLoading()
                     
                     if (json.data && json.data.token) {
-                        
+                        self.loggin=true
                         self.setLogin(json.data)
 
                         self.processQueue()
@@ -145,7 +146,8 @@ class Login {
                         this.authfail()
                     }
                 } else {
-                    wx.hideLoading()
+                    this.authfail()
+                    /*wx.hideLoading()
                     if (this.isauthing){
                         let pages = getCurrentPages()
                         if(pages && pages.length>0){
@@ -161,7 +163,7 @@ class Login {
                         url: '/pages/index/authorize?credit=1',
                         success: res => {
                         }
-                    })
+                    })*/
                 }
             },
             fail:res=>{
@@ -199,27 +201,10 @@ class Login {
     }
 
     authfail() {
-        wx.showModal({
-            title: '取消授权提示',
-            content: '没有用户授权信息，不能获取用户在应用中的对应数据？',
-            cancelText: "重新授权",
-            confirmText: "不授权",
-            success: (data) => {
-                if (data.confirm) {
-                    console.info("确认不授权")
-                    self.tip("无法自动登录")
-                } else if (data.cancel) {
-                    wx.openSetting({
-                        success: result => {
-                            if (result.authSetting['scope.userInfo'] == true) {
-                                self.isloging = false
-                                self.checkLogin(callback)
-                            }
-                        }
-                    })
-                }
-            }
-        })
+        this.loggin = false
+        this.isloging = false
+
+        this.processQueue()
     }
 
     //success:回调函数  is_force:是否强制刷新
@@ -282,7 +267,7 @@ class Login {
     processQueue() {
         var func = null
         while (func = this.loginqueue.shift()) {
-            func()
+            func(this.loggin)
         }
     }
     tip(msg) {

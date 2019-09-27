@@ -71,19 +71,19 @@ class TSRequest{
     _request(){
         this.isloading=true
         app.httpPost(this.api, this.param, (json) => {
+            this.isloading = false
+            this.trytimes = 0
             if (json.code == 1) {
-                this.trytimes = 0
-                this.isloading = false
                 this.data = json.data
                 if (this.process) {
                     this.data = this.process(this.data)
                 }
                 this._callback()
             } else {
-                this._onerror()
+                this._callback(false)
             }
-        }, error=>{
-            this._onerror()
+        }, error => {
+            this._onerror(false)
         })
     }
 

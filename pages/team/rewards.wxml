@@ -36,8 +36,9 @@
                                 {{log.remark}}
                             </view>
                         </view>
-                        <view class="action">
+                        <view class="action text-right" style="width:200rpx">
                             <view class="text-red text-lg">+ {{log.amount*.01}} <text class="cuIcon-"></text></view>
+                            <view class="text-gray text-sm">{{log.create_date}}</view>
                         </view>
                     </view>
                 </block>

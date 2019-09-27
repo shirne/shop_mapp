@@ -95,7 +95,11 @@ Page({
                 //newData['ordercounts'] = json.data.counts
                 newData['totalcount'] = json.data.total
                 if (json.data && json.data.logs && json.data.logs.length > 0) {
-                    newData['logs[' + this.data.page + ']'] = json.data.logs
+                    let logs = json.data.logs
+                    logs.forEach(item=>{
+                        item.create_date = util.formatTime(item.create_time,false)
+                    })
+                    newData['logs[' + this.data.page + ']'] = logs
                     if (this.data.page < json.data.total_page) {
                         newData['hasmore'] = true;
                         this.data.page++

@@ -104,7 +104,8 @@
                                             <text class='infotitle'>{{item.title}}</text>
                                         </view>
                                         <view class='pricebox'>
-                                            <text class='rightinfo'>￥{{item.market_price}}</text>
+                                            <text wx:if="{{item.type == 4}}" class='rightinfo'>￥{{item.market_price}}</text>
+                                            <text wx:else class='comminfo'>赚: ￥{{item.commission_amount}}</text>
                                             <text class='price'>￥{{item.min_price}}</text>
                                         </view>
                                     </view>

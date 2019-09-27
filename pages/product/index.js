@@ -75,9 +75,11 @@ Component({
                         })
                     }
                     app.getProfile(profile => {
+                        console.log(profile)
                         this.setData({
                             profile: profile
                         })
+
                         this.loadData()
                     })
                 }
@@ -85,7 +87,7 @@ Component({
         },
         loadData () {
             var cid = this.data.cate_id
-            app.httpPost('product/get_list', { cate: cid,pagesize:6,page:this.data.page }, json => {
+            app.httpPost('product/get_list', { cate: cid,pagesize:6,page:this.data.page,withsku:1 }, json => {
                 if (cid == this.data.cate_id) {
                     if (json.code == 1) {
                         let lists = json.data.lists

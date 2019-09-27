@@ -1,29 +1,40 @@
 <!--pages/about/index.wxml-->
 <view class='container'>
-
-    <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+    <cu-custom bgColor="transparent" isBack="{{true}}">
         <view slot="backText">返回</view>
-        <view slot="content">关于我们</view>
+        <view slot="content"></view>
     </cu-custom>
-    <view class='logobox' wx:if="{{siteinfo}}">
+    <view class='logobox bg-gradual-pink' style="padding-top:{{CustomBar}}px;margin-top:-{{CustomBar}}px;" wx:if="{{siteinfo}}">
         <image class='nobg' src="{{siteinfo.weblogo}}" mode="aspectFill"></image>
         <text>{{siteinfo.webname}}</text>
     </view>
-    <view class='arrow-list'>
-        <view class='rowitem' wx:for="{{lists}}" data-id="{{item.id}}" wx:key="key" bindtap="gotoDetail">
-            <text class='title'>{{item.title}}</text>
-            <text class='desc'>{{item.zhaiyao}}</text>
-            <image class='icon arrow' src="/icons/arrow.png"></image>
+    <view class='cu-list menu'>
+        <view class='cu-item arrow' wx:for="{{lists}}" data-id="{{item.id}}" wx:key="key" bindtap="gotoDetail">
+            <view class='content'>
+                <text class="cuIcon-info"></text>
+                <text class="text-grey">{{item.title}}</text>
+            </view>
+            <view class="action">
+                <text class="text-gray">{{item.vice_title}}</text>
+            </view>
         </view>
-        <view wx:if="{{siteinfo.webtel}}" class='rowitem' data-telephone="{{siteinfo.webtel}}" bindtap="callPhone">
-            <text class='title'>联系电话</text>
-            <text class='desc'>{{siteinfo.webtel}}</text>
-            <image class='icon arrow' src="/icons/arrow.png"></image>
+        <view wx:if="{{siteinfo.webtel}}" class='cu-item arrow' data-telephone="{{siteinfo.webtel}}" bindtap="callPhone">
+            <view class='content'>
+                <text class="cuIcon-phone"></text>
+                <text class="text-grey">联系电话</text>
+            </view>
+            <view class="action">
+                <text class="text-gray">{{siteinfo.webtel}}</text>
+            </view>
         </view>
-        <view wx:if="{{map && map.id}}" class='rowitem' data-coordinate="{{map.coordinate}}" bindtap="openMap">
-            <text class='title'>{{map.title}}</text>
-            <text class='desc'>{{map.content}}</text>
-            <image class='icon arrow' src="/icons/arrow.png"></image>
+        <view wx:if="{{map && map.id}}" class='cu-item arrow' data-coordinate="{{map.coordinate}}" bindtap="openMap">
+            <view class='content'>
+                <text class="cuIcon-location"></text>
+                <text class="text-grey">{{map.title}}</text>
+            </view>
+            <view class="action">
+                <text class="text-gray">{{map.content}}</text>
+            </view>
         </view>
     </view>
 </view>

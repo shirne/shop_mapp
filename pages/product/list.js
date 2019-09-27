@@ -13,6 +13,7 @@ Page({
         cate_id: 0,
         page:1,
         lists:[],
+        totalcount:0,
         has_more:true,
         isloading:true
     },
@@ -32,12 +33,16 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-        app.httpPost('product/get_list'+this.data.top_id, json => {
+        app.httpPost('product/get_cates',{pid:this.data.top_id}, json => {
             if (json.code == 1) {
-                let data=json.data.lists
-                data = trail.fixListImage(data, 'image')
+                let cates = trail.fixListImage(json.data, 'icon')
+                let cate_id = this.data.cate_id
+                if (this.data.cate_id == 0) {
+                    cate_id = json.data[0].id
+                }
                 this.setData({
-                    cates: data
+                    cates: cates,
+                    cate_id: cate_id
                 })
             }
         })
@@ -55,13 +60,13 @@ Page({
         var cid = this.getCateId()
         var page = this.data.page
         
-        app.httpPost('product/get_list?cate=' + cid+'&page='+page, json => {
+        app.httpPost('product/get_list', { cate: cid, pagesize: 6, page: this.data.page, withsku: 1 }, json => {
             if (json.code == 1 && cid == this.getCateId()) {
                 let products=json.data.lists
                 products = trail.fixProductList(products,this.data.profile.level)
-                if (products.length % 2 == 1) products.push({})
                 this.setData({
                     lists: this.data.lists.concat(products),
+                    totalcount: json.data.total,
                     page: this.data.page+1,
                     has_more: json.data.total_page>=page,
                     isloading:false

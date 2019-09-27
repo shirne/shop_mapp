@@ -234,6 +234,23 @@ Page({
     gotocart:function(e){
         app.switchIndex('cart')
     },
+    checkLogin(){
+        if(!this.data.member.id){
+            wx.showModal({
+                title: '未登录',
+                content: '请登录后购买',
+                cancelText:'暂不登录',
+                confirmText:'现在登录',
+                success(res) {
+                    if (res.confirm) {
+                        app.switchIndex('member')
+                    } 
+                }
+            })
+            return false
+        }
+        return true
+    },
     /**
      * 添加到购物车
      */
@@ -241,6 +258,7 @@ Page({
         this.openModal(e, 'cart')
     },
     sureAddCart: function (e) {
+        if(!this.checkLogin())return
         if (!this.data.sku) {
             app.error('请选择规格')
         } else {
@@ -271,6 +289,7 @@ Page({
         }
     },
     sureBuy: function (e) {
+        if (!this.checkLogin()) return
         if (!this.data.sku) {
             app.error('请选择规格')
         } else {

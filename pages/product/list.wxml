@@ -1,18 +1,19 @@
 <!--pages/product/list.wxml-->
-<view class="container{{cates && cates.length>0?'':' nopadtop'}}">
+<view class="scrollPage">
     <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
         <view slot="backText">返回</view>
         <view slot="content">商品列表</view>
     </cu-custom>
-    <view class='headfix' wx:if="{{cates}}">
-        <view class='head-tab'>
-            <block wx:for="{{cates}}" wx:key="ckey">
-                <view class='tab-item{{cate_id==item.id?" active":""}}' data-id="{{item.id}}" bindtap='changeCategory'>
-                    <text>{{item.title}}</text>
+    <scroll-view scroll-x class="bg-white nav">
+        <view class="flex text-center">
+            <block wx:for="{{cates}}" wx:key="key">
+                <view class="cu-item flex-sub {{item.id==cate_id?' text-orange cur':''}}" bindtap="changeCategory" data-id="{{item.id}}">
+                    <text class="cuIcon-blank text-lg" style="background-image:url({{item.icon}})"></text> {{item.title}}
                 </view>
             </block>
         </view>
-    </view>
+    </scroll-view>
+    <infinite-page loadend="{{!isloading}}" bindreload="reloadData" bindloadmore="loadmoreData">
     <view class='block goods-block' wx:if="{{lists && lists.length>0}}">
         <view class="block-inner">
             <view class='block-content '>
@@ -27,7 +28,8 @@
                             <text class='infotitle'>{{item.title}}</text>
                         </view>
                         <view class='pricebox'>
-                            <text class='rightinfo'>￥{{item.market_price}}</text>
+                            <text wx:if="{{item.type == 4}}" class='rightinfo'>￥{{item.market_price}}</text>
+                            <text wx:else class='comminfo'>赚: ￥{{item.commission_amount}}</text>
                             <text class='price'>￥{{item.min_price}}</text>
                         </view>
                         </view>
@@ -37,5 +39,16 @@
             </view>
         </view>
     </view>
-    <loading isloading="{{isloading}}" dataCount="{{lists?lists.length:0}}" hasmore="{{has_more}}">产品资料整理中</loading>
+    <block wx:if="{{!isloading && !has_more}}">
+        <view wx:if="{{totalcount>0}}" class="cu-load over text-gray"></view>
+        <view wx:else class="emptytip">
+            <view>
+                <text class="cuIcon-text text-xsl"></text>
+            </view>
+            <view>
+                <text class="text-gray">产品资料整理中</text>
+            </view>
+        </view>
+    </block>
+    </infinite-page>
 </view>

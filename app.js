@@ -16,9 +16,23 @@ let debuginfo='';
 
 App({
     onLaunch: function (options) {
-        if(options.query && options.query.agent){
-            this.globalData.agent = options.query.agent
+        if (options.query) {
+            this.addDebug(options.query);
+            if(options.query.scene){
+                let scene = decodeURIComponent(options.query.scene)
+                let sceneArr=scene.split('&')
+                for (let i = 0; i < sceneArr.length;i++){
+                    let eqindex=sceneArr[i].indexOf('=')
+                    if(eqindex>0){
+                        options.query[sceneArr[i].substr(0, eqindex)] = sceneArr[i].substr(eqindex+1)
+                    }
+                }
+            }
+            if(options.query.agent){
+                this.globalData.agent = options.query.agent
+            }
         }
+        
 
         if (__wxConfig && __wxConfig.envVersion){
             this.globalData.env = __wxConfig.envVersion
@@ -165,7 +179,13 @@ App({
         this.profileRequest.getData(profile => {
             this.globalData.profile = profile
             callback && callback(profile)
-        }, force)
+        },()=>{
+            callback && callback({
+                niakname: '请登录',
+                avatar: '/images/avatar-default.png',
+                level:{}
+                })
+        } ,force)
     },
     clearProfile: function () {
         this.globalData.profile = null
@@ -228,30 +248,39 @@ App({
             method: method,
             dataType: 'json',
             success: function (res) {
-                if (res.data.code == 102) {
-                    console.log('登录信息失效 AT ' + new Date().toLocaleString())
-                    self.login.clearLogin();
-                    self.login.checkLogin(() => {
-                        self.request(url, data, method, success, error)
-                    });
-                } else if (res.data.code == 103) {
-                    console.log('Token过期 AT ' + new Date().toLocaleString())
-                    self.login.refreshToken(() => {
-                        self.request(url, data, method, success, error)
-                    }, true)
-                } else if (res.data.code == 99) {
-                    console.log('需要登录 ' + new Date().toLocaleString())
-                    if (self.globalData.token) {
-                        self.tip('服务器令牌验证出错')
-                    } else {
-                        //self.tip('请先登录')
-                        self.checkLogin(() => {
+                if(res.statusCode==200){
+                    if (res.data.code == 102) {
+                        console.log('登录信息失效 AT ' + new Date().toLocaleString())
+                        self.login.clearLogin();
+                        self.login.checkLogin(() => {
                             self.request(url, data, method, success, error)
                         });
+                    } else if (res.data.code == 103) {
+                        console.log('Token过期 AT ' + new Date().toLocaleString())
+                        self.login.refreshToken(() => {
+                            self.request(url, data, method, success, error)
+                        }, true)
+                    } else if (res.data.code == 99) {
+                        console.log('需要登录 ' + new Date().toLocaleString())
+                        if (self.globalData.token) {
+                            self.tip('服务器令牌验证出错')
+                        } else {
+                            //self.tip('请先登录')
+                            /*self.checkLogin(() => {
+                                self.request(url, data, method, success, error)
+                            });*/
+                            if (typeof success == "function") {
+                                success(res.data, res);
+                            }
+                        }
+                    } else {
+                        if (typeof success == "function") {
+                            success(res.data, res);
+                        }
                     }
-                } else {
-                    if (typeof success == "function") {
-                        success(res.data, res);
+                }else{
+                    if (typeof error == "function") {
+                        error(res);
                     }
                 }
             },
@@ -387,9 +416,16 @@ App({
                 route += '?' + query.join('&')
             }
             console.log('share:', route)
+            if(!img){
+                if(siteinfo.shareimg){
+                    img = siteinfo.shareimg
+                }else{
+                    img = siteinfo.weblogo
+                }
+            }
             var data = {
                 title: title ? title : siteinfo.sitename,
-                imageUrl: img ? img : siteinfo.weblogo,
+                imageUrl: img,
                 path: route,
                 success: function (res) {
                     // 转发成功
@@ -418,7 +454,7 @@ App({
         wxid: 'uYBUC3j6V',
         imgSize:'?w={width}&h={height}&q=70', //系统压缩参数
         //imgSize:'?x-oss-process=image/resize,w_{width},h_{height},limit_1/auto-orient,0', //oss参数
-        imgDir: 'https://scms.test.com',
-        server: "https://scms.test.com/api/"
+        imgDir: 'http://scms.test.com',
+        server: "http://scms.test.com/api/"
     }
 })

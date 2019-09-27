@@ -386,6 +386,21 @@ const fixProductList = (goods,level=null)=>{
             good.image = fixImageUrl(good.image, 400)
 
             good.market_price = Math.round(good.market_price) || 0
+            good.commission_amount=0;
+            if(good.commission_percent){
+                if(good.is_commission == 3){
+                    good.commission_amount =  util.forceNumber(good.commission_percent[0]);
+                }else if (good.is_commission == 2) {
+                    good.commission_amount = util.forceNumber(good.commission_percent[0]) * good.min_price *.01;
+                } else if (good.is_commission == 4) {
+                    for (var k in good.commission_percent){
+                        good.commission_amount = util.forceNumber(good.commission_percent[k][0]);
+                        break;
+                    }
+                } else if (good.is_commission == 1 && level && level.commission_percent) {
+                    good.commission_amount = util.forceNumber(level.commission_percent[0]) * good.min_price * .01;
+                } 
+            }
 
             if (level && good.skus && good.skus.length > 0) {
                 good = fixProductSkuPrice(good, level)

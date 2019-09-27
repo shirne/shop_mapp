@@ -11,6 +11,7 @@ Page({
   data: {
       siteinfo:null,
       lists:[],
+      CustomBar: app.globalData.CustomBar,
       map:null
   },
 
@@ -40,7 +41,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-      app.httpPost('page/pages?group=about',(json)=>{
+      app.httpPost('page/pages',{group:'about'},(json)=>{
           if(json.code==1){
               this.setData({
                   lists:json.data

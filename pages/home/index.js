@@ -42,6 +42,7 @@ Component({
                 this.setData({
                     profile:profile
                 })
+
                 this.loadData(res => {
                     wx.hideLoading()
                 })

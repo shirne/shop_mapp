@@ -5,164 +5,192 @@
             会员中心
         </view>
     </cu-custom>
-    <infinite-page loadingbg="#333" loadend="{{!isloading}}" bindreload="onLoading" >
-    <view class="block ucenter-bg">
-        <view class="block-inner" >
-            <view class="cardno text-golddark">No.{{member.cardno}}</view>
-                <view class="flex flex-wrap">
+    <infinite-page loadingbg="#333" loadend="{{!isloading}}" bindreload="onLoading">
+        <view class="block ucenter-bg">
+            <view class="block-inner">
+                <view class="cardno text-golddark">No.{{member.cardno}}</view>
+                <view wx:if="{{member.id}}" class="flex flex-wrap">
                     <view class="cu-avatar round xl avatar" style="background-image:url({{member.avatar}})">
-                    <view wx:if="{{member.gender == 1}}" class="cu-tag badge cuIcon-male bg-blue"></view>
-                    <view wx:elif="{{member.gender == 2}}" class="cu-tag badge cuIcon-female bg-pink"></view>
-                    <view wx:else class="cu-tag badge cuIcon-question bg-gray"></view>
-                </view>
-                <view class="margin-left-sm padding-top-sm">
-                    <view>
-                        <text class="text-lg text-bold">{{member.nickname?member.nickname:member.username}}</text>
-                        <text class="margin-left-xs"><text class="cuIcon-vip"></text></text>
+                        <view wx:if="{{member.gender == 1}}" class="cu-tag badge cuIcon-male bg-blue"></view>
+                        <view wx:elif="{{member.gender == 2}}" class="cu-tag badge cuIcon-female bg-pink"></view>
+                        <view wx:else class="cu-tag badge cuIcon-question bg-gray"></view>
                     </view>
-                    <view class="margin-top-xs">
-                        <text>红润酒业，助力您的发展</text>
-                    </view>
-                </view>
-            </view>
-            <view class="flex padding margin-top justify-end">
-                <button wx:if="{{member.is_agent > 0}}" class="cu-btn round line-brown" data-url="/pages/team/index" bindtap="gotoUrl">我的团队</button>
-                <button wx:else class="cu-btn round bg-brown" data-url="/pages/product/diy?types=4" bindtap="gotoUrl">申请分销商</button>
-            </view>
-        </view>
-    </view>
-
-    <view class='block orderinfo'>
-        <view class="block-inner">
-            <view class='block-ttl'>
-                <navigator class='fr text-df action' url='/pages/member/order?showtab=0'>全部订单 ></navigator>
-                <text>我的订单</text>
-            </view>
-            <view class='block-content'>
-                <view class="cu-list grid col-4 no-border icon-hasbg">
-                    <view class='cu-item order-item' bindtap='gotoOrder' data-status="0">
-                        <view class="cuIcon-pay text-gold">
-                            <view class='cu-tag badge' wx:if="{{ordercounts[0]}}">{{ordercounts[0]>99?'...':ordercounts[0]}}</view>
+                    <view class="margin-left-sm padding-top-sm">
+                        <view>
+                            <text class="text-lg text-bold">{{member.nickname?member.nickname:member.username}}</text>
+                            <text class="margin-left-xs"><text class="cuIcon-vip"></text></text>
                         </view>
-                        <text class='item-title'>待付款</text>
-                    </view>
-                    <view class='cu-item order-item' bindtap='gotoOrder' data-status="1">
-                        <view class="cuIcon-send text-gold">
-                            <view class='cu-tag badge' wx:if="{{ordercounts[1]}}">{{ordercounts[1]>99?'...':ordercounts[1]}}</view>
+                        <view class="margin-top-xs">
+                            <text>红润酒业，助力您的发展</text>
                         </view>
-                        <text class='item-title'>待发货</text>
-                    </view>
-                    <view class='cu-item order-item' bindtap='gotoOrder' data-status="2">
-                        <view class="cuIcon-deliver text-gold">
-                            <view class='cu-tag badge' wx:if="{{ordercounts[2]}}">{{ordercounts[2]>99?'...':ordercounts[2]}}</view>
-                        </view>
-                        <text class='item-title'>待收货</text>
-                    </view>
-                    <view class='cu-item order-item' bindtap='gotoShopOrder' data-status="">
-                        <view class="cuIcon-refund text-gold">
-                        </view>
-                        <text class='item-title'>退款/售后</text>
                     </view>
                 </view>
-            </view>
-        </view>
-    </view>
-
-
-    <view class='block toolsinfo'>
-        <view class="block-inner">
-            <view class='block-ttl'>分销员的优势</view>
-            <view class='block-content'>
-                <view class="cu-list grid col-4 no-border icon-hasbg">
-                    <view class='cu-item tool-item'>
-                        <view class="cuIcon-notification text-gold"></view>
-                        <text class='item-title'>活动更多</text>
+                <view wx:else class="flex flex-wrap">
+                    <view class="cu-avatar round xl avatar">
+                        <open-data class="avatar-in" type="userAvatarUrl"></open-data>
                     </view>
-                    <view class='cu-item tool-item'>
-                        <view class="cuIcon-present text-gold"></view>
-                        <text class='item-title'>福利更多</text>
-                    </view>
-                    <view class='cu-item tool-item'>
-                        <view class="cuIcon-upstage text-gold"></view>
-                        <text class='item-title'>反利更多</text>
-                    </view>
-                    <view class='cu-item tool-item'>
-                        <view class="cuIcon-sponsor text-gold"></view>
-                        <text class='item-title'>佣金更多</text>
-                    </view>
-                </view>
-            </view>
-        </view>
-    </view>
-
-    <view class='block orderinfo'>
-        <view class="block-inner">
-            <view class='block-ttl'>
-                <text>签到有礼</text>
-            </view>
-            <view class='block-content'>
-                <view class="cu-list menu" bindtap="gotoUrl" data-url="/pages/member/sign">
-                    <view class="cu-item">
-                        <view class="content">
-                            <view class="flex flex-wrap">
-                                <text class="cuIcon-calendar text-gold icon-xxl"></text>
-                                <view class="dbline padding-left-xs" >
-                                    <view>每日签到</view>
-                                    <view class="text-xs text-grey">已签到 {{sign_days}} 天，共 {{signrecords}} 积分</view>
-                                </view>
+                    <view class="margin-left-sm padding-top-sm">
+                        <view class="text-lg text-bold">
+                            <open-data type="userNickName"></open-data>
+                        </view>
+                        <view class="margin-top-xs loginbtnbox">
+                            <button wx:if="{{canIUse}}" class="cu-btn sm round bg-brown" open-type="getUserInfo" bindgetuserinfo='bindReturns'>登录/注册</button>
+                            <view wx:else>请升级微信版本</view>
+                            <view wx:if="{{showtip}}" class="logintip">
+                                <text>请点击按钮登录</text>
                             </view>
                         </view>
-                        <view class="action">
-                            <view wx:if="{{issigned}}">已签到</view>
-                            <button wx:else class="cu-btn round btn-brown">签到</button>
+                    </view>
+                </view>
+                <view class="flex padding margin-top justify-end">
+                    <button wx:if="{{member.is_agent > 0}}" class="cu-btn round line-brown" data-url="/pages/team/index" bindtap="gotoUrl">我的团队</button>
+                    <button wx:else class="cu-btn round bg-brown" data-url="/pages/product/diy?types=4" bindtap="gotoUrl">申请分销商</button>
+                </view>
+            </view>
+        </view>
+
+        <view class='block orderinfo'>
+            <view class="block-inner">
+                <view class='block-ttl'>
+                    <navigator class='fr text-df action' url='/pages/member/order?showtab=0'>全部订单 ></navigator>
+                    <text>我的订单</text>
+                </view>
+                <view class='block-content'>
+                    <view class="cu-list grid col-4 no-border icon-hasbg">
+                        <view class='cu-item order-item' bindtap='gotoOrder' data-status="0">
+                            <view class="cuIcon-pay text-gold">
+                                <view class='cu-tag badge' wx:if="{{ordercounts[0]}}">{{ordercounts[0]>99?'...':ordercounts[0]}}</view>
+                            </view>
+                            <text class='item-title'>待付款</text>
+                        </view>
+                        <view class='cu-item order-item' bindtap='gotoOrder' data-status="1">
+                            <view class="cuIcon-send text-gold">
+                                <view class='cu-tag badge' wx:if="{{ordercounts[1]}}">{{ordercounts[1]>99?'...':ordercounts[1]}}</view>
+                            </view>
+                            <text class='item-title'>待发货</text>
+                        </view>
+                        <view class='cu-item order-item' bindtap='gotoOrder' data-status="2">
+                            <view class="cuIcon-deliver text-gold">
+                                <view class='cu-tag badge' wx:if="{{ordercounts[2]}}">{{ordercounts[2]>99?'...':ordercounts[2]}}</view>
+                            </view>
+                            <text class='item-title'>待收货</text>
+                        </view>
+                        <view class='cu-item order-item' bindtap='gotoShopOrder' data-status="">
+                            <view class="cuIcon-refund text-gold">
+                            </view>
+                            <text class='item-title'>退款/售后</text>
                         </view>
                     </view>
                 </view>
             </view>
         </view>
-    </view>
 
-    <view class='block orderinfo'>
-        <view class="block-inner">
-            <view class='block-ttl'>
-                <text>我的服务</text>
-            </view>
-            <view class='block-content'>
-                <view class="cu-list menu">
-                    <view class="cu-item" bindtap="gotoUrl" data-url="/pages/member/address">
-                        <view class="content">
-                            <text class="cuIcon-location icon-xl text-gold"></text>
-                            <text>收货地址</text>
+
+        <view class='block toolsinfo'>
+            <view class="block-inner">
+                <view class='block-ttl'>分销员的优势</view>
+                <view class='block-content'>
+                    <view class="cu-list grid col-4 no-border icon-hasbg">
+                        <view class='cu-item tool-item'>
+                            <view class="cuIcon-notification text-gold"></view>
+                            <text class='item-title'>活动更多</text>
                         </view>
-                        <view class="action">
-                            <view class="cuIcon-right"></view>
+                        <view class='cu-item tool-item'>
+                            <view class="cuIcon-present text-gold"></view>
+                            <text class='item-title'>福利更多</text>
                         </view>
-                    </view>
-                    <view class="cu-item">
-                        <view class="content">
-                            <text class="cuIcon-service icon-xl text-gold"></text>
-                            <text>客户服务</text>
+                        <view class='cu-item tool-item'>
+                            <view class="cuIcon-upstage text-gold"></view>
+                            <text class='item-title'>反利更多</text>
                         </view>
-                        <view class="action">
-                           <text>{{siteinfo.telephone}}</text> <text class="cuIcon-right"></text>
+                        <view class='cu-item tool-item'>
+                            <view class="cuIcon-sponsor text-gold"></view>
+                            <text class='item-title'>佣金更多</text>
                         </view>
                     </view>
                 </view>
             </view>
         </view>
-    </view>
 
-    <view class='block orderinfo'>
-        <view class="block-inner">
-            <view class='block-ttl'>
-                <text>公告</text>
+        <view class='block orderinfo'>
+            <view class="block-inner">
+                <view class='block-ttl'>
+                    <text>签到有礼</text>
+                </view>
+                <view class='block-content'>
+                    <view class="cu-list menu" bindtap="gotoUrl" data-url="/pages/member/sign">
+                        <view class="cu-item">
+                            <view class="content">
+                                <view class="flex flex-wrap">
+                                    <text class="cuIcon-calendar text-gold icon-xxl"></text>
+                                    <view class="dbline padding-left-xs">
+                                        <view>每日签到</view>
+                                        <view class="text-xs text-grey">已签到 {{sign_days}} 天，共 {{signrecords}} 积分</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="action">
+                                <view wx:if="{{issigned}}">已签到</view>
+                                <button wx:else class="cu-btn round btn-brown">签到</button>
+                            </view>
+                        </view>
+                    </view>
+                </view>
             </view>
-            <view class='block-content' wx:if="{{notice && notice.id}}">
-                <rich-text nodes="{{notice.content}}"></rich-text>
-            </view>
-            <view wx:else class="emptytip padding-tb">暂无公告</view>
         </view>
-    </view>
-    <view class='cu-tabbar-height'></view>
+
+        <view class='block orderinfo'>
+            <view class="block-inner">
+                <view class='block-ttl'>
+                    <text>我的服务</text>
+                </view>
+                <view class='block-content'>
+                    <view class="cu-list menu">
+                        <view class="cu-item" bindtap="gotoUrl" data-url="/pages/member/address">
+                            <view class="content">
+                                <text class="cuIcon-location icon-xl text-gold"></text>
+                                <text>收货地址</text>
+                            </view>
+                            <view class="action">
+                                <view class="cuIcon-right"></view>
+                            </view>
+                        </view>
+                        <view class="cu-item">
+                            <view class="content">
+                                <text class="cuIcon-service icon-xl text-gold"></text>
+                                <text>客户服务</text>
+                            </view>
+                            <view class="action">
+                                <text>{{siteinfo.telephone}}</text>
+                                <text class="cuIcon-right"></text>
+                            </view>
+                        </view>
+                        <view class="cu-item" bindtap="gotoUrl" data-url="/pages/about/index">
+                            <view class="content">
+                                <text class="cuIcon-settings icon-xl text-gold"></text>
+                                <text>关于我们</text>
+                            </view>
+                            <view class="action">
+                                <text>{{siteinfo.name}}</text>
+                                <text class="cuIcon-right"></text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class='block orderinfo'>
+            <view class="block-inner">
+                <view class='block-ttl'>
+                    <text>公告</text>
+                </view>
+                <view class='block-content' wx:if="{{notice && notice.id}}">
+                    <rich-text nodes="{{notice.content}}"></rich-text>
+                </view>
+                <view wx:else class="emptytip padding-tb">暂无公告</view>
+            </view>
+        </view>
+        <view class='cu-tabbar-height'></view>
     </infinite-page>
 </view>
