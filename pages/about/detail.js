@@ -23,6 +23,7 @@ Page({
           this.setData({
               id: parseInt(options.id)
           })
+          this.params={id:this.data.id}
       }
   },
 
@@ -30,7 +31,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-      app.httpPost('page/page?name=' + this.data.id, json => {
+      app.httpPost('page/page', {name:this.data.id}, json => {
           if (json.code == 1) {
               let data=json.data.page
               data.icon = trail.fixImageUrl(data.icon)

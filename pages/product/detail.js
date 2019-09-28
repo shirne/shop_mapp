@@ -39,6 +39,7 @@ Page({
 
     //组件数据
     product:null,
+    params:{},
 
     /**
      * 生命周期函数--监听页面加载
@@ -48,6 +49,7 @@ Page({
             this.setData({
                 id: parseInt(options.id)
             })
+            this.params.id=this.data.id
         }
         if (app.globalData.systemInfo){
             this.setData({
@@ -72,21 +74,22 @@ Page({
                 let model = json.data.product
                 let albums = trail.fixListImage(json.data.images, 'image')
                 
-                let product = new Product(model, json.data.skus,this.data.member.level)
+                let productModel = new Product(model, json.data.skus,this.data.member.level)
                 
-                this.product=product
-                let skus = product.getSkus()
+                this.product = productModel
+                let product = productModel.getProduct()
+                let skus = productModel.getSkus()
                 this.setData({
-                    model: product.getProduct(),
+                    model: product,
                     postage: json.data.postage,
                     //product:product,
                     is_favourite:json.data.is_favourite,
                     albums: albums,
                     skus: skus,
-                    allstorage: product.getAllStorage(),
+                    allstorage: productModel.getAllStorage(),
                     sku:skus && skus.length==1?skus[0]:null,
-                    specstext: product.getSpecText(),
-                    proptext: product.getPropText(),
+                    specstext: productModel.getSpecText(),
+                    proptext: productModel.getPropText(),
                     hasProp: model.prop_data && util.countObject(model.prop_data)>0
                 })
                 this.setPrice()

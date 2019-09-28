@@ -23,6 +23,9 @@ Page({
           this.setData({
               top_id: parseInt(options.cate_id)
           })
+          this.params={
+              cate_id:this.data.top_id
+          }
       }
   },
 

@@ -90,13 +90,16 @@ Page({
     },
     loadData(){
         app.httpPost('member.agent/generic', json => {
-
-            this.setData({
-                isloading: false,
-                total_award: util.formatMoney(json.data.total_award*.01),
-                order_count_7: json.data.order_count,
-                rewards_7: util.formatMoney(json.data.amount_future*.01),
-            })
+            if(json.code==1){
+                this.setData({
+                    isloading: false,
+                    total_award: util.formatMoney(json.data.total_award*.01),
+                    order_count_7: json.data.order_count,
+                    rewards_7: util.formatMoney(json.data.amount_future*.01),
+                })
+            }else{
+                app.error('加载失败')
+            }
         })
     },
     onLoading(e) {

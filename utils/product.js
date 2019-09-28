@@ -21,8 +21,8 @@ class Product
         skus = trail.fixListImage(skus, 'image')
 
         let vproduct=trail.fixProductSkuPrice({
-            is_discount:product.is_discount,
-            skus:skus
+            skus:skus,
+            ...product
         },level?level:{})
 
         this.product=product
@@ -150,16 +150,18 @@ class Product
         var specs=this.product.spec_data
         var specvals = []
         var selected = []
-        for (var i = 0; i < specs.length; i++) {
-            if (opts[specs[i].spec_id]) {
-                for (var j = 0; j < specs[i].lists.length; j++) {
-                    if (specs[i].lists[j].spec_value_id == opts[specs[i].spec_id]) {
-                        specvals.push(specs[i].lists[j].label)
-                        break
+        if(specs){
+            for (var i = 0; i < specs.length; i++) {
+                if (opts[specs[i].spec_id]) {
+                    for (var j = 0; j < specs[i].lists.length; j++) {
+                        if (specs[i].lists[j].spec_value_id == opts[specs[i].spec_id]) {
+                            specvals.push(specs[i].lists[j].label)
+                            break
+                        }
                     }
+                } else {
+                    selected.push(specs[i].spec_name)
                 }
-            } else {
-                selected.push(specs[i].spec_name)
             }
         }
         if (selected.length > 0) {
@@ -204,19 +206,20 @@ class Product
         var pass = false
         var product = this.product
         var skus = this.skus
-        for (var i = 0; i < skus.length; i++) {
-            var specs = skus[i].specs
-            pass = true
-            for (let spec_id in specs) {
-                if (!opts[spec_id] || opts[spec_id] != specs[spec_id]) {
-                    pass = false
-                    break
+        if(skus){
+            for (var i = 0; i < skus.length; i++) {
+                var specs = skus[i].specs
+                pass = true
+                for (let spec_id in specs) {
+                    if (!opts[spec_id] || opts[spec_id] != specs[spec_id]) {
+                        pass = false
+                        break
+                    }
+                }
+                if (pass) {
+                    return skus[i]
                 }
             }
-            if (pass) {
-                return skus[i]
-            }
-
         }
         return null
     }

@@ -58,6 +58,7 @@
     <view class='image-content margin-top-sm'>
         <rich-text nodes="{{model.content}}"></rich-text>
     </view>
+    <view class='cu-tabbar-height'></view>
 
     <view class="cu-bar bg-white tabbar border foot shop">
         <button class="action" open-type="contact">

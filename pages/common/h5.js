@@ -16,6 +16,7 @@ Page({
             this.setData({
                 url: options.url
             })
+            this.params={url:this.data.url}
         }
     },
 

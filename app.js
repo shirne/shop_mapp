@@ -395,11 +395,11 @@ App({
         this.getSiteInfo(s => {
             siteinfo = s
         })
-
+        
         page.onShareAppMessage = res => {
             if (res.from === 'button') {
                 // 来自页面内转发按钮
-                console.log(res.target)
+                //console.log(res.target)
             }
             var route = '/' + (page.shareRoute ? page.shareRoute:page.route)
             let query = []
@@ -409,33 +409,26 @@ App({
                 }
             }
             
-            if (profile && profile.agentcode) {
+            if (profile && profile.is_agent=='1' && profile.agentcode) {
                 query.push('agent=' + profile.agentcode)
             }
             if (query.length > 0) {
                 route += '?' + query.join('&')
             }
-            console.log('share:', route)
+            console.log('share:', route, img)
             if(!img){
                 if(siteinfo.shareimg){
                     img = siteinfo.shareimg
                 }else{
                     img = siteinfo.weblogo
                 }
+                img = this.fixImageUrl(img)
             }
-            var data = {
+            return {
                 title: title ? title : siteinfo.sitename,
                 imageUrl: img,
-                path: route,
-                success: function (res) {
-                    // 转发成功
-                    util.success('转发成功')
-                },
-                fail: function (res) {
-                    // 转发失败
-                }
+                path: route
             }
-            return data
         }
     },
     globalData: {

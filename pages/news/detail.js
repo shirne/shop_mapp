@@ -24,6 +24,7 @@ Page({
             this.setData({
                 id: parseInt(options.id)
             })
+            this.params={id:this.data.id}
         }
     },
 
@@ -51,7 +52,7 @@ Page({
                 wx.setNavigationBarTitle({
                     title: data.title,
                 })
-                app.initShare(this, data.title, data.img_url)
+                app.initShare(this, data.title, data.cover)
             }
             wx.hideLoading()
         })
