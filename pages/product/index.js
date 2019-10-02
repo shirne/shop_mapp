@@ -41,8 +41,7 @@ Component({
             app.getSiteInfo((siteinfo) => {
                 if (this.data.isattached) {
                     this.triggerEvent('sharedata', {
-                        title: siteinfo.webname + '-产品中心',
-                        img: siteinfo.weblogo
+                        title: siteinfo.webname + '-产品中心'
                     })
                 }
             })
@@ -75,7 +74,7 @@ Component({
                         })
                     }
                     app.getProfile(profile => {
-                        console.log(profile)
+                        //console.log(profile)
                         this.setData({
                             profile: profile
                         })
@@ -91,7 +90,7 @@ Component({
                 if (cid == this.data.cate_id) {
                     if (json.code == 1) {
                         let lists = json.data.lists
-                        lists = trail.fixProductList(lists,this.data.profile.level);
+                        lists = trail.fixProductList(lists, this.data.profile?this.data.profile.level:null);
 
                         this.setData({
                             lists: this.data.lists.concat(lists),

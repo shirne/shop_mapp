@@ -38,7 +38,7 @@ Page({
         app.httpPost('article/view', { id: this.data.id} , json => {
             if (json.code == 1) {
                 let data=json.data.article
-                data.create_time = util.getLocalTime(data.create_time)
+                data.create_time = util.formatTime(data.create_time,false)
                 data.cover = trail.fixImageUrl(data.cover)
                 //json.data.content = html.HtmlToNodes(trail.fixContent(json.data.content))
                 data.content = html.HtmlToNodes(data.content, trail.fixTag)

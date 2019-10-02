@@ -82,9 +82,14 @@ Component({
                 })
             }
         },
+        closethis(e){
+            this.setData({
+                showtip:false
+            })
+        },
         loadData(callback){
             app.httpPost('common/batch', {
-                'notice': {},
+                'notice': {flag:'member'},
                 'lastsign': { call: 'member/sign.getlastsign' },
                 'signtotaldays': { call: 'member/sign.totaldays' },
                 'signrecords': { call: 'member/sign.totalcredit' },

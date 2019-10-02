@@ -12,6 +12,8 @@ Page({
         cashtype:'',
         cashtip:'',
         balance: 0,
+        userinfo:{},
+        member:{},
 
         ispack: false,   //是否仅支持红包
         picker: [{ title: '请选择' }],
@@ -35,8 +37,14 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        app.getUserInfo(userinfo=>{
+            this.setData({
+                userinfo: userinfo
+            })
+        })
         app.getProfile(profile=>{
             this.setData({
+                member:profile,
                 balance: (profile.reward - profile.froze_reward)*.01
             })
             this.loadData()
@@ -85,6 +93,9 @@ Page({
     },
     setCardno(e) {
         this.setField(e, 'cardno')
+    },
+    setRealname(e){
+        this.setField(e, 'realname')
     },
     setField(e,field){
         let newdata={}
@@ -137,7 +148,7 @@ Page({
         })
         this.checkState()
     },
-    bankChange(){
+    bankChange(e){
         let idx = e.detail.value
         this.setData({
             bankidx: idx
@@ -195,7 +206,14 @@ Page({
             })
             return false;
         }
-        if(this.data.cashtype=='alipay'){
+        if (this.data.cashtype == 'wechat'){
+            if (!this.data.formdata.realname) {
+                this.setData({
+                    tiptext: '请填写真实姓名'
+                })
+                return false;
+            }
+        }else if(this.data.cashtype=='alipay'){
             if(!this.data.formdata.alipay){
                 this.setData({
                     tiptext: '请填写支付宝账号'

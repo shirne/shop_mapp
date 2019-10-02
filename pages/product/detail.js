@@ -12,8 +12,8 @@ Page({
     data: {
         indicatorDots: false,
         autoplay: false,
-        interval: 5000,
-        duration: 1000,
+        interval: 4000,
+        duration: 500,
         currentIndex: 1,
         screenWidth: 500,
 
@@ -74,7 +74,7 @@ Page({
                 let model = json.data.product
                 let albums = trail.fixListImage(json.data.images, 'image')
                 
-                let productModel = new Product(model, json.data.skus,this.data.member.level)
+                let productModel = new Product(model, json.data.skus, this.data.member?this.data.member.level:null)
                 
                 this.product = productModel
                 let product = productModel.getProduct()

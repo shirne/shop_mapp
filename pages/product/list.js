@@ -30,6 +30,9 @@ Page({
                 cate_id: this.data.top_id
             }
         }
+        app.getSiteInfo((siteinfo) => {
+            app.initShare(this, siteinfo.webname + '-产品中心')
+        })
     },
 
     /**
@@ -40,7 +43,7 @@ Page({
             if (json.code == 1) {
                 let cates = trail.fixListImage(json.data, 'icon')
                 let cate_id = this.data.cate_id
-                if (this.data.cate_id == 0) {
+                if (this.data.cate_id == 0 && json.data.length>0) {
                     cate_id = json.data[0].id
                 }
                 this.setData({
@@ -66,7 +69,7 @@ Page({
         app.httpPost('product/get_list', { cate: cid, pagesize: 6, page: this.data.page, withsku: 1 }, json => {
             if (json.code == 1 && cid == this.getCateId()) {
                 let products=json.data.lists
-                products = trail.fixProductList(products,this.data.profile.level)
+                products = trail.fixProductList(products, this.data.profile?this.data.profile.level:null)
                 this.setData({
                     lists: this.data.lists.concat(products),
                     totalcount: json.data.total,

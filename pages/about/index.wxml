@@ -14,7 +14,7 @@
                 <text class="cuIcon-info"></text>
                 <text class="text-grey">{{item.title}}</text>
             </view>
-            <view class="action">
+            <view class="action text-right">
                 <text class="text-gray">{{item.vice_title}}</text>
             </view>
         </view>
@@ -23,7 +23,7 @@
                 <text class="cuIcon-phone"></text>
                 <text class="text-grey">联系电话</text>
             </view>
-            <view class="action">
+            <view class="action text-right">
                 <text class="text-gray">{{siteinfo.webtel}}</text>
             </view>
         </view>
@@ -32,8 +32,26 @@
                 <text class="cuIcon-location"></text>
                 <text class="text-grey">{{map.title}}</text>
             </view>
-            <view class="action">
+            <view class="action text-right">
                 <text class="text-gray">{{map.content}}</text>
+            </view>
+        </view>
+        <view class='cu-item arrow' bindtap="checkUpdate">
+            <view class='content'>
+                <text class="cuIcon-top"></text>
+                <text class="text-grey">检查更新</text>
+            </view>
+            <view class="action text-right">
+                <text class="text-gray">当前版本：{{version}}</text>
+            </view>
+        </view>
+        <view class='cu-item arrow' bindtap="clearCache">
+            <view class='content'>
+                <text class="cuIcon-refresh"></text>
+                <text class="text-grey">清除缓存</text>
+            </view>
+            <view class="action text-right">
+                <text class="text-gray">{{cacheinfo}}</text>
             </view>
         </view>
     </view>

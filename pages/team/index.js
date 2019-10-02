@@ -80,7 +80,7 @@ Page({
 
     },
     loadNotice(){
-        app.httpPost('common/notice', json => {
+        app.httpPost('common/notice',{flag:'team'}, json => {
             if(json.code==1){
             this.setData({
                 notice: json.data,

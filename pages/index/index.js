@@ -13,6 +13,7 @@ Page({
         tab:'home'
     },
     onLoad(args){
+        console.log('index.load')
         if (args && args.tab){
             this.setData({'PageCur': args.tab})
         }

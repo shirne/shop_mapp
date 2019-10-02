@@ -22,10 +22,17 @@
             </picker>
         </view>
         
-        <view wx:if="{{cashtype=='wechat'}}">
-            <view>收款账户 </view>
+        <block wx:if="{{cashtype=='wechat'}}">
             <view wx:if="{{wechatlimit}}">{{wechatlimit}}</view>
-        </view>
+            <view class="cu-form-group margin-top">
+                <view class="title">收款账号 </view>
+                <view class="text-right">{{userinfo.nickName}} <image src="{{userinfo.avatarUrl}}" class="cu-avatar round margin-left-sm"></image></view>
+            </view>
+            <view class="cu-form-group margin-top">
+                <view class="title">真实姓名 </view>
+                <input placeholder="请填写真实姓名" bindinput="setRealname" ></input>
+            </view>
+        </block>
         <view wx:if="{{cashtype=='alipay'}}" class="cu-form-group margin-top">
             <view class="title">支付宝账户</view>
             <input placeholder="请填写支付宝账户" bindinput="setAlipay" ></input>

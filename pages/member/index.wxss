@@ -10,6 +10,12 @@ pull-load{
 
 .ucenter-bg  .avatar{
     margin-left:20rpx;
+}
+.ucenter-bg  .avatar .badge{
+    right:2rpx;
+    top:2rpx;
+}
+.ucenter-bg  .unlogined{
     overflow:hidden;
 }
 .ucenter-bg  .avatar-in{
@@ -26,6 +32,7 @@ pull-load{
 }
 .logintip{
     position: absolute;
+    white-space: nowrap;
     padding:10rpx 20rpx;
     left:0;
     bottom:-70rpx;

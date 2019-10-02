@@ -33,8 +33,7 @@ Component({
             app.getSiteInfo(siteinfo => {
                 if (this.data.isattached){
                     this.triggerEvent('sharedata',{
-                        title: siteinfo.webname,
-                        img: siteinfo.weblogo
+                        title: siteinfo.webname
                     })
                 }
             })
@@ -78,13 +77,13 @@ Component({
                     if (json.code == 1) {
                         let goods = json.data['product.get_list']
                         if (goods) {
-                            goods = trail.fixProductList(goods['lists'], this.data.profile.level);
+                            goods = trail.fixProductList(goods['lists'], this.data.profile?this.data.profile.level:null);
                         }
                         let cates = json.data['product.get_cates']
                         if (cates) {
                             cates = trail.fixListImage(cates, 'icon,products.image',400)
                             for (let i = 0; i < cates.length; i++) {
-                                cates[i].products = trail.fixProductList(cates[i].products, this.data.profile.level);
+                                cates[i].products = trail.fixProductList(cates[i].products, this.data.profile?this.data.profile.level:null);
                             }
                         }
                         let articles = json.data['article.get_list']['lists']
@@ -111,8 +110,10 @@ Component({
                             goods: goods,
                             goods_cates: cates
                         })
+                        callback && callback(true)
+                    }else{
+                    callback && callback(false)
                     }
-                    callback && callback(true)
                 },
                 fail=>{
                     callback && callback(false)

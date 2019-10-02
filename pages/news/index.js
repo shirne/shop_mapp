@@ -40,8 +40,7 @@ Component({
             app.getSiteInfo((siteinfo) => {
                 if (this.data.isattached) {
                     this.triggerEvent('sharedata', {
-                        title: siteinfo.webname + '-新闻中心',
-                        img: siteinfo.weblogo
+                        title: siteinfo.webname + '-新闻中心'
                     })
                 }
             })
@@ -72,7 +71,7 @@ Component({
             this.loadData()
         },
         loadCate(){
-            app.httpPost('article/get_cates?pid=news', json => {
+            app.httpPost('article/get_cates',{pid:'news'}, json => {
                 if (json.code == 1) {
                     if (json.data && json.data.length > 0) {
 
@@ -91,7 +90,7 @@ Component({
             }
             var cid = this.data.cate_id
             var page = this.data.page
-            app.httpPost('article/get_list?cate=' + cid, json => {
+            app.httpPost('article/get_list',{cate: cid}, json => {
                 if (json.code == 1 && cid == this.data.cate_id) {
                     json.data.lists = trail.fixListImage(json.data.lists, 'cover')
                     json.data.lists = trail.fixListDate(json.data.lists, 'Y-m-d', 'create_time')

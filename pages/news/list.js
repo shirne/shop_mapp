@@ -27,13 +27,16 @@ Page({
               cate_id:this.data.top_id
           }
       }
+      app.getSiteInfo((siteinfo) => {
+          app.initShare(this, siteinfo.webname + '-公司动态')
+      })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-      app.httpPost('article/get_cates?pid=' + this.data.top_id, json => {
+      app.httpPost('article/get_cates', { pid: this.data.top_id}, json => {
           if (json.code == 1) {
               json.data = trail.fixListImage(json.data, 'img_url')
               this.setData({
@@ -47,7 +50,7 @@ Page({
   },
   loadData: function () {
       var cid = this.getCateId()
-      app.httpPost('article/get_list?cate=' + cid+'&page='+this.data.page, json => {
+      app.httpPost('article/get_list', { cate: cid, page: this.data.page} ,json => {
           if (json.code == 1 && cid == this.getCateId()) {
               json.data=trail.fixListImage(json.data,'img_url')
               this.setData({
