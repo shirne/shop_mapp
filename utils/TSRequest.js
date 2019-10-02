@@ -21,10 +21,10 @@ class TSRequest{
 
     constructor(api='', param=null, process=null){
         if(!app) app=getApp()
-        this.setparam(api, param, process)
+        this.setparams(api, param, process)
     }
 
-    setparam(api = '', param = null, process = null){
+    setparams(api = '', param = null, process = null){
         console.log('new TSRequest:',api)
         if(typeof param == 'function'){
             process = param
@@ -35,6 +35,18 @@ class TSRequest{
         if (typeof process == 'function')this.process = data=>{
             return process(data)
         }
+    }
+    setparam(key,val) {
+        if(!this.param){
+            this.param={}
+        }
+        this.param[key]=val
+    }
+    getparam(key){
+        if(this.param){
+            return this.param[key]
+        }
+        return null
     }
 
     getData(success=null,error=null,force=false){
@@ -100,6 +112,10 @@ class TSRequest{
                 this._request()
             }, this.trytimes * 500)
         }
+    }
+
+    static setApp(appInstanse){
+        app = appInstanse
     }
 }
 

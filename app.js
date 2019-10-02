@@ -14,38 +14,19 @@ const defaultCustom = {
 
 let debuginfo='';
 
+let isshown=false
+
 App({
     onLaunch: function (options) {
-        if (options.query) {
-            this.addDebug(options.query);
-            if(options.query.scene){
-                let scene = decodeURIComponent(options.query.scene)
-                let sceneArr=scene.split('&')
-                for (let i = 0; i < sceneArr.length;i++){
-                    let eqindex=sceneArr[i].indexOf('=')
-                    if(eqindex>0){
-                        options.query[sceneArr[i].substr(0, eqindex)] = sceneArr[i].substr(eqindex+1)
-                    }
-                }
-            }
-            if(options.query.agent){
-                this.globalData.agent = options.query.agent
-            }
-        }
-        
+        console.log('app.onLaunch')
+        TSRequest.setApp(this)
+        this.setAgent(options)
 
         if (__wxConfig && __wxConfig.envVersion){
             this.globalData.env = __wxConfig.envVersion
         }
 
-        //1020	公众号 profile 页相关小程序列表
-        //1035	公众号自定义菜单
-        //1036	App 分享消息卡片
-        //1037	小程序打开小程序
-        //1038	从另一个小程序返回
-        //1043	公众号模板消息
-        //referrerInfo {appId,extraData}
-        this.globalData.scene=options.scene;
+        
 
         let custom = null
         try {
@@ -96,29 +77,61 @@ App({
         this.addDebug(['custom-release',this.globalData.Custom, this.globalData.CustomBar])
         this.login = new Login(this, this.globalData.agent)
     },
-    checkUpdate(){
-        const updateManager = wx.getUpdateManager()
+    onShow(options){
+        console.log('app.onShow')
+        if (!isshown ){
+            this.setAgent(options)
+        }
+    },
+    setAgent(options){
+        console.log(options)
+        isshown=true
+        //1020	公众号 profile 页相关小程序列表
+        //1035	公众号自定义菜单
+        //1036	App 分享消息卡片
+        //1037	小程序打开小程序
+        //1038	从另一个小程序返回
+        //1043	公众号模板消息
+        //referrerInfo {appId,extraData}
+        this.globalData.scene = options.scene;
 
-        updateManager.onCheckForUpdate( (res)=> {
-            //console.log(res.hasUpdate)
-            this.tip('系统有更新')
-        })
-
-        updateManager.onUpdateReady( ()=> {
-            wx.showModal({
-                title: '更新提示',
-                content: '新版本已经准备好，是否重启应用？',
-                success:  (res) =>{
-                    if (res.confirm) {
-                        updateManager.applyUpdate()
+        var old_agent = this.globalData.agent
+        if (options.query) {
+            this.addDebug(options.query);
+            if (options.query.scene) {
+                let scene = decodeURIComponent(options.query.scene)
+                let sceneArr = scene.split('&')
+                for (let i = 0; i < sceneArr.length; i++) {
+                    let eqindex = sceneArr[i].indexOf('=')
+                    if (eqindex > 0) {
+                        options.query[sceneArr[i].substr(0, eqindex)] = sceneArr[i].substr(eqindex + 1)
                     }
                 }
-            })
-        })
-
-        updateManager.onUpdateFailed(()=> {
-            this.tip('版本下载失败，下次启动时更新')
-        })
+            }
+            if (options.query.agent) {
+                this.globalData.agent = options.query.agent
+            }
+        }
+        if (this.globalData.agent) {
+            if (!old_agent || old_agent != this.globalData.agent){
+                wx.setStorage({ key: 'agent', data: this.globalData.agent })
+                if(this.login)this.getProfile(profile=>{})
+            }
+        } else {
+            try {
+                let agentcode = wx.getStorageSync('agent')
+                if (agentcode) {
+                    this.globalData.agent = agentcode
+                }
+            } catch (ex) { }
+        }
+    },
+    clearAgent(){
+        this.globalData.agent = ''
+        wx.removeStorage({ key: 'agent' })
+    },
+    onHide(){
+        isshown = false
     },
     addDebug(info){
         if(!is_debug)return;
@@ -167,7 +180,7 @@ App({
     },
     getProfile(callback = null, force = false) {
         if (!this.profileRequest) {
-            this.profileRequest = new TSRequest('member/profile', profile => {
+            this.profileRequest = new TSRequest('member/profile',{agent:this.globalData.agent}, profile => {
                 profile.avatar = this.fixImageUrl(profile.avatar)
                 profile.cardno = util.formatNumber(profile.id, 8)
                 profile.money_formated = (profile.money*.01).toFixed(2)
@@ -175,6 +188,19 @@ App({
                 profile.reward_formated = (profile.reward * .01).toFixed(2)
                 return profile
             })
+        }
+        if(force || !this.globalData.profile){
+            if (this.globalData.agent && this.profileRequest.getparam('agent') != this.globalData.agent){
+                console.log('update agent:' + this.globalData.agent)
+                this.profileRequest.setparam('agent', this.globalData.agent)
+            }
+        }
+        if (!force && this.globalData.agent){
+            if (this.globalData.profile && this.globalData.profile.is_agent == 0 && this.globalData.profile.referer == 0){
+                force=true
+                console.log('force agent:' + this.globalData.agent)
+                this.profileRequest.setparam('agent', this.globalData.agent)
+            }
         }
         this.profileRequest.getData(profile => {
             this.globalData.profile = profile
@@ -443,11 +469,11 @@ App({
 
         cart_count: -1,
         env:'release',
-        version:'1.1.6',
-        wxid: 'uYBUC3j6V',
+        version:'1.3.20',
+        wxid: 'VAvseyFhkV',
         imgSize:'?w={width}&h={height}&q=70', //系统压缩参数
         //imgSize:'?x-oss-process=image/resize,w_{width},h_{height},limit_1/auto-orient,0', //oss参数
-        imgDir: 'http://scms.test.com',
-        server: "http://scms.test.com/api/"
+        imgDir: 'http://cms.qisosoft.net',
+        server: "http://cms.qisosoft.net/api/"
     }
 })
