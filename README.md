@@ -20,12 +20,7 @@
 [ShirneCMS](https://gitee.com/shirnecn/ShirneCMS)
 
 # 功能截图
-![首页](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/shop-index.png "首页")
-![产品展示](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/shop-list.png "产品展示")
-![产品详情](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/shop-detail.png "产品详情")
-![产品选项](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/shop-option.png "产品选项")
-![购物车](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/shop-cart.png "购物车")
-![购物车编辑](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/shop-cart-2.png "购物车编辑")
-![会员中心](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/shop-member.png "会员中心")
-![地址管理](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/shop-address-list.png "地址管理")
-![地址编辑](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/shop-address.png "地址编辑")
+|    |    |    |
+|:---:|:---:|:---:|
+|![首页](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/cu-shop-home.png "首页")|![产品展示](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/cu-shop-product.png "产品展示")|![产品详情](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/cu-shop-detail.png "产品详情")|
+|![购物车](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/cu-shop-cart.png "购物车")|![会员中心](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/cu-shop-member.png "会员中心")|![会员签到](https://shirne.oss-cn-shenzhen.aliyuncs.com/website-mapp/cu-shop-sign.png "会员签到")|
